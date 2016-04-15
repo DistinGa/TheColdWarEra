@@ -11,6 +11,7 @@ public class CameraScript : MonoBehaviour
     Vector3 StartMovingPoint = Vector3.zero;
     Vector3 delta;
     Vector3 NewCamPosition;
+    bool _overMenu; //признак того, что курсор находится над меню
 
     public GameObject BackGround;
     // Use this for initialization
@@ -55,7 +56,7 @@ public class CameraScript : MonoBehaviour
             StartMovingPoint = Input.mousePosition;
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !_overMenu)
         {
             StartMovingPoint = Input.mousePosition;
         }
@@ -66,4 +67,8 @@ public class CameraScript : MonoBehaviour
         }
     }
 
+    public bool setOverMenu 
+        {
+        set { _overMenu = value; }
+        }
 }

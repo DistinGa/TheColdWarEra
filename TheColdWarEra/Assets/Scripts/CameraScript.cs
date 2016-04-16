@@ -67,8 +67,8 @@ public class CameraScript : MonoBehaviour
         }
     }
 
-    public bool setOverMenu 
-        {
+    public bool setOverMenu
+    {
         set { _overMenu = value; }
-        }
+    }
 }

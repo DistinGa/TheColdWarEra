@@ -12,4 +12,5 @@ public class CountryScript : MonoBehaviour {
 	void Update () {
 	
 	}
+
 }

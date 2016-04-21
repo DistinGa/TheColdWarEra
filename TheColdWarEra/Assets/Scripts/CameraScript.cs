@@ -27,8 +27,8 @@ public class CameraScript : MonoBehaviour
         Sprite Spr = BackGround.GetComponent<SpriteRenderer>().sprite;
 
         //Ширину и длину поля считаем в юнитах
-        fieldWidth = Spr.rect.width * UnitsPerPixel * 0.5f;
-        fieldHeight = Spr.rect.height * UnitsPerPixel * 0.5f;
+        fieldWidth = Spr.rect.width * UnitsPerPixel;
+        fieldHeight = Spr.rect.height * UnitsPerPixel;
     }
 
     void LateUpdate()
@@ -41,16 +41,16 @@ public class CameraScript : MonoBehaviour
             NewCamPosition = transform.position - delta;
 
             //Проверка границ карты по Y
-            if (NewCamPosition.y + cameraHeight > BackGround.transform.position.y + fieldHeight)
-                NewCamPosition.y = BackGround.transform.position.y + fieldHeight - cameraHeight;
+            if (NewCamPosition.y + cameraHeight > BackGround.transform.position.y)
+                NewCamPosition.y = BackGround.transform.position.y - cameraHeight;
             if (NewCamPosition.y - cameraHeight < BackGround.transform.position.y - fieldHeight)
                 NewCamPosition.y = BackGround.transform.position.y - fieldHeight + cameraHeight;
 
             //Проверка границ карты по Х
             if (NewCamPosition.x + cameraWidth > BackGround.transform.position.x + fieldWidth)
                 NewCamPosition.x = BackGround.transform.position.x + fieldWidth - cameraWidth;
-            if (NewCamPosition.x - cameraWidth < BackGround.transform.position.x - fieldWidth)
-                NewCamPosition.x = BackGround.transform.position.x - fieldWidth + cameraWidth;
+            if (NewCamPosition.x - cameraWidth < BackGround.transform.position.x)
+                NewCamPosition.x = BackGround.transform.position.x + cameraWidth;
 
             transform.position = NewCamPosition;
             StartMovingPoint = Input.mousePosition;

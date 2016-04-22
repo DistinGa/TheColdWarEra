@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class GameManagerScript : MonoBehaviour {
@@ -6,7 +7,7 @@ public class GameManagerScript : MonoBehaviour {
 
     public GameObject[] Menus;
     public RectTransform StatLists;
-
+    [Space(10)]
     public GameObject Marker;    //Маркер указывающий на страну, с которой работаем.
 
     // Use this for initialization
@@ -14,11 +15,6 @@ public class GameManagerScript : MonoBehaviour {
         GM = this;
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
     public void ToggleTechMenu(GameObject Menu)
     {
         //Если меню активно - выключаем.
@@ -32,6 +28,11 @@ public class GameManagerScript : MonoBehaviour {
                 item.SetActive(item == Menu);
             }
         }
+    }
+
+    public void ToggleGameObject(GameObject GO)
+    {
+        GO.SetActive(!GO.activeSelf);
     }
 
     public void ScrollStatMenu(int dt)
@@ -48,6 +49,14 @@ public class GameManagerScript : MonoBehaviour {
         StatLists.localPosition = NewPos;
     }
 
+    public void LoadScene(string SceneName) {
+        SceneManager.LoadScene(SceneName);
+    }
+
+    public void SnapToCountry(GameObject Country)
+    {
+
+    }
 }
 
 public enum Region

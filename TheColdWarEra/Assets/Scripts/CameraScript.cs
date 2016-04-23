@@ -44,12 +44,12 @@ public class CameraScript : MonoBehaviour
             StartMovingPoint = Input.mousePosition;
         }
 
-        if (Input.GetMouseButtonDown(0) && !_overMenu)
+        if (Input.GetMouseButtonDown(1) && !_overMenu)
         {
             StartMovingPoint = Input.mousePosition;
         }
 
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(1))
         {
             StartMovingPoint = Vector3.zero;
         }

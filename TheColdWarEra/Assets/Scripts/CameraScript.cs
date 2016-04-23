@@ -10,7 +10,7 @@ public class CameraScript : MonoBehaviour
 
     Vector3 StartMovingPoint = Vector3.zero;
     Vector3 delta;
-    Vector3 NewCamPosition;
+
     bool _overMenu; //признак того, что курсор находится над меню
 
     public GameObject BackGround;
@@ -38,21 +38,9 @@ public class CameraScript : MonoBehaviour
         {
             delta = (Input.mousePosition - StartMovingPoint) * UnitsPerPixel;
             delta.z = 0;
-            NewCamPosition = transform.position - delta;
 
-            //Проверка границ карты по Y
-            if (NewCamPosition.y + cameraHeight > BackGround.transform.position.y)
-                NewCamPosition.y = BackGround.transform.position.y - cameraHeight;
-            if (NewCamPosition.y - cameraHeight < BackGround.transform.position.y - fieldHeight)
-                NewCamPosition.y = BackGround.transform.position.y - fieldHeight + cameraHeight;
+            SetNewPosition(transform.position - delta);
 
-            //Проверка границ карты по Х
-            if (NewCamPosition.x + cameraWidth > BackGround.transform.position.x + fieldWidth)
-                NewCamPosition.x = BackGround.transform.position.x + fieldWidth - cameraWidth;
-            if (NewCamPosition.x - cameraWidth < BackGround.transform.position.x)
-                NewCamPosition.x = BackGround.transform.position.x + cameraWidth;
-
-            transform.position = NewCamPosition;
             StartMovingPoint = Input.mousePosition;
         }
 
@@ -70,5 +58,28 @@ public class CameraScript : MonoBehaviour
     public bool setOverMenu
     {
         set { _overMenu = value; }
+    }
+
+    public void SetNewPosition(Vector3 NewCamPosition)
+    {
+        //Проверка границ карты по Y
+        if (NewCamPosition.y + cameraHeight > BackGround.transform.position.y)
+            NewCamPosition.y = BackGround.transform.position.y - cameraHeight;
+        if (NewCamPosition.y - cameraHeight < BackGround.transform.position.y - fieldHeight)
+            NewCamPosition.y = BackGround.transform.position.y - fieldHeight + cameraHeight;
+
+        //Проверка границ карты по Х
+        if (NewCamPosition.x + cameraWidth > BackGround.transform.position.x + fieldWidth)
+            NewCamPosition.x = BackGround.transform.position.x + fieldWidth - cameraWidth;
+        if (NewCamPosition.x - cameraWidth < BackGround.transform.position.x)
+            NewCamPosition.x = BackGround.transform.position.x + cameraWidth;
+
+        transform.position = NewCamPosition;
+    }
+
+    public void SetNewPosition(Transform NewTransform)
+    {
+        SetNewPosition(new Vector3(NewTransform.position.x, NewTransform.position.y, transform.position.z));
+        GameManagerScript.GM.Marker.transform.position = NewTransform.position;
     }
 }

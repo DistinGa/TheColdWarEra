@@ -58,6 +58,7 @@ public class CameraScript : MonoBehaviour
     public bool setOverMenu
     {
         set { _overMenu = value; }
+        get { return _overMenu; }
     }
 
     public void SetNewPosition(Vector3 NewCamPosition)

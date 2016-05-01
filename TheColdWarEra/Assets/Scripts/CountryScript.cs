@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CountryScript : MonoBehaviour {
+public class CountryScript : MonoBehaviour
+{
     public Sprite SprAmerican;
     public Sprite SprSoviet;
     public Sprite SprNeutral;
@@ -25,12 +26,14 @@ public class CountryScript : MonoBehaviour {
     public int CIA;
 
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         SetAuthority();
     }
-	
-	public void SetAuthority() {
+
+    public void SetAuthority()
+    {
         SpriteRenderer Spr = GetComponent<SpriteRenderer>();
         switch (Authority)
         {
@@ -46,10 +49,16 @@ public class CountryScript : MonoBehaviour {
             default:
                 break;
         }
-	}
+    }
+
+    public void OnMouseUpAsButton()
+    {
+        if (!FindObjectOfType<CameraScript>().setOverMenu)
+            print(Name);
+    }
 
     public Transform Capital
     {
-        get {return transform.FindChild("Capital"); }
+        get { return transform.FindChild("Capital"); }
     }
 }

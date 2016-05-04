@@ -15,7 +15,7 @@ public class CameraScript : MonoBehaviour
 
     public GameObject BackGround;
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         //Настройка камеры под разрешение монитора
         Camera Camera = GetComponent<Camera>();
@@ -81,6 +81,6 @@ public class CameraScript : MonoBehaviour
     public void SetNewPosition(Transform NewTransform)
     {
         SetNewPosition(new Vector3(NewTransform.position.x, NewTransform.position.y, transform.position.z));
-        GameManagerScript.GM.Marker.transform.position = NewTransform.position;
+        GameManagerScript.GM.SnapToCountry(NewTransform.position);
     }
 }

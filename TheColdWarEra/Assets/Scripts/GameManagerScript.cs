@@ -8,6 +8,7 @@ public class GameManagerScript : MonoBehaviour {
 
     private Camera MainCamera;
     private RectTransform DownMenu;
+    private RectTransform UpMenu;
     private CountryScript Country;  //Выбранная в данный момент страна
 
     public GameObject[] Menus;
@@ -18,13 +19,91 @@ public class GameManagerScript : MonoBehaviour {
     public Sprite SignUSA;
     public Sprite SignSU;
 
+    int mMonthCount = -1;     // счетчик месяцев с нуля (-1 потому что в первом кадре значение уже увеличивается)
+    float TickCount;
+    bool IsPoused;  //игра на паузе
+
+    [Space(10)]
+    [Tooltip("время (сек) между итерациями")]
+    public float Tick = 6;   //время (сек) между итерациями
+    [Tooltip("начальный бюджет игрока")]
+    public int START_BUDGET = 300; // начальный бюджет игрока
+    [Tooltip("мин.бюджет")]
+    public int MIN_BUDGET = 200; // мин.бюджет
+    [Tooltip("общее число месяцев игры")]
+    public int MAX_MONTHS_NUM = 600; // общее число месяцев игры
+
+    [Tooltip("раз во сколько месяцев можно повышать влияние")]
+    public int MAX_INFLU_CLICK = 1;
+    [Tooltip("раз во сколько месяцев можно поддерживать восстания")]
+    public int MAX_RIOT_MONTHS = 3;
+    [Tooltip("раз во сколько месяцев можно поддерживать парады")]
+    public int MAX_PARAD_MONTHS = 3;
+
+    [Tooltip("ежемесячный рост поддержки")]
+    public double SUPPORT_GROW = 0.1;
+    [Tooltip("ежемесячный рост оппозиции")]
+    public double OPPO_GROW = 0.1;
+    [Tooltip("необходимый % pro-влияния для смены правительства")]
+    public double INSTALL_PUPPER_INFLU = 80;
+    [Tooltip("необходимый % оппозиции для смены правительства")]
+    public double INSTALL_PUPPER_OPPO = 80;
+    [Tooltip("необходимый % оппозиции для ввода революционеров")]
+    public double INSTALL_PUPPER_REVOL = 80;
+    [Tooltip("стоимость увеличения влияния")]
+    public int INFLU_COST = 2;
+    [Tooltip("стоимость добавления вооруженных сил")]
+    public int MILITARY_COST = 3;
+    [Tooltip("стоимость добавления шпиона")]
+    public int SPY_COST = 1;
+    [Tooltip("стоимость организации парада")]
+    public int PARADE_COST = 1;
+    [Tooltip("стоимость организации восстания")]
+    public int RIOT_COST = 1;
+
     // Use this for initialization
     void Start () {
         GM = this;
         MainCamera = FindObjectOfType<Camera>();
         DownMenu = GameObject.Find("DownMenu").GetComponent<RectTransform>();
+        UpMenu = GameObject.Find("UpMenu").GetComponent<RectTransform>();
 
-        MainCamera.GetComponent<CameraScript>().SetNewPosition(Player.MainCountry.GetComponent<CountryScript>().Capital);
+        MainCamera.GetComponent<CameraScript>().SetNewPosition(Player.MyCountry.GetComponent<CountryScript>().Capital);
+    }
+
+    void Update()
+    {
+        //Пауза
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            IsPoused = !IsPoused;
+            
+        }
+
+        if (IsPoused)
+            return;
+
+        TickCount -= Time.deltaTime;
+        if (TickCount <= 0)
+        {
+            TickCount = Tick;
+
+            //Проверяем на конец игры по времени
+            if (mMonthCount > MAX_MONTHS_NUM)
+            {
+                StopGame();
+                return;
+            }
+
+            NextMonth();
+
+            // прошел год?
+            if (mMonthCount % 12 == 0)
+                NewYear();
+
+            ShowHighWinInfo();
+            SnapToCountry();
+        }
     }
 
     public void ToggleTechMenu(GameObject Menu)
@@ -65,16 +144,23 @@ public class GameManagerScript : MonoBehaviour {
         SceneManager.LoadScene(SceneName);
     }
 
+    //Переход к карте под курсором
     public void SnapToCountry(Vector2 PointerPosition)
     {
         SnapToCountry(MainCamera.ScreenToWorldPoint(PointerPosition) - new Vector3(0, 0, MainCamera.transform.position.z));
     }
 
+    //Переход к карте под маркером
     public void SnapToCountry(Vector3 MarkerPosition)
     {
         Marker.transform.position = MarkerPosition;
-
         Country = Physics2D.OverlapPoint(MarkerPosition).GetComponent<CountryScript>();
+        SnapToCountry();
+    }
+
+    //Переход к текущей карте (обновление выводимой информации)
+    private void SnapToCountry()
+    {
         //Заполнение значений в нижнем меню
         DownMenu.Find("Flag").GetComponent<Image>().sprite = Country.Authority == Authority.Soviet ? Country.FlagS : Country.FlagNs;
         DownMenu.Find("Score").GetComponent<Text>().text = Country.Score + " score";
@@ -179,6 +265,35 @@ public class GameManagerScript : MonoBehaviour {
         Country.AddMilitary(Player.Authority, 1);
         ShowMilitary();
     }
+
+    //Окончание игры и показ окна, говорящего об этом.
+    void StopGame()
+    {
+    }
+
+    //Ежемесячное обновление информации
+    void NextMonth()
+    {
+        mMonthCount++;
+    }
+
+    //Ежегодное обновление информации
+    void NewYear()
+    {
+    }
+
+    //Обновление информации в верхнем меню
+    void ShowHighWinInfo()
+    {
+        string[] months = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+        int m = mMonthCount % 12;
+        int y = mMonthCount / 12;
+        string CurrentDate = months[m] + " " + (1950 + y);
+
+        UpMenu.Find("Date").GetComponent<Text>().text = CurrentDate;
+    }
+
+
 }
 
 public enum Region

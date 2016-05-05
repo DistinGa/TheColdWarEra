@@ -14,7 +14,7 @@ public class CountryScript : MonoBehaviour
     public Region Region;
     public Authority Authority;
     public int Score;
-    public int Support;
+    public float Support;
     [Space(10)]
     public float SovInf;
     public float AmInf;

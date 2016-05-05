@@ -5,7 +5,8 @@ public class PlayerScript : MonoBehaviour {
     public float Budget;
     public float Score;
     public Authority Authority;
-    public Transform MainCountry;
+    public Transform MyCountry;
+    public Transform OppCountry;
 
 	// Use this for initialization
 	void Start () {

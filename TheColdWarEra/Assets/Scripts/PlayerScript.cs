@@ -7,6 +7,7 @@ public class PlayerScript : MonoBehaviour {
     public Authority Authority;
     public Transform MyCountry;
     public Transform OppCountry;
+    public Sprite SprMarker;
 
 	// Use this for initialization
 	void Start () {

@@ -15,6 +15,7 @@ public class GameManagerScript : MonoBehaviour {
     public RectTransform StatLists;
     [Space(10)]
     public GameObject Marker;    //Маркер указывающий на страну, с которой работаем.
+    public GameObject PausePlate;    //Надпись "Pause"
     [Space(10)]
     public Sprite SignUSA;
     public Sprite SignSU;
@@ -41,15 +42,15 @@ public class GameManagerScript : MonoBehaviour {
     public int MAX_PARAD_MONTHS = 3;
 
     [Tooltip("ежемесячный рост поддержки")]
-    public double SUPPORT_GROW = 0.1;
+    public float SUPPORT_GROW = 0.1f;
     [Tooltip("ежемесячный рост оппозиции")]
-    public double OPPO_GROW = 0.1;
+    public float OPPO_GROW = 0.1f;
     [Tooltip("необходимый % pro-влияния для смены правительства")]
-    public double INSTALL_PUPPER_INFLU = 80;
+    public float INSTALL_PUPPER_INFLU = 80;
     [Tooltip("необходимый % оппозиции для смены правительства")]
-    public double INSTALL_PUPPER_OPPO = 80;
+    public float INSTALL_PUPPER_OPPO = 80;
     [Tooltip("необходимый % оппозиции для ввода революционеров")]
-    public double INSTALL_PUPPER_REVOL = 80;
+    public float INSTALL_PUPPER_REVOL = 80;
     [Tooltip("стоимость увеличения влияния")]
     public int INFLU_COST = 2;
     [Tooltip("стоимость добавления вооруженных сил")]
@@ -67,6 +68,7 @@ public class GameManagerScript : MonoBehaviour {
         MainCamera = FindObjectOfType<Camera>();
         DownMenu = GameObject.Find("DownMenu").GetComponent<RectTransform>();
         UpMenu = GameObject.Find("UpMenu").GetComponent<RectTransform>();
+        Marker.GetComponent<SpriteRenderer>().sprite = Player.GetComponent<PlayerScript>().SprMarker;
 
         MainCamera.GetComponent<CameraScript>().SetNewPosition(Player.MyCountry.GetComponent<CountryScript>().Capital);
     }
@@ -77,6 +79,7 @@ public class GameManagerScript : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.P))
         {
             IsPoused = !IsPoused;
+            PausePlate.SetActive(IsPoused);
             
         }
 
@@ -102,6 +105,7 @@ public class GameManagerScript : MonoBehaviour {
                 NewYear();
 
             ShowHighWinInfo();
+            //Обновление информации в нижнем меню
             SnapToCountry();
         }
     }
@@ -206,12 +210,12 @@ public class GameManagerScript : MonoBehaviour {
             case Authority.Neutral:
                 if (Country.SovInf > Country.AmInf)
                 {
-                    DownMenu.Find("MilitaryRight_n").GetComponent<Image>().fillAmount = Country.NForce * 0.1f;
+                    DownMenu.Find("MilitaryRight_n").GetComponent<Image>().fillAmount = Country.GovForce * 0.1f;
                     DownMenu.Find("MilitaryLeft").GetComponent<Image>().fillAmount = Country.OppForce * 0.1f;
                 }
                 else
                 {
-                    DownMenu.Find("MilitaryLeft_n").GetComponent<Image>().fillAmount = Country.NForce * 0.1f;
+                    DownMenu.Find("MilitaryLeft_n").GetComponent<Image>().fillAmount = Country.GovForce * 0.1f;
                     DownMenu.Find("MilitaryRight").GetComponent<Image>().fillAmount = Country.OppForce * 0.1f;
                 }
                 break;
@@ -275,10 +279,62 @@ public class GameManagerScript : MonoBehaviour {
     void NextMonth()
     {
         mMonthCount++;
+
+        GameObject Countries = GameObject.Find("Countries");
+        for (int idx = 0; idx < Countries.transform.childCount; idx++)
+        {
+            CountryScript Country = Countries.transform.GetChild(idx).GetComponent<CountryScript>();
+            //Если влияние соответствует правительству, поддержка увеличивается.
+            if ((Country.Authority == Authority.Amer && Country.AmInf > 50) || (Country.Authority == Authority.Soviet && Country.SovInf > 50))
+            {
+                Country.Support += SUPPORT_GROW;
+                Country.Support = Mathf.Max(Country.Support, 100f);
+            }
+
+            //Если влияние не соответствует правительству, растёт оппозиция.
+            if ((Country.Authority == Authority.Amer && Country.SovInf > 50) ||
+                (Country.Authority == Authority.Soviet && Country.AmInf > 50) ||
+                (Country.Authority == Authority.Neutral && (Country.SovInf + Country.AmInf) > 50))
+            {
+                Country.Support -= OPPO_GROW;
+                Country.Support = Mathf.Min(Country.Support, 0);
+            }
+
+            //Боевые действия
+            if (Country.OppForce > 0)
+            {
+                int r = Random.Range(0, 100);
+                if (r < 33)
+                    continue;   //ничего не произошло
+
+                if (Country.GovForce > 0)
+                {
+                    if (r < 66)
+                        Country.GovForce--;
+                    else
+                        Country.OppForce--;
+                }
+
+                if (Country.GovForce == 0)  //революция
+                {
+                    Country.GovForce = Country.OppForce;
+                    Country.OppForce = 0;
+
+                    ChangeGovernment();
+                }
+
+            }
+        }
     }
 
     //Ежегодное обновление информации
     void NewYear()
+    {
+    }
+
+    //Смена власти
+    //
+    void ChangeGovernment()
     {
     }
 
@@ -291,6 +347,10 @@ public class GameManagerScript : MonoBehaviour {
         string CurrentDate = months[m] + " " + (1950 + y);
 
         UpMenu.Find("Date").GetComponent<Text>().text = CurrentDate;
+        UpMenu.Find("USScore").GetComponent<Text>().text = GameObject.Find("AmerPlayer").GetComponent<PlayerScript>().Score.ToString();
+        UpMenu.Find("USBudget").GetComponent<Text>().text = GameObject.Find("AmerPlayer").GetComponent<PlayerScript>().Budget.ToString();
+        UpMenu.Find("SovScore").GetComponent<Text>().text = GameObject.Find("SovPlayer").GetComponent<PlayerScript>().Score.ToString();
+        UpMenu.Find("SovBudget").GetComponent<Text>().text = GameObject.Find("SovPlayer").GetComponent<PlayerScript>().Budget.ToString();
     }
 
 

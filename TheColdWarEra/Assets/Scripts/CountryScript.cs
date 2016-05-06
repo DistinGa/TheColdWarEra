@@ -22,7 +22,6 @@ public class CountryScript : MonoBehaviour
     [Space(10)]
     public int GovForce;
     public int OppForce;
-    public int NForce;
     [Space(10)]
     public int KGB;
     public int CIA;
@@ -134,14 +133,14 @@ public class CountryScript : MonoBehaviour
             if (SovInf > AmInf) //Если советсткое влияние, то советский игрок добавляет нейтральные силы, американский - оппозиционные.
             {
                 if (Inf == Authority.Soviet)
-                    NForce += Amount;
+                    GovForce += Amount;
                 else
                     OppForce += Amount;
             }
             else //Если режим проамериканский, то американский игрок добавляет нейтральные силы, советский - оппозиционные.
             {
                 if (Inf == Authority.Amer)
-                    NForce += Amount;
+                    GovForce += Amount;
                 else
                     OppForce += Amount;
             }
@@ -155,8 +154,6 @@ public class CountryScript : MonoBehaviour
         }
 
         //Устранение выхода за допустимую границу.
-        if (NForce > 10)
-            NForce = 10;
         if (GovForce > 10)
             GovForce = 10;
         if (OppForce > 10)

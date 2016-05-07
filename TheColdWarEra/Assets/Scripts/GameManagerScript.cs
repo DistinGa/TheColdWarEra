@@ -36,6 +36,8 @@ public class GameManagerScript : MonoBehaviour {
 
     [Tooltip("раз во сколько месяцев можно повышать влияние")]
     public int MAX_INFLU_CLICK = 1;
+    [Tooltip("раз во сколько месяцев можно засылать шпиона")]
+    public int MAX_SPY_CLICK = 1;
     [Tooltip("раз во сколько месяцев можно поддерживать восстания")]
     public int MAX_RIOT_MONTHS = 3;
     [Tooltip("раз во сколько месяцев можно поддерживать парады")]
@@ -185,17 +187,31 @@ public class GameManagerScript : MonoBehaviour {
                 break;
         }
         DownMenu.Find("CountryState").GetComponent<Text>().text = Country.Name + ": GOVERNMENT - PRO " + CountryState;
-        DownMenu.Find("Support").GetComponent<Text>().text = Country.Support.ToString();
-        DownMenu.Find("Riots").GetComponent<Text>().text = (100 - Country.Support).ToString();
-        DownMenu.Find("Budget").GetComponent<Text>().text = Player.Budget.ToString();
-        DownMenu.Find("InfAmer").GetComponent<Text>().text = Country.AmInf.ToString();
-        DownMenu.Find("InfNeutral").GetComponent<Text>().text = Country.NInf.ToString();
-        DownMenu.Find("InfSoviet").GetComponent<Text>().text = Country.SovInf.ToString();
+        DownMenu.Find("Support").GetComponent<Text>().text = Country.Support.ToString("g3");
+        DownMenu.Find("Riots").GetComponent<Text>().text = (100 - Country.Support).ToString("g3");
+        DownMenu.Find("Budget").GetComponent<Text>().text = Player.Budget.ToString("f0");
+        DownMenu.Find("InfAmer").GetComponent<Text>().text = Country.AmInf.ToString("f0");
+        DownMenu.Find("InfNeutral").GetComponent<Text>().text = Country.NInf.ToString("f0");
+        DownMenu.Find("InfSoviet").GetComponent<Text>().text = Country.SovInf.ToString("f0");
 
         DownMenu.Find("SpyLeft").GetComponent<Image>().fillAmount = Country.CIA * 0.2f;
         DownMenu.Find("SpyRight").GetComponent<Image>().fillAmount = Country.KGB * 0.2f;
 
         ShowMilitary();
+
+        //Доступность кнопок
+        //Влияние
+        DownMenu.Find("AddInfButton").GetComponent<Button>().interactable = Country.CanAddInf(Player.Authority);
+        //Войска
+        DownMenu.Find("AddMilButton").GetComponent<Button>().interactable = Country.CanAddMil(Player.Authority);
+        //Шпионы
+        DownMenu.Find("AddSpyButton").GetComponent<Button>().interactable = Country.CanAddSpy(Player.Authority);
+        //Организация парада
+        DownMenu.Find("SupParadeButton").GetComponent<Button>().interactable = Country.CanOrgParade(Player.Authority);
+        //Организация восстания
+        DownMenu.Find("SupRiotButton").GetComponent<Button>().interactable = Country.CanOrgMeeting(Player.Authority);
+        //Смена правительства
+        DownMenu.Find("NewGovButton").GetComponent<Button>().interactable = Country.CanChangeGov(Player.Authority);
     }
 
     public void ShowMilitary()
@@ -211,12 +227,16 @@ public class GameManagerScript : MonoBehaviour {
                 if (Country.SovInf > Country.AmInf)
                 {
                     DownMenu.Find("MilitaryRight_n").GetComponent<Image>().fillAmount = Country.GovForce * 0.1f;
-                    DownMenu.Find("MilitaryLeft").GetComponent<Image>().fillAmount = Country.OppForce * 0.1f;
+                    //Силы оппозиции видны если есть шпионы либо если оппозиция - своя (в данном случае - американская).
+                    if (Player.Authority == Authority.Amer || Country.KGB > 0)
+                        DownMenu.Find("MilitaryLeft").GetComponent<Image>().fillAmount = Country.OppForce * 0.1f;
                 }
                 else
                 {
                     DownMenu.Find("MilitaryLeft_n").GetComponent<Image>().fillAmount = Country.GovForce * 0.1f;
-                    DownMenu.Find("MilitaryRight").GetComponent<Image>().fillAmount = Country.OppForce * 0.1f;
+                    //Силы оппозиции видны если есть шпионы либо если оппозиция - своя (в данном случае - советсткая).
+                    if (Player.Authority == Authority.Soviet || Country.CIA > 0)
+                        DownMenu.Find("MilitaryRight").GetComponent<Image>().fillAmount = Country.OppForce * 0.1f;
                 }
                 break;
             case Authority.Amer:
@@ -250,28 +270,49 @@ public class GameManagerScript : MonoBehaviour {
 
     public void AddInfluence()
     {
+        if (!PayCost(Player.Authority, INFLU_COST))
+            return; //Не хватило денег
+
         Country.AddInfluence(Player.Authority, 1);
 
-        DownMenu.Find("InfAmer").GetComponent<Text>().text = Country.AmInf.ToString();
-        DownMenu.Find("InfNeutral").GetComponent<Text>().text = Country.NInf.ToString();
-        DownMenu.Find("InfSoviet").GetComponent<Text>().text = Country.SovInf.ToString();
+        SnapToCountry();
     }
 
     public void AddSpy()
     {
+        if (!PayCost(Player.Authority, SPY_COST))
+            return; //Не хватило денег
+
         Country.AddSpy(Player.Authority, 1);
-        DownMenu.Find("SpyLeft").GetComponent<Image>().fillAmount = Country.CIA * 0.2f;
-        DownMenu.Find("SpyRight").GetComponent<Image>().fillAmount = Country.KGB * 0.2f;
+        SnapToCountry();
     }
 
     public void AddMilitary()
     {
+        if (!PayCost(Player.Authority, MILITARY_COST))
+            return; //Не хватило денег
+
         Country.AddMilitary(Player.Authority, 1);
-        ShowMilitary();
+        SnapToCountry();
     }
 
-    //Окончание игры и показ окна, говорящего об этом.
-    void StopGame()
+    public void OrganizeMeeting()
+    {
+        if (!PayCost(Player.Authority, RIOT_COST))
+            return; //Не хватило денег
+
+    }
+
+    public void OrganizeParade()
+    {
+        if (!PayCost(Player.Authority, PARADE_COST))
+            return; //Не хватило денег
+
+    }
+
+    //Смена власти
+    //
+    public void ChangeGovernment()
     {
     }
 
@@ -279,16 +320,28 @@ public class GameManagerScript : MonoBehaviour {
     void NextMonth()
     {
         mMonthCount++;
+        if (mMonthCount == 0) return;   //перый месяц не считаем
 
         GameObject Countries = GameObject.Find("Countries");
         for (int idx = 0; idx < Countries.transform.childCount; idx++)
         {
             CountryScript Country = Countries.transform.GetChild(idx).GetComponent<CountryScript>();
+
+            //Уменьшаем дискаунтеры
+            if(Country.DiscounterRusInfl > 0) Country.DiscounterRusInfl--;
+            if(Country.DiscounterRusMeeting > 0) Country.DiscounterRusMeeting--;
+            if(Country.DiscounterRusParade > 0) Country.DiscounterRusParade--;
+            if(Country.DiscounterRusSpy > 0) Country.DiscounterRusSpy--;
+            if(Country.DiscounterUsaInfl > 0) Country.DiscounterUsaInfl--;
+            if(Country.DiscounterUsaMeeting > 0) Country.DiscounterUsaMeeting--;
+            if(Country.DiscounterUsaParade > 0) Country.DiscounterUsaParade--;
+            if(Country.DiscounterUsaSpy > 0) Country.DiscounterUsaSpy--;
+
             //Если влияние соответствует правительству, поддержка увеличивается.
             if ((Country.Authority == Authority.Amer && Country.AmInf > 50) || (Country.Authority == Authority.Soviet && Country.SovInf > 50))
             {
                 Country.Support += SUPPORT_GROW;
-                Country.Support = Mathf.Max(Country.Support, 100f);
+                if(Country.Support > 100) Country.Support = 100;
             }
 
             //Если влияние не соответствует правительству, растёт оппозиция.
@@ -297,33 +350,33 @@ public class GameManagerScript : MonoBehaviour {
                 (Country.Authority == Authority.Neutral && (Country.SovInf + Country.AmInf) > 50))
             {
                 Country.Support -= OPPO_GROW;
-                Country.Support = Mathf.Min(Country.Support, 0);
+                if(Country.Support < 0) Country.Support = 0;
             }
 
-            //Боевые действия
-            if (Country.OppForce > 0)
-            {
-                int r = Random.Range(0, 100);
-                if (r < 33)
-                    continue;   //ничего не произошло
+            ////Боевые действия
+            //if (Country.OppForce > 0)
+            //{
+            //    int r = Random.Range(0, 100);
+            //    if (r < 33)
+            //        continue;   //ничего не произошло
 
-                if (Country.GovForce > 0)
-                {
-                    if (r < 66)
-                        Country.GovForce--;
-                    else
-                        Country.OppForce--;
-                }
+            //    if (Country.GovForce > 0)
+            //    {
+            //        if (r < 66)
+            //            Country.GovForce--;
+            //        else
+            //            Country.OppForce--;
+            //    }
 
-                if (Country.GovForce == 0)  //революция
-                {
-                    Country.GovForce = Country.OppForce;
-                    Country.OppForce = 0;
+            //    if (Country.GovForce == 0)  //революция
+            //    {
+            //        Country.GovForce = Country.OppForce;
+            //        Country.OppForce = 0;
 
-                    ChangeGovernment();
-                }
+            //        ChangeGovernment();
+            //    }
 
-            }
+            //}
         }
     }
 
@@ -332,9 +385,8 @@ public class GameManagerScript : MonoBehaviour {
     {
     }
 
-    //Смена власти
-    //
-    void ChangeGovernment()
+    //Окончание игры и показ окна, говорящего об этом.
+    void StopGame()
     {
     }
 
@@ -347,12 +399,37 @@ public class GameManagerScript : MonoBehaviour {
         string CurrentDate = months[m] + " " + (1950 + y);
 
         UpMenu.Find("Date").GetComponent<Text>().text = CurrentDate;
-        UpMenu.Find("USScore").GetComponent<Text>().text = GameObject.Find("AmerPlayer").GetComponent<PlayerScript>().Score.ToString();
-        UpMenu.Find("USBudget").GetComponent<Text>().text = GameObject.Find("AmerPlayer").GetComponent<PlayerScript>().Budget.ToString();
-        UpMenu.Find("SovScore").GetComponent<Text>().text = GameObject.Find("SovPlayer").GetComponent<PlayerScript>().Score.ToString();
-        UpMenu.Find("SovBudget").GetComponent<Text>().text = GameObject.Find("SovPlayer").GetComponent<PlayerScript>().Budget.ToString();
+        UpMenu.Find("USScore").GetComponent<Text>().text = GameObject.Find("AmerPlayer").GetComponent<PlayerScript>().Score.ToString("f0");
+        UpMenu.Find("USBudget").GetComponent<Text>().text = GameObject.Find("AmerPlayer").GetComponent<PlayerScript>().Budget.ToString("f0");
+        UpMenu.Find("SovScore").GetComponent<Text>().text = GameObject.Find("SovPlayer").GetComponent<PlayerScript>().Score.ToString("f0");
+        UpMenu.Find("SovBudget").GetComponent<Text>().text = GameObject.Find("SovPlayer").GetComponent<PlayerScript>().Budget.ToString("f0");
     }
 
+    public bool PayCost(Authority Aut, float Money)
+    {
+        PlayerScript Player;
+
+        switch (Aut)
+        {
+            case Authority.Amer:
+                Player = transform.FindChild("AmerPlayer").GetComponent<PlayerScript>();
+                break;
+            case Authority.Soviet:
+                Player = transform.FindChild("SovPlayer").GetComponent<PlayerScript>();
+                break;
+            default:
+                return false;
+                break;
+        }
+
+        if (Player.Budget - Money < MIN_BUDGET)
+            return false;
+
+        Player.Budget -= Money;
+        ShowHighWinInfo();
+
+        return true;
+    }
 
 }
 

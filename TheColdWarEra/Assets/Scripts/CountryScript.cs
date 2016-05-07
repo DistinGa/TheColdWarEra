@@ -26,6 +26,12 @@ public class CountryScript : MonoBehaviour
     public int KGB;
     public int CIA;
 
+    [HideInInspector]
+    public int DiscounterUsaMeeting, DiscounterRusMeeting; //Сколько ждать до возможности следующего митинга протеста (0 - можно митинговать)
+    [HideInInspector]
+    public int DiscounterUsaParade, DiscounterRusParade; //Сколько ждать до возможности следующего парада протеста (0 - можно)
+    [HideInInspector]
+    public int DiscounterUsaSpy, DiscounterRusSpy, DiscounterUsaInfl, DiscounterRusInfl; //Дискаунтер для возможности засылки шпионов или повышения влияния (0 - можно)
 
     // Use this for initialization
     void Start()
@@ -65,9 +71,6 @@ public class CountryScript : MonoBehaviour
     {
         if (Inf == Authority.Amer)
         {
-            if (NInf == 100)
-                return; //Куда уж больше?
-
             AmInf += Amount;
 
             //Распределяем "минус" по другим влияниям.
@@ -82,13 +85,13 @@ public class CountryScript : MonoBehaviour
                     AmInf = 100;
                 }
             }
+
+            //Влияние повысили, устанавливаем дискаунтер, чтобы отключить возможность повторного повышения в пределах отведённого периода.
+            DiscounterUsaInfl = GameManagerScript.GM.MAX_INFLU_CLICK;
         }
 
         if (Inf == Authority.Soviet)
         {
-            if (SovInf == 100)
-                return; //Куда уж больше?
-
             SovInf += Amount;
 
             //Распределяем "минус" по другим влияниям.
@@ -103,6 +106,9 @@ public class CountryScript : MonoBehaviour
                     AmInf = 0;
                 }
             }
+
+            //Влияние повысили, устанавливаем дискаунтер, чтобы отключить возможность повторного повышения в пределах отведённого периода.
+            DiscounterRusInfl = GameManagerScript.GM.MAX_INFLU_CLICK;
         }
     }
 
@@ -122,6 +128,12 @@ public class CountryScript : MonoBehaviour
             if (KGB > 5)
                 KGB = 5;
         }
+
+        //устанавливаем дискаунтер, чтобы отключить возможность повторного повышения в пределах отведённого периода.
+        if (Inf == Authority.Amer)
+            DiscounterUsaSpy = GameManagerScript.GM.MAX_SPY_CLICK;
+        if (Inf == Authority.Soviet)
+            DiscounterRusSpy = GameManagerScript.GM.MAX_SPY_CLICK;
     }
 
     //Добавление вооружённых сил.
@@ -163,5 +175,55 @@ public class CountryScript : MonoBehaviour
     public Transform Capital
     {
         get { return transform.FindChild("Capital"); }
+    }
+
+    //Проверка возможности добавить влияние
+    public bool CanAddInf(Authority Aut)
+    {
+        return (Aut == Authority.Amer && DiscounterUsaInfl == 0 && AmInf < 100) || (Aut == Authority.Soviet && DiscounterRusInfl == 0 && SovInf < 100);
+    }
+
+    //Проверка возможности добавить войска
+    public bool CanAddMil(Authority Aut)
+    {
+        return ((Aut == Authority && GovForce < 10) ||  //свои войска 
+            (Authority == Authority.Neutral && Aut == Authority.Amer && (AmInf > SovInf) && GovForce < 10) ||   //поддержка нейтрального правительства
+            (Authority == Authority.Neutral && Aut == Authority.Soviet && (AmInf < SovInf) && GovForce < 10) || //поддержка нейтрального правительства
+            (Support <= (100 - GameManagerScript.GM.INSTALL_PUPPER_REVOL) && Authority != Authority.Neutral && Authority != Aut && OppForce < 10) ||    //оппозиция в чужой стране
+            (Support <= (100 - GameManagerScript.GM.INSTALL_PUPPER_REVOL) && Authority == Authority.Neutral && Aut == Authority.Amer && (AmInf < SovInf) && OppForce < 10) ||  //оппозиция в нейтральной стране
+            (Support <= (100 - GameManagerScript.GM.INSTALL_PUPPER_REVOL) && Authority == Authority.Neutral && Aut == Authority.Soviet && (AmInf > SovInf) && OppForce < 10)    //оппозиция в нейтральной стране
+            );
+    }
+
+    //Проверка возможности добавить шпиона
+    public bool CanAddSpy(Authority Aut)
+    {
+        return (Aut == Authority.Amer && DiscounterUsaSpy == 0 && CIA < 5) || (Aut == Authority.Soviet && DiscounterRusSpy == 0 && KGB < 5);
+    }
+
+    //Проверка возможности организовать восстание
+    public bool CanOrgMeeting(Authority Aut)
+    {
+        return (HaveSpy(Aut) && Authority != Aut && ((Aut == Authority.Amer && DiscounterUsaMeeting == 0) || (Aut == Authority.Soviet && DiscounterRusMeeting == 0)));
+    }
+
+    //Проверка возможности организовать парад
+    public bool CanOrgParade(Authority Aut)
+    {
+        return (HaveSpy(Aut) && (Authority == Aut || Authority == Authority.Neutral) && ((Aut == Authority.Amer && DiscounterUsaParade == 0) || (Aut == Authority.Soviet && DiscounterRusParade == 0)));
+    }
+
+    //Проверка возможности сменить правительство
+    public bool CanChangeGov(Authority Aut)
+    {
+        return (Authority != Aut && Support <= (100 - GameManagerScript.GM.INSTALL_PUPPER_OPPO) && 
+            ((Aut == Authority.Amer && AmInf >= GameManagerScript.GM.INSTALL_PUPPER_INFLU) || Aut == Authority.Soviet && SovInf >= GameManagerScript.GM.INSTALL_PUPPER_INFLU));
+    }
+
+    //Проверка наличия шпионов
+    //Aut - чьих шпионов проверяем
+    public bool HaveSpy(Authority Aut)
+    {
+        return (Aut == Authority.Amer && CIA > 0) || (Aut == Authority.Soviet && KGB > 0);
     }
 }

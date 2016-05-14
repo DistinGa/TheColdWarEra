@@ -9,7 +9,8 @@ public class VideoQueue : MonoBehaviour {
     MovieTexture Video;
 
     public float Interval = 0.3f;  //интервал проверки очереди роликов
-    float TimeToTick;
+    float TimeToTick;   //время до следующей итерации
+    float NewsStartTime;    //Время начала трансляции новости
 
     // 1-тип файла ( 1-локальный СССР, 2- локальный США, 3-глобальный  )
     public const int V_TYPE_USSR = 1;
@@ -160,6 +161,7 @@ public class VideoQueue : MonoBehaviour {
             else vrr.mWavFile = "02 SovSpcPrgr";
         }
 
+        vrr.mWavFile = "Voices/" + vrr.mWavFile;
         PutRolexToQueue(vrr);
     }
 
@@ -183,8 +185,8 @@ public class VideoQueue : MonoBehaviour {
                 && (vr.mEpoch == epoch || vr.mEpoch == 0))
 
             {
-                VideoRealPlayRolex vrr = new VideoRealPlayRolex(vr, c.Name, Month);
-
+                VideoRealPlayRolex vrr = new VideoRealPlayRolex(vr, c);
+                
                 // для технологий -- подходит самый первый:
                 if (IsTechnoRolex(vr, info, c)) return vrr;
 
@@ -223,7 +225,8 @@ public class VideoQueue : MonoBehaviour {
             if (mHaltVideo) // немедленно прервать (фоновый) ролик
             {
                 mHaltVideo = false;
-                Video.Stop();
+                if(Video != null)
+                    Video.Stop();
             }
 
 
@@ -244,16 +247,15 @@ public class VideoQueue : MonoBehaviour {
                 if (fini.Count <= 0) return;
                 i = UnityEngine.Random.Range(0, fini.Count);
 
-                VideoRealPlayRolex vrr = new VideoRealPlayRolex(mVideos[fini[i]], "", -1);
+                VideoRealPlayRolex vrr = new VideoRealPlayRolex(mVideos[fini[i]], null);
                 PutRolexToQueue(vrr); // фоновый...
             }
 
 
             else // запустить следующий из очереди
             {
-            // еще играется ли текущий? 0-й -- всегда тот, который уже играется
-            if (Video != null && Video.isPlaying // || mVideoQueue.Count <= 1 
-                                                               ) return;
+                // еще играется ли текущий? 0-й -- всегда тот, который уже играется
+            if (IsRunning()) return;
 
 
             // удалить рол, если он старый:
@@ -265,7 +267,7 @@ public class VideoQueue : MonoBehaviour {
 
                 //
                 string videoFileName = mVideoQueue[1].getFileName();
-                string videoCountry = mVideoQueue[1].mCountryName;
+                string videoCountry = (mVideoQueue[1].mCountry != null) ?mVideoQueue[1].mCountry.Name: "";
                 string videoInfo = mVideoQueue[1].mVideoRolexPattern.mText;
 
                 if (Video != null)
@@ -275,10 +277,21 @@ public class VideoQueue : MonoBehaviour {
 
                 GameManagerScript.GM.SetInfo(videoInfo, videoCountry);  //Вывод текста новости
 
-                Video = Resources.Load<MovieTexture>(videoFileName);
-                VideoPanel.material.mainTexture = Video;
-                VideoPanel.SetMaterialDirty();
-                Video.Play();
+                //Начало трансляции новости
+                if (SettingsScript.Settings.mVideo)
+                {
+                    VideoPanel.sprite = null;
+                    Video = Resources.Load<MovieTexture>("Video/" + videoFileName);
+                    VideoPanel.material.mainTexture = Video;
+                    VideoPanel.SetMaterialDirty();
+                    Video.Play();
+                }
+                else
+                {
+                    Sprite Spr = Resources.Load<Sprite>("news/" + videoFileName);
+                    VideoPanel.sprite = Spr;
+                    NewsStartTime = Time.time;
+                }
 
             // для отладки покажем и N ролика:
             //if (GameEngine.mExtRes)
@@ -291,7 +304,7 @@ public class VideoQueue : MonoBehaviour {
             if (mVideoQueue[1].mWavFile != "")
                     if (SettingsScript.Settings.mVideo) // для AVI берем звук ролика
                         GameManagerScript.GM.PlaySound(Resources.Load<AudioClip>(mVideoQueue[1].mWavFile));
-                    else GameManagerScript.GM.PlaySound(Resources.Load<AudioClip>("newspaper")); // для изображения просто звук
+                    else GameManagerScript.GM.PlaySound(Resources.Load<AudioClip>("sound/newspaper")); // для изображения просто звук
 
                 mCurrentPlayedRolex = mVideoQueue[1];
                 mVideoQueue.RemoveAt(0);
@@ -397,7 +410,7 @@ public class VideoQueue : MonoBehaviour {
     internal CountryScript GetVideoCountry()
     {
         if (mVideoQueue.Count == 0) return null;
-        return GameManagerScript.GM.FindCountryById(mVideoQueue[0].mCountryId);
+        return mVideoQueue[0].mCountry;
     }
 
     // почистить очередь -- удалить ролики про военные действия в стране как сменилась власть
@@ -405,7 +418,7 @@ public class VideoQueue : MonoBehaviour {
     {
         for (int n = 1; n < mVideoQueue.Count; n++)
         {
-            if (mVideoQueue[n].mCountryName == c.Name && mVideoQueue[n].mVideoRolexPattern.mInfoId == videoEvent)
+            if (mVideoQueue[n].mCountry == c && mVideoQueue[n].mVideoRolexPattern.mInfoId == videoEvent)
             {
                 mVideoQueue.RemoveAt(n);
             }
@@ -415,10 +428,21 @@ public class VideoQueue : MonoBehaviour {
     //Переключение на карту, чей ролик транслируется.
     public void SnapToCountryFromNews()
     {
-        GameManagerScript refGM = GameManagerScript.GM;
-        CountryScript c = refGM.FindCountryById(mCurrentPlayedRolex.mCountryId);
+        if (mVideoQueue.Count == 0)
+            return;
+
+        CountryScript c = mVideoQueue[0].mCountry;
         if(c != null)
             FindObjectOfType<CameraScript>().SetNewPosition(c.Capital);
+    }
+
+    //Проверка того, что ролик проигрывается или картинка новости показывается меньше пяти секунд.
+    public bool IsRunning()
+    {
+        if (SettingsScript.Settings.mVideo)
+            return (Video != null && Video.isPlaying);
+        else
+            return (Time.time - NewsStartTime <= 5f);
     }
 }
 
@@ -446,25 +470,27 @@ public class VideoRolexPattern // один видеоролик
 public class VideoRealPlayRolex // реальный видео-"ролик" для очереди
 {
     public VideoRolexPattern mVideoRolexPattern;
-    public string mCountryName;
-    public int mCountryId;
+    //public string mCountryName;
+    //public int mCountryId;
+    public CountryScript mCountry;
     public string mWavFile;  // звуковой файл для сопровождения
     public bool mIsVoice;  // wav -- голос?
     public int mSetMonth; // месяц, когда разместили ролик
 
     // создать ролик на основании шаблона ролика и страны в которой произошло событие
-    public VideoRealPlayRolex(VideoRolexPattern videoRolexPattern, string name, int mMonthCount)
+    public VideoRealPlayRolex(VideoRolexPattern videoRolexPattern, CountryScript Country)
     {
-        mCountryName = name;
+        mCountry = Country;
+        //mCountryName = name;
         mVideoRolexPattern = videoRolexPattern;
         mWavFile = "";
         mIsVoice = false;
-        mSetMonth = mMonthCount;
+        mSetMonth = GameManagerScript.GM.CurrentMonth();
     }
 
     // имя файла ролика без расширения и без пути
     internal string getFileName()
     {
-        return "Video/" + mVideoRolexPattern.mId.ToString();
+        return mVideoRolexPattern.mId.ToString();
     }
 }

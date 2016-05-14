@@ -2,6 +2,7 @@
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(VideoQueue))]
 public class GameManagerScript : MonoBehaviour
 {
     public static GameManagerScript GM;
@@ -11,6 +12,7 @@ public class GameManagerScript : MonoBehaviour
     private RectTransform DownMenu;
     private RectTransform UpMenu;
     private CountryScript Country;  //Выбранная в данный момент страна
+    private VideoQueue VQueue;  //Видео-очередь
 
     public GameObject[] Menus;
     public RectTransform StatLists;
@@ -75,6 +77,7 @@ public class GameManagerScript : MonoBehaviour
         Marker.GetComponent<SpriteRenderer>().sprite = Player.GetComponent<PlayerScript>().SprMarker;
 
         MainCamera.GetComponent<CameraScript>().SetNewPosition(Player.MyCountry.GetComponent<CountryScript>().Capital);
+        VQueue = FindObjectOfType<VideoQueue>();
 
         //GameObject.Find("VideoLoader").GetComponent<LoadVideoInfo>().LoadInfo();
     }
@@ -299,6 +302,8 @@ public class GameManagerScript : MonoBehaviour
 
         Country.AddMilitary(Player.Authority, 1);
         SnapToCountry();
+
+        VQueue.AddRolex(GetMySideVideoType(), VideoQueue.V_PRIO_NULL, VideoQueue.V_PUPPER_MIL_ADDED, Country, true, mMonthCount);
     }
 
     public void OrganizeMeeting()
@@ -475,8 +480,15 @@ public class GameManagerScript : MonoBehaviour
 
     public void PlaySound(AudioClip ac)
     {
-        AudioSource.PlayClipAtPoint(ac, Vector3.zero);
+        AudioSource.PlayClipAtPoint(ac, MainCamera.transform.position);
     }
+
+    // определить локальный тип видеоролика
+    public int GetMySideVideoType()
+    {
+        return Player.Authority == Authority.Amer ? VideoQueue.V_TYPE_USA : VideoQueue.V_TYPE_USSR;
+    }
+
 }
 
 public enum Region

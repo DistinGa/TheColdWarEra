@@ -2,7 +2,8 @@
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameManagerScript : MonoBehaviour {
+public class GameManagerScript : MonoBehaviour
+{
     public static GameManagerScript GM;
     public PlayerScript Player;
 
@@ -65,7 +66,8 @@ public class GameManagerScript : MonoBehaviour {
     public int RIOT_COST = 1;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         GM = this;
         MainCamera = FindObjectOfType<Camera>();
         DownMenu = GameObject.Find("DownMenu").GetComponent<RectTransform>();
@@ -73,6 +75,8 @@ public class GameManagerScript : MonoBehaviour {
         Marker.GetComponent<SpriteRenderer>().sprite = Player.GetComponent<PlayerScript>().SprMarker;
 
         MainCamera.GetComponent<CameraScript>().SetNewPosition(Player.MyCountry.GetComponent<CountryScript>().Capital);
+
+        //GameObject.Find("VideoLoader").GetComponent<LoadVideoInfo>().LoadInfo();
     }
 
     void Update()
@@ -82,7 +86,7 @@ public class GameManagerScript : MonoBehaviour {
         {
             IsPoused = !IsPoused;
             PausePlate.SetActive(IsPoused);
-            
+
         }
 
         if (IsPoused)
@@ -146,7 +150,8 @@ public class GameManagerScript : MonoBehaviour {
         StatLists.localPosition = NewPos;
     }
 
-    public void LoadScene(string SceneName) {
+    public void LoadScene(string SceneName)
+    {
         SceneManager.LoadScene(SceneName);
     }
 
@@ -328,20 +333,20 @@ public class GameManagerScript : MonoBehaviour {
             CountryScript Country = Countries.transform.GetChild(idx).GetComponent<CountryScript>();
 
             //Уменьшаем дискаунтеры
-            if(Country.DiscounterRusInfl > 0) Country.DiscounterRusInfl--;
-            if(Country.DiscounterRusMeeting > 0) Country.DiscounterRusMeeting--;
-            if(Country.DiscounterRusParade > 0) Country.DiscounterRusParade--;
-            if(Country.DiscounterRusSpy > 0) Country.DiscounterRusSpy--;
-            if(Country.DiscounterUsaInfl > 0) Country.DiscounterUsaInfl--;
-            if(Country.DiscounterUsaMeeting > 0) Country.DiscounterUsaMeeting--;
-            if(Country.DiscounterUsaParade > 0) Country.DiscounterUsaParade--;
-            if(Country.DiscounterUsaSpy > 0) Country.DiscounterUsaSpy--;
+            if (Country.DiscounterRusInfl > 0) Country.DiscounterRusInfl--;
+            if (Country.DiscounterRusMeeting > 0) Country.DiscounterRusMeeting--;
+            if (Country.DiscounterRusParade > 0) Country.DiscounterRusParade--;
+            if (Country.DiscounterRusSpy > 0) Country.DiscounterRusSpy--;
+            if (Country.DiscounterUsaInfl > 0) Country.DiscounterUsaInfl--;
+            if (Country.DiscounterUsaMeeting > 0) Country.DiscounterUsaMeeting--;
+            if (Country.DiscounterUsaParade > 0) Country.DiscounterUsaParade--;
+            if (Country.DiscounterUsaSpy > 0) Country.DiscounterUsaSpy--;
 
             //Если влияние соответствует правительству, поддержка увеличивается.
             if ((Country.Authority == Authority.Amer && Country.AmInf > 50) || (Country.Authority == Authority.Soviet && Country.SovInf > 50))
             {
                 Country.Support += SUPPORT_GROW;
-                if(Country.Support > 100) Country.Support = 100;
+                if (Country.Support > 100) Country.Support = 100;
             }
 
             //Если влияние не соответствует правительству, растёт оппозиция.
@@ -350,7 +355,7 @@ public class GameManagerScript : MonoBehaviour {
                 (Country.Authority == Authority.Neutral && (Country.SovInf + Country.AmInf) > 50))
             {
                 Country.Support -= OPPO_GROW;
-                if(Country.Support < 0) Country.Support = 0;
+                if (Country.Support < 0) Country.Support = 0;
             }
 
             ////Боевые действия
@@ -431,6 +436,47 @@ public class GameManagerScript : MonoBehaviour {
         return true;
     }
 
+    // текущая эпоха (тег видеоролика)
+    public int GetCurrentEpoch()
+    {
+        if (mMonthCount <= 20 * 12)
+            return 1;
+        else
+            return 2;
+    }
+
+    // принадлежит ли эпоха (тег видеоролика) текущей эпохе
+    // 1- 1950-1970, 2- 1970-2000 0-не проверяем
+    internal bool IsCurrentEpoch(int epoch)
+    {
+        return (epoch == 0 || epoch == GetCurrentEpoch());
+    }
+
+    public CountryScript FindCountryById(int Id)
+    {
+        GameObject GoCountry = GameObject.Find("C (" + Id.ToString() + ")");
+        if (GoCountry != null)
+            return GoCountry.GetComponent<CountryScript>();
+        else
+            return null;
+    }
+
+    public int CurrentMonth()
+    {
+        return mMonthCount;
+    }
+
+    //Установка текста новости и страны в нижнем меню.
+    public void SetInfo(string InfoText, string CountryName = "")
+    {
+        DownMenu.Find("Info").GetComponent<Text>().text = InfoText;
+        DownMenu.Find("InfoCountry").GetComponent<Text>().text = CountryName;
+    }
+
+    public void PlaySound(AudioClip ac)
+    {
+        AudioSource.PlayClipAtPoint(ac, Vector3.zero);
+    }
 }
 
 public enum Region

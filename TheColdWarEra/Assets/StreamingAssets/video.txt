@@ -1,0 +1,932 @@
+10 1 2 6 1 1
+Russian spy is liquidated in Moscow. Respect for the KGB and the USSR's local influence decreases by 2%.
+11 1 2 6 1 1
+Russian spy is liquidated in Moscow. Respect for the KGB and the USSR's local influence decreases by 2%.
+12 1 2 6 1 2
+Russian spy is liquidated in Moscow. Respect for the KGB and the USSR's local influence decreases by 2%.
+13 1 2 6 1 2
+Russian spy is liquidated in Moscow. Respect for the KGB and the USSR's local influence decreases by 2%.
+14 1 2 6 2 1
+Russian spy is liquidated in Washington. Respect for the KGB and the USSR's local influence decreases by 2%.
+15 1 2 6 2 1
+Russian spy is liquidated in Washington. Respect for the KGB and the USSR's local influence decreases by 2%.
+16 1 2 6 2 2
+Russian spy is liquidated in Washington. Respect for the KGB and the USSR's local influence decreases by 2%.
+17 1 2 6 2 2
+Russian spy is liquidated in Washington. Respect for the KGB and the USSR's local influence decreases by 2%.
+18 1 2 6 3 1
+Russian spy is liquidated. Respect for the KGB and the USSR's local influence decreases by 2%.
+19 1 2 6 3 1
+Russian spy is liquidated. Respect for the KGB and the USSR's local influence decreases by 2%.
+20 1 2 6 3 2
+Russian spy is liquidated. Respect for the KGB and the USSR's local influence decreases by 2%.
+21 1 2 6 3 2
+Russian spy is liquidated. Respect for the KGB and the USSR's local influence decreases by 2%.
+22 1 2 6 4 1
+Russian spy is liquidated. Respect for the KGB and the USSR's local influence decreases by 2%.
+23 1 2 6 4 2
+Russian spy is liquidated. Respect for the KGB and the USSR's local influence decreases by 2%.
+24 1 2 6 4 2
+Russian spy is liquidated. Respect for the KGB and the USSR's local influence decreases by 2%.
+25 1 2 6 4 2
+Russian spy is liquidated. Respect for the KGB and the USSR's local influence decreases by 2%.
+26 1 2 6 5 1
+Russian spy is liquidated. Respect for the KGB and the USSR's local influence decreases by 2%.
+27 1 2 6 5 1
+Russian spy is liquidated. Respect for the KGB and the USSR's local influence decreases by 2%.
+28 1 2 6 5 2
+Russian spy is liquidated. Respect for the KGB and the USSR's local influence decreases by 2%.
+29 1 2 6 5 2
+Russian spy is liquidated. Respect for the KGB and the USSR's local influence decreases by 2%.
+30 1 2 7 3 1
+Soviet troops enter the country to support the local government.
+31 1 2 7 3 1
+Soviet troops enter the country to support the local government.
+32 1 2 7 3 2
+Soviet troops enter the country to support the local government.
+33 1 2 7 3 2
+Soviet troops enter the country to support the local government.
+34 1 2 7 4 1
+Soviet troops enter the country to support the local government.
+35 1 2 7 4 1
+Soviet troops enter the country to support the local government.
+36 1 2 7 4 2
+Soviet troops enter the country to support the local government.
+37 1 2 7 4 2
+Soviet troops enter the country to support the local government.
+38 1 2 7 5 1
+Soviet troops enter the country to support the local government.
+39 1 2 7 5 1
+Soviet troops enter the country to support the local government.
+40 1 2 7 5 2
+Soviet troops enter the country to support the local government.
+41 1 2 7 5 2
+Soviet troops enter the country to support the local government.
+42 2 2 7 3 1
+American troops enter the country to support the local government.
+43 2 2 7 3 1
+American troops enter the country to support the local government.
+44 2 2 7 3 2
+American troops enter the country to support the local government.
+45 2 2 7 3 2
+American troops enter the country to support the local government.
+46 2 2 7 4 1
+American troops enter the country to support the local government.
+47 2 2 7 4 1
+American troops enter the country to support the local government.
+48 2 2 7 4 2
+American troops enter the country to support the local government.
+49 2 2 7 4 2
+American troops enter the country to support the local government.
+50 2 2 7 5 1
+American troops enter the country to support the local government.
+51 2 2 7 5 1
+American troops enter the country to support the local government.
+52 2 2 7 5 2
+American troops enter the country to support the local government.
+53 2 2 7 5 2
+American troops enter the country to support the local government.
+60 1 3 0 1 1
+Life in Soviet Russia is quiet and peaceful. The people are happy with their great leader.
+61 1 3 0 1 1
+Life in Soviet Russia is quiet and peaceful. The people are happy with their great leader.
+62 1 3 0 1 1
+Life in Soviet Russia is quiet and peaceful. The people are happy with their great leader.
+63 1 3 0 1 1
+Life in Soviet Russia is quiet and peaceful. The people are happy with their great leader.
+64 1 3 0 1 1
+Life in Soviet Russia is quiet and peaceful. The people are happy with their great leader.
+65 1 3 0 1 2
+Life in Soviet Russia is quiet and peaceful. The people are happy with their great leader.
+66 1 3 0 1 2
+Life in Soviet Russia is quiet and peaceful. The people are happy with their great leader.
+67 1 3 0 1 2
+Life in Soviet Russia is quiet and peaceful. The people are happy with their great leader.
+68 1 3 0 1 2
+Life in Soviet Russia is quiet and peaceful. The people are happy with their great leader.
+69 1 3 0 1 2
+Life in Soviet Russia is quiet and peaceful. The people are happy with their great leader.
+70 2 3 0 1 1
+Life in America is quiet and peaceful. The people are happy with their president.
+71 2 3 0 1 1
+Life in America is quiet and peaceful. The people are happy with their president.
+72 2 3 0 1 1
+Life in America is quiet and peaceful. The people are happy with their president.
+73 2 3 0 1 1
+Life in America is quiet and peaceful. The people are happy with their president.
+74 2 3 0 1 1
+Life in America is quiet and peaceful. The people are happy with their president.
+75 2 3 0 1 2
+Life in America is quiet and peaceful. The people are happy with their president.
+76 2 3 0 1 2
+Life in America is quiet and peaceful. The people are happy with their president.
+77 2 3 0 1 2
+Life in America is quiet and peaceful. The people are happy with their president.
+78 2 3 0 1 2
+Life in America is quiet and peaceful. The people are happy with their president.
+79 2 3 0 1 2
+Life in America is quiet and peaceful. The people are happy with their president.
+200s 3 1 200 1 0
+The USSR builds a space launch site in Baikanur.
+200ns 3 1 200 2 0
+The USA builds a space launch site in Cape Canaveral, Florida.
+201s 3 1 201 1 0
+The USSR begins special training for so-called Cosmonauts, people who travel into space.
+201ns 3 1 201 2 0
+The USA begins special training for so-called Astronauts, people who travel into space.
+202s 3 1 202 1 0
+The USSR develops its first spacesuit.
+202ns 3 1 202 2 0
+The USA develops its first spacesuit.
+203s 3 1 203 1 0
+The USSR creates the Soviet Space Program, the Soviet's space agency. 
+203ns 3 1 203 2 0
+The USA creates NASA, the American space agency.
+204s 3 1 204 1 0
+The USSR establishes the Yuri Gagarin Training Center. This center helps to advance cosmonaut training. 
+204ns 3 1 204 2 0
+The USA establishes the L. B. Johnson Space Training Center. This center helps advance astronaut training. 
+205s 3 1 205 1 0
+The USSR begins work on the first space craft designed to remain in space for extended periods.
+205ns 3 1 205 2 0
+The USA begins work on the first space craft designed to remain in space for extended periods.
+206s 3 1 206 1 0
+The USSR develops powerful booster engines. These engines will help the Soviets launch bigger rockets into space.
+206ns 3 1 206 2 0
+The USA has developed powerful booster engines. These engines will help the Americans launch bigger rockets into space.
+207s 3 1 207 1 0
+The USSR constructs a state-of-the-art Mission Control Center near Moscow.
+207ns 3 1 207 2 0
+The USA constructs a state-of-the-art Mission Control Center in Houston, Texas.
+208s 3 1 208 1 0
+The USSR builds a specially-designed assembly building for rocket construction in Baikanur.
+208ns 3 1 208 2 0
+The USA builds a specially-designed assembly building for rocket construction in Florida.
+209s 3 1 209 1 0
+The USSR develops prototype external rocket boosters. This new technology will help propel heavier objects into space.
+209ns 3 1 209 2 0
+The USA develops prototype external rocket boosters. This new technology will help propel heavier objects into space.
+210s 3 1 210 1 0
+The USSR builds its second Space Program launch site -- the Plesetsk Cosmodrome.
+210ns 3 1 210 2 0
+The USA builds its second Space Program launch site -- the Kennedy Space Center.
+211s 3 1 211 1 0
+The USSR develops a thermal protection system for spacecraft. These tiles will help the Soviets create a space shuttle.
+211ns 3 1 211 2 0
+The USA develops a thermal protection system for spacecraft. These tiles will help the Americans create a space shuttle.
+212s 3 1 212 1 0
+The USSR builds the largest space-viewing telescope in the world.
+212ns 3 1 212 2 0
+The USA builds the largest space-viewing telescope in the world.
+213s 3 1 213 1 0
+The USSR develops a powerful Solar Panel system for use in its Space Program.
+213ns 3 1 213 2 0
+The USA develops a powerful Solar Panel system for use in its Space Program.
+214s 3 1 214 1 0
+The USSR develops a state-of-the-art life support system for its space crafts.
+214ns 3 1 214 2 0
+The USA develops a state-of-the-art life support system for its space crafts.
+215s 3 1 215 1 0
+The USSR successfully launches the first prototype for a ballistic missile that can be launched into space. 
+215ns 3 1 215 2 0
+The USA successfully launches the first prototype for a ballistic missile that can be launched into space. 
+216s 3 1 216 1 0
+The USSR successfully launches the Sputnik 1 satellite into space. The world admires the Soviet Space Program.
+216ns 3 1 216 2 0
+The USA successfully launches its first satellite, Explorer 1, into space. The world admires the American Space Program.
+217s 3 1 217 1 0
+The USSR successfully launches Sputnik 2 into space, which carries Laika the dog.
+217ns 3 1 217 2 0
+The USA successfully launches a satellite carrying a chimpanzee into space.
+218s 3 1 218 1 0
+Today is a very big day in the USSR -- Yuri Gagarin is the first cosmonaut to travel into space.
+218ns 3 1 218 2 0
+Today is a very big day in the USA -- Alan Shepard is the first astronaut to travel into space.
+219s 3 1 219 1 0
+Soviet cosmonaut Alexey Leonov exits his craft for the USSR's first "space walk."
+219ns 3 1 219 2 0
+American astronaut Edward H. White performs the USA's first "space walk."
+220s 3 1 220 1 0
+The USSR executes its first docking in space.
+220ns 3 1 220 2 0
+NASA executes its first docking in space. 
+221s 3 1 221 1 0
+The USSR's first unmanned Sputnik enters lunar orbit.
+221ns 3 1 221 2 0
+The USA's first unmanned satellite enters lunar orbit.
+222s 3 1 222 1 0
+The USSR successfully lands its first object on the moon. 
+222ns 3 1 222 2 0
+The USA successfully lands its first object on the moon. 
+223s 3 1 223 1 0
+Soviet cosmonauts enter lunar orbit for the first time.
+223ns 3 1 223 2 0
+American astronauts enter lunar orbit for the first time.
+224s 3 1 224 1 0
+The first Soviet cosmonaut sets foot on the moon. The world admires the Soviet Space Program.
+224ns 3 1 224 2 0
+The first American astronaut sets foot on the moon. The world admires the American Space Program. 
+225s 3 1 225 1 0
+A Soviet satellite does a fly-by of Venus. The Soviet people celebrate this momentous occasion in the streets of Moscow.
+225ns 3 1 225 2 0
+An American satellite does a fly-by of Venus. Americans across the country celebrate this momentous occasion. 
+226s 3 1 226 1 0
+A Soviet object lands on Venus for the first time.
+226ns 3 1 226 2 0
+An American object lands on Venus for the first time.
+227s 3 1 227 1 0
+A Soviet satellite does a fly-by of Mars. The Soviet people celebrate this momentous occasion in the streets of Moscow.
+227ns 3 1 227 2 0
+An American satellite does a fly-by of Mars. Americans across the country celebrate this momentous occasion. 
+228s 3 1 228 1 0
+A Soviet object lands on Mars for the first time.
+228ns 3 1 228 2 0
+An American object lands on Mars for the first time.
+229s 3 1 229 1 0
+The USSR successfully launches a satellite with modern equipment.
+229ns 3 1 229 2 0
+The USA launches the Hubble telescope into Earth's orbit.
+230s 3 1 230 1 0
+The USSR develops the Kosmos rocket, which has a payload capacity of 1.4 tonnes.
+230ns 3 1 230 2 0
+The USA develops the Thor rocket, which has a payload capacity of 1.3 tonnes. 
+231s 3 1 231 1 0
+The USSR develops the Voskhod rocket, which has a payload capacity of 5.9 tonnes. 
+231ns 3 1 231 2 0
+The USA develops the Titan II rocket, which has a payload capacity of 3.6 tonnes. 
+232s 3 1 232 1 0
+The USSR develops the Proton rocket, which has a payload capacity of 20.7 tonnes.  
+232ns 3 1 232 2 0
+The USA develops the Titan III rocket, which has a payload capacity of 13.1 tonnes. 
+233s 3 1 233 1 0
+The USSR develops the Energia rocket, which has a payload capacity of 100 tonnes. 
+233ns 3 1 233 2 0
+The USA develops the Saturn rocket, which has a payload capacity of 21 tonnes. 
+234s 3 1 234 1 0
+The USSR successfully launches its Shuttle Program (Buran).
+234ns 3 1 234 2 0
+The USA successfully launches its Shuttle Program (Space Transportation System). 
+235s 3 1 235 1 0
+The USSR successfully launches its first Space Station into Earth's orbit.
+235ns 3 1 235 2 0
+The USA successfully launches its first Space Station into Earth's orbit.
+236s 3 1 236 1 0
+Soviet cosmonauts orbit Earth in the Soviet Space Station for 23 days.
+236ns 3 1 236 2 0
+American austranauts orbit Earth in the American Space Station for 26 days.
+237s 3 1 237 1 0
+Soviet cosmonauts meet American astronauts in orbit during the Apollo-Soyuz joint mission.
+237ns 3 1 237 2 0
+American astronauts meet Soviet cosmonauts in orbit during the Apollo-Soyuz joint mission.
+238s 3 1 238 1 0
+The USSR develops the next generation of Space Station, which is better-equipped to remain in space for extended periods. 
+238ns 3 1 238 2 0
+The USA develops the next generation of Space Station, which is better-equipped to remain in space for extended periods. 
+239s 3 1 239 1 0
+Soviet cosmonaut Valeri Polyakov sets a record, remaining in space for 437 days.
+239ns 3 1 239 2 0
+American astonaut Michael Lopez-Alegria sets a record, remaining in space for 215 days.
+300 1 1 2 3 1
+A new Soviet government is established after overwhelming opposition topples the former regime.
+301 1 1 2 3 2
+A new Soviet government is established after overwhelming opposition topples the former regime.
+302 1 1 2 4 1
+A new Soviet government is established after overwhelming opposition topples the former regime.
+303 1 1 2 4 2
+A new Soviet government is established after overwhelming opposition topples the former regime.
+304 1 1 2 5 1
+A new Soviet government is established after overwhelming opposition topples the former regime.
+305 1 1 2 5 2
+A new Soviet government is established after overwhelming opposition topples the former regime.
+306 2 1 2 3 1
+A new Democratic government is established after overwhelming opposition topples the former regime.
+307 2 1 2 3 2
+A new Democratic government is established after overwhelming opposition topples the former regime.
+308 2 1 2 4 1
+A new Democratic government is established after overwhelming opposition topples the former regime.
+309 2 1 2 4 2
+A new Democratic government is established after overwhelming opposition topples the former regime.
+310 2 1 2 5 1
+A new Democratic government is established after overwhelming opposition topples the former regime.
+311 2 1 2 5 2
+A new Democratic government is established after overwhelming opposition topples the former regime.
+312 1 1 2 3 2
+A new Soviet government is established after overwhelming opposition topples the former regime.
+313 2 1 2 3 2
+A new Democratic government is established after overwhelming opposition topples the former regime.
+350 1 1 3 3 1
+Revolutionaries establish a new Soviet government in the country.
+351 1 1 3 3 2
+Revolutionaries establish a new Soviet government in the country.
+352 1 1 3 4 1
+Revolutionaries establish a new Soviet government in the country.
+353 1 1 3 4 2
+Revolutionaries establish a new Soviet government in the country.
+354 1 1 3 5 1
+Revolutionaries establish a new Soviet government in the country.
+355 1 1 3 5 2
+Revolutionaries establish a new Soviet government in the country.
+356 2 1 3 3 1
+Revolutionaries establish a new Democratic government in the country.
+357 2 1 3 3 2
+Revolutionaries establish a new Democratic government in the country.
+358 2 1 3 4 1
+Revolutionaries establish a new Democratic government in the country.
+359 2 1 3 4 2
+Revolutionaries establish a new Democratic government in the country.
+360 2 1 3 5 1
+Revolutionaries establish a new Democratic government in the country.
+361 2 1 3 5 2
+Revolutionaries establish a new Democratic government in the country.
+396 2 2 11 1 1
+American Influence rises in the USSR. 
+397 2 2 11 1 2
+American Influence rises in the USSR. 
+398 1 2 11 2 1
+Soviet Influence rises in the USA. 
+399 1 2 11 2 2
+Soviet Influence rises in the USA. 
+400 3 2 4 1 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+401 3 2 4 1 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+402 3 2 4 1 2
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+403 3 2 4 1 2
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+404 3 2 4 2 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+405 3 2 4 2 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+406 3 2 4 2 2
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+407 3 2 4 2 2
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+408 3 2 4 3 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+409 3 2 4 3 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+410 3 2 4 3 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+411 3 2 4 3 2
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+412 3 2 4 4 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+413 3 2 4 4 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+414 3 2 4 4 2
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+415 3 2 4 4 2
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+416 3 2 4 5 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+417 3 2 4 5 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+418 3 2 4 5 2
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+419 3 2 4 5 2
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+420 3 2 4 4 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+421 3 2 4 4 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+422 3 2 4 4 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+423 3 2 4 5 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+424 3 2 4 5 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+425 3 2 4 3 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+426 3 2 4 3 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+427 3 2 4 4 2
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+428 3 2 4 4 2
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+429 3 2 4 3 2
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+430 3 2 4 3 2
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+431 3 2 4 3 2
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+432 3 2 4 1 2
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+433 3 2 4 1 2
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+434 3 2 4 2 2
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+435 3 2 4 2 2
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+436 3 2 4 5 2
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+437 3 2 4 5 2
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+438 3 2 4 5 2
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+439 3 2 4 4 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+440 3 2 4 3 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+441 3 2 4 3 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+442 3 2 4 3 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+443 3 2 4 1 2
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+444 3 2 4 1 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+445 3 2 4 2 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+446 3 2 4 2 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+447 3 2 4 5 2
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+448 3 2 4 5 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+450 1 1 8 2 1
+The USSR provides military support to revolutionaries.
+451 1 1 8 2 2
+The USSR provides military support to revolutionaries.
+452 1 2 8 3 1
+The USSR provides military support to revolutionaries.
+453 1 2 8 3 2
+The USSR provides military support to revolutionaries.
+454 1 2 8 4 1
+The USSR provides military support to revolutionaries.
+455 1 2 8 4 2
+The USSR provides military support to revolutionaries.
+456 1 2 8 5 1
+The USSR provides military support to revolutionaries.
+457 1 2 8 5 2
+The USSR provides military support to revolutionaries.
+458 2 1 8 1 1
+The USA provides military support to revolutionaries.
+459 2 1 8 1 2
+The USA provides military support to revolutionaries.
+460 2 2 8 3 1
+The USA provides military support to revolutionaries.
+461 2 2 8 3 2
+The USA provides military support to revolutionaries.
+462 2 2 8 4 1
+The USA provides military support to revolutionaries.
+463 2 2 8 4 2
+The USA provides military support to revolutionaries.
+464 2 2 8 5 1
+The USA provides military support to revolutionaries.
+465 2 2 8 5 2
+The USA provides military support to revolutionaries.
+466 2 2 8 4 1
+The USA provides military support to revolutionaries.
+467 2 2 8 4 1
+The USA provides military support to revolutionaries.
+468 1 2 8 3 1
+The USSR provides military support to revolutionaries.
+469 1 2 8 3 2
+The USSR provides military support to revolutionaries.
+470 1 2 8 5 1
+The USSR provides military support to revolutionaries.
+471 1 2 8 5 2
+The USSR provides military support to revolutionaries.
+472 1 2 8 3 2
+The USSR provides military support to revolutionaries.
+473 1 2 8 4 2
+The USSR provides military support to revolutionaries.
+474 2 2 8 5 2
+The USA provides military support to revolutionaries.
+475 2 2 8 5 1
+The USA provides military support to revolutionaries.
+476 2 2 8 4 1
+The USA provides military support to revolutionaries.
+477 2 2 8 3 1
+The USA provides military support to revolutionaries.
+478 1 2 8 5 1
+The USSR provides military support to revolutionaries.
+500 2 2 6 1 1
+American spy is liquidated in Moscow. Respect for the CIA and the USA's local influence decreases by 2%.
+501 2 2 6 1 1
+American spy is liquidated in Moscow. Respect for the CIA and the USA's local influence decreases by 2%.
+502 2 2 6 1 2
+American spy is liquidated in Moscow. Respect for the CIA and the USA's local influence decreases by 2%.
+503 2 2 6 1 2
+American spy is liquidated in Moscow. Respect for the CIA and the USA's local influence decreases by 2%.
+504 2 2 6 2 1
+American spy is liquidated in Washington. Respect for the CIA and the USA's local influence decrease by 2%.
+505 2 2 6 2 1
+American spy is liquidated in Washington. Respect for the CIA and the USA's local influence decrease by 2%.
+506 2 2 6 2 2
+American spy is liquidated in Washington. Respect for the CIA and the USA's local influence decrease by 2%.
+507 2 2 6 2 2
+American spy is liquidated in Washington. Respect for the CIA and the USA's local influence decrease by 2%.
+508 2 2 6 3 1
+American spy is liquidated. Respect for the CIA and the USA's local influence decreases by 2%.
+509 2 2 6 3 1
+American spy is liquidated. Respect for the CIA and the USA's local influence decreases by 2%.
+510 2 2 6 3 2
+American spy is liquidated. Respect for the CIA and the USA's local influence decreases by 2%.
+511 2 2 6 3 2
+American spy is liquidated. Respect for the CIA and the USA's local influence decreases by 2%.
+512 2 2 6 4 1
+American spy is liquidated. Respect for the CIA and the USA's local influence decreases by 2%.
+513 2 2 6 4 1
+American spy is liquidated. Respect for the CIA and the USA's local influence decreases by 2%.
+514 2 2 6 4 2
+American spy is liquidated. Respect for the CIA and the USA's local influence decreases by 2%.
+515 2 2 6 4 2
+American spy is liquidated. Respect for the CIA and the USA's local influence decreases by 2%.
+516 2 2 6 5 1
+American spy is liquidated. Respect for the CIA and the USA's local influence decreases by 2%.
+517 2 2 6 5 1
+American spy is liquidated. Respect for the CIA and the USA's local influence decreases by 2%.
+518 2 2 6 5 2
+American spy is liquidated. Respect for the CIA and the USA's local influence decreases by 2%.
+519 2 2 6 5 2
+American spy is liquidated. Respect for the CIA and the USA's local influence decreases by 2%.
+550 1 2 9 1 1
+The Soviet people celebrate their unity with the Soviet government, showing their support with massive pro-government parades across the country.
+551 1 2 9 1 1
+The Soviet people celebrate their unity with the Soviet government, showing their support with massive pro-government parades across the country.
+552 1 2 9 1 2
+The Soviet people celebrate their unity with the Soviet government, showing their support with massive pro-government parades across the country.
+553 1 2 9 1 2
+The Soviet people celebrate their unity with the Soviet government, showing their support with massive pro-government parades across the country.
+554 1 2 9 2 1
+Citizens openly show their support for the local Communist Party in the city streets throughout the country.
+555 1 2 9 2 1
+Citizens openly show their support for the local Communist Party in the city streets throughout the country.
+556 1 2 9 2 2
+Citizens openly show their support for the local Communist Party in the city streets throughout the country.
+557 1 2 9 2 2
+Citizens openly show their support for the local Communist Party in the city streets throughout the country.
+558 1 2 9 3 1
+Citizens openly show their support for the local Communist Party in the city streets throughout the country.
+559 1 2 9 3 1
+Citizens openly show their support for the local Communist Party in the city streets throughout the country.
+560 1 2 9 3 2
+Citizens openly show their support for the local Communist Party in the city streets throughout the country.
+561 1 2 9 3 2
+Citizens openly show their support for the local Communist Party in the city streets throughout the country.
+562 1 2 9 4 1
+Citizens openly show their support for the local Communist Party in the city streets throughout the country.
+563 1 2 9 4 1
+Citizens openly show their support for the local Communist Party in the city streets throughout the country.
+564 1 2 9 4 2
+Citizens openly show their support for the local Communist Party in the city streets throughout the country.
+565 1 2 9 4 2
+Citizens openly show their support for the local Communist Party in the city streets throughout the country.
+566 1 2 9 5 1
+Citizens openly show their support for the local Communist Party in the city streets throughout the country.
+567 1 2 9 5 1
+Citizens openly show their support for the local Communist Party in the city streets throughout the country.
+568 1 2 9 5 2
+Citizens openly show their support for the local Communist Party in the city streets throughout the country.
+569 1 2 9 5 2
+Citizens openly show their support for the local Communist Party in the city streets throughout the country.
+570 2 2 9 1 1
+Citizens openly show their support for the local Democratic Movement in the city streets throughout the country.
+571 2 2 9 1 1
+Citizens openly show their support for the local Democratic Movement in the city streets throughout the country.
+572 2 2 9 1 2
+Citizens openly show their support for the local Democratic Movement in the city streets throughout the country.
+573 2 2 9 1 2
+Citizens openly show their support for the local Democratic Movement in the city streets throughout the country.
+574 2 2 9 1 1
+The American people celebrate their support for their Democratic government through massive pro-government parades across the country.
+575 2 2 9 2 1
+The American people celebrate their support for their Democratic government through massive pro-government parades across the country.
+576 2 2 9 2 2
+The American people celebrate their support for their Democratic government through massive pro-government parades across the country.
+577 2 2 9 2 2
+The American people celebrate their support for their Democratic government through massive pro-government parades across the country.
+578 2 2 9 3 1
+Citizens openly show their support for the local Democratic Movement in the city streets throughout the country.
+579 2 2 9 3 1
+Citizens openly show their support for the local Democratic Movement in the city streets throughout the country.
+580 2 2 9 3 2
+Citizens openly show their support for the local Democratic Movement in the city streets throughout the country.
+581 2 2 9 3 2
+Citizens openly show their support for the local Democratic Movement in the city streets throughout the country.
+582 2 2 9 4 1
+Citizens openly show their support for the local Democratic Movement in the city streets throughout the country.
+583 2 2 9 4 1
+Citizens openly show their support for the local Democratic Movement in the city streets throughout the country.
+584 2 2 9 4 2
+Citizens openly show their support for the local Democratic Movement in the city streets throughout the country.
+585 2 2 9 4 2
+Citizens openly show their support for the local Democratic Movement in the city streets throughout the country.
+586 2 2 9 5 1
+Citizens openly show their support for the local Democratic Movement in the city streets throughout the country.
+587 2 2 9 5 1
+Citizens openly show their support for the local Democratic Movement in the city streets throughout the country.
+588 2 2 9 5 2
+Citizens openly show their support for the local Democratic Movement in the city streets throughout the country.
+589 2 2 9 5 2
+Citizens openly show their support for the local Democratic Movement in the city streets throughout the country.
+600 1 1 10 3 1
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+601 1 1 10 3 1
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+602 1 1 10 3 2
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+603 1 1 10 3 2
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+604 1 1 10 3 1
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+605 1 1 10 2 1
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+606 1 1 10 2 2
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+607 1 1 10 2 2
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+608 1 2 10 3 1
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+609 1 2 10 2 1
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+610 1 2 10 3 2
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+611 1 2 10 3 2
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+612 1 2 10 4 1
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+613 1 2 10 4 1
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+614 1 2 10 4 2
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+615 1 2 10 4 2
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+616 1 2 10 5 1
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+617 1 2 10 5 1
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+618 1 2 10 5 2
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+619 1 2 10 5 2
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+620 2 1 10 1 1
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+621 2 1 10 3 1
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+622 2 1 10 1 2
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+623 2 1 10 1 2
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+624 2 1 10 1 1
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+625 2 1 10 3 1
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+626 2 1 10 3 2
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+627 2 1 10 3 2
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+628 2 2 10 3 1
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+629 2 2 10 3 1
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+630 2 2 10 3 2
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+631 2 2 10 3 2
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+632 2 2 10 4 1
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+633 2 2 10 4 1
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+634 2 2 10 4 2
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+635 2 2 10 4 2
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+636 2 2 10 5 1
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+637 2 2 10 5 1
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+638 2 2 10 5 2
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+639 2 2 10 5 2
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+640 1 2 10 3 1
+Anti-government riots erupt in all major cities. Local citizens support the opposition and demand that their existing government step down.
+900 3 1 199 1 1
+A massive flood affects major cities throughout the region. Local citizens are upset because their government isn't providing them with enough assistance. (Opposition +10%) 
+901 3 1 199 1 2
+A massive flood affects major cities throughout the region. Local citizens are upset because their government isn't providing them with enough assistance. (Opposition +10%) 
+902 3 1 199 2 1
+A massive flood affects major cities throughout the region. Local citizens are upset because their government isn't providing them with enough assistance. (Opposition +10%) 
+903 3 1 199 2 1
+A massive flood affects major cities throughout the region. Local citizens are upset because their government isn't providing them with enough assistance. (Opposition +10%) 
+904 3 1 199 2 2
+A massive flood affects major cities throughout the region. Local citizens are upset because their government isn't providing them with enough assistance. (Opposition +10%) 
+905 3 1 199 3 1
+A massive flood affects major cities throughout the region. Local citizens are upset because their government isn't providing them with enough assistance. (Opposition +10%) 
+906 3 1 199 3 2
+A massive flood affects major cities throughout the region. Local citizens are upset because their government isn't providing them with enough assistance. (Opposition +10%) 
+907 3 1 199 3 2
+A massive flood affects major cities throughout the region. Local citizens are upset because their government isn't providing them with enough assistance. (Opposition +10%) 
+908 3 1 199 4 1
+A massive flood affects major cities throughout the region. Local citizens are upset because their government isn't providing them with enough assistance. (Opposition +10%) 
+909 3 1 199 4 2
+A massive flood affects major cities throughout the region. Local citizens are upset because their government isn't providing them with enough assistance. (Opposition +10%) 
+910 3 1 199 5 1
+A massive flood affects major cities throughout the region. Local citizens are upset because their government isn't providing them with enough assistance. (Opposition +10%) 
+911 3 1 199 5 2
+A massive flood affects major cities throughout the region. Local citizens are upset because their government isn't providing them with enough assistance. (Opposition +10%) 
+920 3 1 198 1 1
+Rapid increase in the country's industrialization boosts the local economy. (Score value +1)
+921 3 1 198 1 2
+Rapid increase in the country's industrialization boosts the local economy. (Score value +1)
+922 3 1 198 2 1
+Rapid increase in the country's industrialization boosts the local economy. (Score value +1)
+923 3 1 198 2 2
+Rapid increase in the country's industrialization boosts the local economy. (Score value +1)
+924 3 1 198 3 1
+Rapid increase in the country's industrialization boosts the local economy. (Score value +1)
+925 3 1 198 3 1
+Rapid increase in the country's industrialization boosts the local economy. (Score value +1)
+926 3 1 198 3 2
+Rapid increase in the country's industrialization boosts the local economy. (Score value +1)
+927 3 1 198 4 1
+Rapid increase in the country's industrialization boosts the local economy. (Score value +1)
+928 3 1 198 4 2
+Rapid increase in the country's industrialization boosts the local economy. (Score value +1)
+929 3 1 198 5 1
+Rapid increase in the country's industrialization boosts the local economy. (Score value +1)
+930 3 1 198 5 2
+Rapid increase in the country's industrialization boosts the local economy. (Score value +1)
+931 3 1 198 5 1
+Rapid increase in the country's industrialization boosts the local economy. (Score value +1)
+940 3 1 197 1 1
+The scientific community admires this country's scientific achievements. Local citizens show pride for their Noble laureates. (Support +20%)
+941 3 1 197 1 2
+The scientific community admires this country's scientific achievements. Local citizens show pride for their Noble laureates. (Support +20%)
+942 3 1 197 2 1
+The scientific community admires this country's scientific achievements. Local citizens show pride for their Noble laureates. (Support +20%)
+943 3 1 197 2 2
+The scientific community admires this country's scientific achievements. Local citizens show pride for their Noble laureates. (Support +20%)
+944 3 1 197 3 1
+The scientific community admires this country's scientific achievements. Local citizens show pride for their Noble laureates. (Support +20%)
+945 3 1 197 3 2
+The scientific community admires this country's scientific achievements. Local citizens show pride for their Noble laureates. (Support +20%)
+946 3 1 197 4 1
+The scientific community admires this country's scientific achievements. Local citizens show pride for their Noble laureates. (Support +20%)
+947 3 1 197 4 2
+The scientific community admires this country's scientific achievements. Local citizens show pride for their Noble laureates. (Support +20%)
+948 3 1 197 5 1
+The scientific community admires this country's scientific achievements. Local citizens show pride for their Noble laureates. (Support +20%)
+949 3 1 197 5 2
+The scientific community admires this country's scientific achievements. Local citizens show pride for their Noble laureates. (Support +20%)
+950 3 1 196 1 1
+A financial crisis blindsides the nation, paralyzing the national economy. Millions of people become poor in one day. (Opposition +50%)  
+951 3 1 196 1 2
+A financial crisis blindsides the nation, paralyzing the national economy. Millions of people become poor in one day. (Opposition +50%) 
+952 3 1 196 2 1
+A financial crisis blindsides the nation, paralyzing the national economy. Millions of people become poor in one day. (Opposition +50%) 
+953 3 1 196 2 2
+A financial crisis blindsides the nation, paralyzing the national economy. Millions of people become poor in one day. (Opposition +50%) 
+954 3 1 196 3 1
+A financial crisis blindsides the nation, paralyzing the national economy. Millions of people become poor in one day. (Opposition +50%)
+955 3 1 196 3 2
+A financial crisis blindsides the nation, paralyzing the national economy. Millions of people become poor in one day. (Opposition +50%)
+956 3 1 196 4 1
+A financial crisis blindsides the nation, paralyzing the national economy. Millions of people become poor in one day. (Opposition +50%) 
+957 3 1 196 4 2
+A financial crisis blindsides the nation, paralyzing the national economy. Millions of people become poor in one day. (Opposition +50%) 
+958 3 1 196 5 1
+A financial crisis blindsides the nation, paralyzing the national economy. Millions of people become poor in one day. (Opposition +50%) 
+959 3 1 196 5 2
+A financial crisis blindsides the nation, paralyzing the national economy. Millions of people become poor in one day. (Opposition +50%) 
+960 3 1 195 1 1
+Opposition expose many senior officials as corrupt, leading to a string of resignations. (Opposition +25%) 
+961 3 1 195 1 2
+Opposition expose many senior officials as corrupt, leading to a string of resignations. (Opposition +25%)
+962 3 1 195 2 1
+Opposition expose many senior officials as corrupt, leading to a string of resignations. (Opposition +25%)
+963 3 1 195 2 2
+Opposition expose many senior officials as corrupt, leading to a string of resignations. (Opposition +25%)
+964 3 1 195 3 1
+Opposition expose many senior officials as corrupt, leading to a string of resignations. (Opposition +25%)
+965 3 1 195 3 2
+Opposition expose many senior officials as corrupt, leading to a string of resignations. (Opposition +25%)
+966 3 1 195 4 1
+Opposition expose many senior officials as corrupt, leading to a string of resignations. (Opposition +25%)
+967 3 1 195 4 2
+Opposition expose many senior officials as corrupt, leading to a string of resignations. (Opposition +25%)
+968 3 1 195 5 1
+Opposition expose many senior officials as corrupt, leading to a string of resignations. (Opposition +25%)
+969 3 1 195 5 2
+Opposition expose many senior officials as corrupt, leading to a string of resignations. (Opposition +25%)
+970 3 1 194 1 1
+Popular discontent among major ethnic groups forces the local government to declare political independence from USSR or US Influence (Neutrality +30%)
+971 3 1 194 1 2
+Popular discontent among major ethnic groups forces the local government to declare political independence from USSR or US Influence (Neutrality +30%)
+972 3 1 194 2 1
+Popular discontent among major ethnic groups forces the local government to declare political independence from USSR or US Influence (Neutrality +30%)
+973 3 1 194 2 2
+Popular discontent among major ethnic groups forces the local government to declare political independence from USSR or US Influence (Neutrality +30%)
+974 3 1 194 3 1
+Popular discontent among major ethnic groups forces the local government to declare political independence from USSR or US Influence (Neutrality +30%)
+975 3 1 194 3 2
+Popular discontent among major ethnic groups forces the local government to declare political independence from USSR or US Influence (Neutrality +30%)
+976 3 1 194 4 1
+Popular discontent among major ethnic groups forces the local government to declare political independence from USSR or US Influence (Neutrality +30%)
+977 3 1 194 4 2
+Popular discontent among major ethnic groups forces the local government to declare political independence from USSR or US Influence (Neutrality +30%)
+978 3 1 194 5 1
+Popular discontent among major ethnic groups forces the local government to declare political independence from USSR or US Influence (Neutrality +30%)
+979 3 1 194 5 2
+Popular discontent among major ethnic groups forces the local government to declare political independence from USSR or US Influence (Neutrality +30%)
+980 3 1 193 1 1
+A powerful Communist movement among young people leads to mass demonstration and acceptance of Soviet cultural values (Soviet Influence +30%)
+981 3 1 193 1 2
+A powerful Communist movement among young people leads to mass demonstration and acceptance of Soviet cultural values (Soviet Influence +30%)
+982 3 1 193 2 1
+A powerful Communist movement among young people leads to mass demonstration and acceptance of Soviet cultural values (Soviet Influence +30%)
+983 3 1 193 2 2
+A powerful Communist movement among young people leads to mass demonstration and acceptance of Soviet cultural values (Soviet Influence +30%)
+984 3 1 193 3 1
+A powerful Communist movement among young people leads to mass demonstration and acceptance of Soviet cultural values (Soviet Influence +30%)
+985 3 1 193 3 2
+A powerful Communist movement among young people leads to mass demonstration and acceptance of Soviet cultural values (Soviet Influence +30%)
+986 3 1 193 4 1
+A powerful Communist movement among young people leads to mass demonstration and acceptance of Soviet cultural values (Soviet Influence +30%)
+987 3 1 193 4 2
+A powerful Communist movement among young people leads to mass demonstration and acceptance of Soviet cultural values (Soviet Influence +30%)
+988 3 1 193 5 1
+A powerful Communist movement among young people leads to mass demonstration and acceptance of Soviet cultural values (Soviet Influence +30%)
+989 3 1 193 5 2
+A powerful Communist movement among young people leads to mass demonstration and acceptance of Soviet cultural values (Soviet Influence +30%)
+990 3 1 192 1 1
+A powerful Democratic movement among young people leads to mass demonstration and acceptance of American cultural values. (American Influence + 30%)
+991 3 1 192 1 2
+A powerful Democratic movement among young people leads to mass demonstration and acceptance of American cultural values. (American Influence + 30%)
+992 3 1 192 2 1
+A powerful Democratic movement among young people leads to mass demonstration and acceptance of American cultural values. (American Influence + 30%)
+993 3 1 192 2 2
+A powerful Democratic movement among young people leads to mass demonstration and acceptance of American cultural values. (American Influence + 30%)
+994 3 1 192 3 1
+A powerful Democratic movement among young people leads to mass demonstration and acceptance of American cultural values. (American Influence + 30%)
+995 3 1 192 3 2
+A powerful Democratic movement among young people leads to mass demonstration and acceptance of American cultural values. (American Influence + 30%)
+996 3 1 192 4 1
+A powerful Democratic movement among young people leads to mass demonstration and acceptance of American cultural values. (American Influence + 30%)
+997 3 1 192 4 2
+A powerful Democratic movement among young people leads to mass demonstration and acceptance of American cultural values. (American Influence + 30%)
+998 3 1 192 5 1
+A powerful Democratic movement among young people leads to mass demonstration and acceptance of American cultural values. (American Influence + 30%)
+999 3 1 192 5 2
+A powerful Democratic movement among young people leads to mass demonstration and acceptance of American cultural values. (American Influence + 30%)
+1000 1 2 7 5 1
+Soviet troops enter the country to support the local government.
+1001 1 2 7 5 2
+Soviet troops enter the country to support the local government.
+1002 1 2 7 3 1
+Soviet troops enter the country to support the local government.
+1003 1 2 7 5 2
+Soviet troops enter the country to support the local government.
+1004 1 2 7 5 2
+Soviet troops enter the country to support the local government.
+1005 1 2 7 5 2
+Soviet troops enter the country to support the local government.
+1006 1 2 7 5 1
+Soviet troops enter the country to support the local government.
+1007 1 2 7 5 1
+Soviet troops enter the country to support the local government.
+1008 1 2 7 5 1
+Soviet troops enter the country to support the local government.
+1009 1 2 7 4 1
+Soviet troops enter the country to support the local government.
+1010 2 2 7 4 1
+American troops enter the country to support the local government.
+1011 2 2 7 4 1
+American troops enter the country to support the local government.
+1012 2 2 7 5 1
+American troops enter the country to support the local government.
+1013 1 2 6 4 1
+Russian spy is liquidated. Respect for the KGB and the USSR's local influence decreases by 2%.
+1014 3 1 198 5 1
+Rapid increase in the country's industrialization boosts the local economy. (score value +1)
+1015 3 1 198 3 1
+Rapid increase in the country's industrialization boosts the local economy. (score value +1)
+1016 1 2 7 5 2
+Soviet troops enter the country to support the local government.
+1017 2 2 7 3 1
+American troops enter the country to support the local government.
+1018 2 2 7 5 1
+American troops enter the country to support the local government.
+1019 2 2 7 5 1
+American troops enter the country to support the local government.
+1020 2 2 7 5 1
+American troops enter the country to support the local government.
+1021 2 2 7 5 1
+American troops enter the country to support the local government.
+1022 2 2 7 5 2
+American troops enter the country to support the local government.
+1050 3 2 4 4 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+1051 3 2 4 5 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+1052 3 2 4 5 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+1053 3 2 4 5 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+1054 3 2 4 5 1
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.
+1055 3 2 4 5 2
+War! The official government and the revolutionaries are requesting military assistance from the Soviet and American governments.

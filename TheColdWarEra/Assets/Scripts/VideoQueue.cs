@@ -7,6 +7,8 @@ using System.Collections;
 public class VideoQueue : MonoBehaviour {
     Image VideoPanel;
     MovieTexture Video;
+    [SerializeField]
+    AudioSource Audio;
 
     public float Interval = 0.3f;  //интервал проверки очереди роликов
     float TimeToTick;   //время до следующей итерации
@@ -220,13 +222,16 @@ public class VideoQueue : MonoBehaviour {
     // проверяем, играется ли. если нет, показываем фоновый ролик 
     public void TickTest()
     {
-        //try
-        //{
+        try
+        {
             if (mHaltVideo) // немедленно прервать (фоновый) ролик
             {
                 mHaltVideo = false;
-                if(Video != null)
+                if (Video != null)
+                {
                     Video.Stop();
+                    Audio.Stop();
+                }
             }
 
 
@@ -273,6 +278,7 @@ public class VideoQueue : MonoBehaviour {
                 if (Video != null)
                 {
                     Video.Stop();
+                    Audio.Stop();
                 }
 
                 GameManagerScript.GM.SetInfo(videoInfo, videoCountry);  //Вывод текста новости
@@ -303,18 +309,18 @@ public class VideoQueue : MonoBehaviour {
             // и звук если был
             if (mVideoQueue[1].mWavFile != "")
                     if (SettingsScript.Settings.mVideo) // для AVI берем звук ролика
-                        GameManagerScript.GM.PlaySound(Resources.Load<AudioClip>(mVideoQueue[1].mWavFile));
-                    else GameManagerScript.GM.PlaySound(Resources.Load<AudioClip>("sound/newspaper")); // для изображения просто звук
+                        Audio.PlayOneShot(Resources.Load<AudioClip>(mVideoQueue[1].mWavFile));
+                    else Audio.PlayOneShot(Resources.Load<AudioClip>("sound/newspaper")); // для изображения просто звук
 
                 mCurrentPlayedRolex = mVideoQueue[1];
                 mVideoQueue.RemoveAt(0);
             }
 
-        //}
-        //catch (Exception e)
-        //{
-        //    Debug.Log(e.Message);
-        //}
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
     }
 
     // поместить ролик в очередь с учетом приоритета

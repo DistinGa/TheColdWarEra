@@ -478,11 +478,6 @@ public class GameManagerScript : MonoBehaviour
         DownMenu.Find("InfoCountry").GetComponent<Text>().text = CountryName;
     }
 
-    public void PlaySound(AudioClip ac)
-    {
-        AudioSource.PlayClipAtPoint(ac, MainCamera.transform.position);
-    }
-
     // определить локальный тип видеоролика
     public int GetMySideVideoType()
     {

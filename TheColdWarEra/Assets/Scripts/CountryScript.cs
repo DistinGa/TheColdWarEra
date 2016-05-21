@@ -42,8 +42,6 @@ public class CountryScript : MonoBehaviour
     {
         SetAuthority();
         StatePanel = transform.Find("Capital/Canvas/Panel");
-        AddState(States.SYM_PARAD, Authority.Amer, 2);
-        AddState(States.SYM_WAR, Authority.Amer, 1);
     }
 
     //Установка цвета границы.
@@ -76,43 +74,67 @@ public class CountryScript : MonoBehaviour
     //Inf - чьё влияние добавляется.
     public void AddInfluence(Authority Inf, float Amount)
     {
-        if (Inf == Authority.Amer)
+        if (Amount < 0f)
         {
-            AmInf += Amount;
-
-            //Распределяем "минус" по другим влияниям.
-            NInf -= Amount; //Сначала отнимаем от нейтрального влияния
-            if (NInf < 0)    //Если нейтрального влияния не хватило, отнимаем от влияния соперника.
-            {
-                SovInf += NInf; //NInf отрицательное
-                NInf = 0;
-                if (SovInf < 0) //Если и влияния соперника не хватило, значит была попытка добавить слишком большое влияние.
-                {
-                    SovInf = 0;
-                    AmInf = 100;
-                }
-            }
-
-            //Влияние повысили, устанавливаем дискаунтер, чтобы отключить возможность повторного повышения в пределах отведённого периода.
-            DiscounterUsaInfl = GameManagerScript.GM.MAX_INFLU_CLICK;
+            Debug.LogError("Попытка отнять влияние! Влияние можно только добавлять.");
+            return;
         }
 
-        if (Inf == Authority.Soviet)
+        switch (Inf)
         {
-            SovInf += Amount;
+            case Authority.Neutral:
+                float ActAmount = Mathf.Min(Amount, 100f - NInf);
+                NInf += ActAmount;
 
-            //Распределяем "минус" по другим влияниям.
-            NInf -= Amount; //Сначала отнимаем от нейтрального влияния
-            if (NInf < 0)    //Если нейтрального влияния не хватило, отнимаем от влияния соперника.
-            {
-                AmInf += NInf; //NInf отрицательное
-                NInf = 0;
-                if (AmInf < 0) //Если и влияния соперника не хватило, значит была попытка добавить слишком большое влияние.
+                //Распределяем "минус" по другим влияниям.
+                AmInf -= ActAmount / 2f;
+                SovInf -= ActAmount / 2f;
+                //Если американского влияния было мало, отнимаем остаток от советсткого, а американское обнуляем
+                if (AmInf < 0)
                 {
-                    SovInf = 100;
+                    SovInf += AmInf;
                     AmInf = 0;
                 }
-            }
+
+                //Если советсткого влияния было мало, отнимаем остаток от американского, а советское обнуляем
+                if (SovInf < 0)
+                {
+                    AmInf += SovInf;
+                    SovInf = 0;
+                }
+                break;
+            case Authority.Amer:
+                AmInf += Amount;
+
+                //Распределяем "минус" по другим влияниям.
+                NInf -= Amount; //Сначала отнимаем от нейтрального влияния
+                if (NInf < 0)    //Если нейтрального влияния не хватило, отнимаем от влияния соперника.
+                {
+                    SovInf += NInf; //NInf отрицательное
+                    NInf = 0;
+                    if (SovInf < 0) //Если и влияния соперника не хватило, значит была попытка добавить слишком большое влияние.
+                    {
+                        SovInf = 0;
+                        AmInf = 100;
+                    }
+                }
+                break;
+            case Authority.Soviet:
+                SovInf += Amount;
+
+                //Распределяем "минус" по другим влияниям.
+                NInf -= Amount; //Сначала отнимаем от нейтрального влияния
+                if (NInf < 0)    //Если нейтрального влияния не хватило, отнимаем от влияния соперника.
+                {
+                    AmInf += NInf; //NInf отрицательное
+                    NInf = 0;
+                    if (AmInf < 0) //Если и влияния соперника не хватило, значит была попытка добавить слишком большое влияние.
+                    {
+                        SovInf = 100;
+                        AmInf = 0;
+                    }
+                }
+                break;
         }
     }
 

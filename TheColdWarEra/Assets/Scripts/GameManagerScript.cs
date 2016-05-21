@@ -442,6 +442,9 @@ public class GameManagerScript : MonoBehaviour
             TestSpyCombat(Country);
         }
 
+        //Случайные события
+        TestRandomEvent();
+
         //Обновление информации о стране в нижнем меню
         SnapToCountry();
 
@@ -482,9 +485,66 @@ public class GameManagerScript : MonoBehaviour
             c.AddInfluence(Authority.Amer, -2f);
         }
 
-        //c.AddGameSymbol(KlikItem.SYM_SPY, true, usa, 3);
+        c.AddState(CountryScript.States.SYM_SPY, Authority.Amer, 3);
     }
 
+    // проверка случайного события раз в год
+    void TestRandomEvent()
+    {
+        if (Random.Range(1, 12) != 1)
+            return;
+
+        //Выбор страны, в которой произойдёт случайное событие
+        Transform TCountries = GameObject.Find("Countries").transform;
+        int cn = Random.Range(0, TCountries.childCount - 1);
+        CountryScript c = TCountries.GetChild(cn).GetComponent<CountryScript>();
+        
+        int n = Random.Range(0, 7);
+        switch (n)
+        {
+            case 0: // Наводнение ( повышается оппозиция + 10 )
+                c.Support -= 10f;
+                VQueue.AddRolex(VideoQueue.V_TYPE_GLOB, VideoQueue.V_PRIO_PRESSING, VideoQueue.V_PUPPER_EVENT_FLOOD, c);
+                break;
+
+            case 1: // Индустриализация ( повышается value страны + 1 )
+                c.Score++;
+                VQueue.AddRolex(VideoQueue.V_TYPE_GLOB, VideoQueue.V_PRIO_PRESSING, VideoQueue.V_PUPPER_EVENT_INDUSTR, c);
+                break;
+
+            case 2: // Нобелевский лауреат  ( повышается support на +20 )
+                c.Support += 20f;
+                VQueue.AddRolex(VideoQueue.V_TYPE_GLOB, VideoQueue.V_PRIO_PRESSING, VideoQueue.V_PUPPER_EVENT_NOBEL, c);
+                break;
+
+            case 3: // Финансовый кризис ( повышается оппозиция на + 50 )
+                c.Support -= 50f;
+                VQueue.AddRolex(VideoQueue.V_TYPE_GLOB, VideoQueue.V_PRIO_PRESSING, VideoQueue.V_PUPPER_EVENT_FINANCE, c);
+                break;
+
+            case 4: // Политический кризис ( повышается оппозиция на +25 )
+                c.Support -= 25f;
+                VQueue.AddRolex(VideoQueue.V_TYPE_GLOB, VideoQueue.V_PRIO_PRESSING, VideoQueue.V_PUPPER_EVENT_POLITIC, c);
+                break;
+
+            case 5: // Национализм ( повышается нейтральность на + 30 )
+                if (c.NInf >= 99) return;
+                c.AddInfluence(Authority.Neutral, 30f);
+                VQueue.AddRolex(VideoQueue.V_TYPE_GLOB, VideoQueue.V_PRIO_PRESSING, VideoQueue.V_PUPPER_EVENT_NAZI, c);
+                break;
+
+            case 6: // Коммунистическое движение ( советский influence + 30 )
+                c.AddInfluence(Authority.Soviet, 30);
+                VQueue.AddRolex(VideoQueue.V_TYPE_GLOB, VideoQueue.V_PRIO_PRESSING, VideoQueue.V_PUPPER_EVENT_COMMI, c);
+                break;
+
+            case 7: // Демократическое движение ( американский influence + 30 )
+                c.AddInfluence(Authority.Amer, 30);
+                VQueue.AddRolex(VideoQueue.V_TYPE_GLOB, VideoQueue.V_PRIO_PRESSING, VideoQueue.V_PUPPER_EVENT_DEMOCR, c);
+                break;
+        }
+    }
+    
     //Обновление информации в верхнем меню
     void ShowHighWinInfo()
     {
@@ -502,7 +562,10 @@ public class GameManagerScript : MonoBehaviour
 
     public bool PayCost(Authority Aut, float Money)
     {
-        PlayerScript Player;
+        if(Aut == Authority.Neutral)
+            return false;
+
+        PlayerScript Player = null;
 
         switch (Aut)
         {
@@ -511,9 +574,6 @@ public class GameManagerScript : MonoBehaviour
                 break;
             case Authority.Soviet:
                 Player = transform.FindChild("SovPlayer").GetComponent<PlayerScript>();
-                break;
-            default:
-                return false;
                 break;
         }
 

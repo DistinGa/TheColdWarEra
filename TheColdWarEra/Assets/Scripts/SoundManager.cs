@@ -69,6 +69,13 @@ public class SoundManager : MonoBehaviour
         otherAudioSource.PlayOneShot(ac);
     }
 
+    public void PlaySound(string acName)
+    {
+        AudioClip ac = Resources.Load<AudioClip>(acName);
+        if(ac != null)
+            otherAudioSource.PlayOneShot(Resources.Load<AudioClip>(acName));
+    }
+
 
     public void OnDestroy()
     {

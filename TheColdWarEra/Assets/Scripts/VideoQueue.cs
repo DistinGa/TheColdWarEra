@@ -64,15 +64,6 @@ public class VideoQueue : MonoBehaviour {
         mVideoQueue = new List<VideoRealPlayRolex>();
         TimeToTick = Interval;
         VideoPanel = GetComponent<Image>();
-
-        //Video = Resources.Load<MovieTexture>("Video/10");
-        //VideoPanel.mainTexture = Video;
-        //Video.Play();
-
-        //Video.Stop();
-        //Video = Resources.Load<MovieTexture>("Video/11");
-        //VideoPanel.mainTexture = Video;
-        //Video.Play();
     }
 
     void Update()
@@ -86,11 +77,13 @@ public class VideoQueue : MonoBehaviour {
             TimeToTick -= Time.deltaTime;
     }
 
-    // добавить ролик в очередь; infoOppo-извещать ли противника о показе такого же ролика
+    // добавить ролик в очередь
     // type- глоб/лок V_TYPE_*
-    public void AddRolex(int type, int tempo, int info, CountryScript c, bool infoOppo, int Month)
+    public void AddRolex(int type, int tempo, int info, CountryScript c)
     {
-        VideoRealPlayRolex vrr = SearchRolex(type, tempo, info, c.Region, GameManagerScript.GM.GetCurrentEpoch(), c, Month);
+        GameManagerScript GM = GameManagerScript.GM;
+
+        VideoRealPlayRolex vrr = SearchRolex(type, tempo, info, c.Region, GM.GetCurrentEpoch(), c, GM.CurrentMonth());
         if (vrr == null) return;
 
         // звуковое сопровождение по группе ролика: всегда голосом фактически
@@ -299,13 +292,6 @@ public class VideoQueue : MonoBehaviour {
                     NewsStartTime = Time.time;
                 }
 
-            // для отладки покажем и N ролика:
-            //if (GameEngine.mExtRes)
-            //{
-            //    string[] ais = GameEngine.mBoardForm.txtAI.Text.Split(' ');
-            //    GameEngine.mBoardForm.txtAI.Text = ais[0] + ' ' + mVideoQueue[1].mVideoRolexPattern.mId;
-            //}
-
             // и звук если был
             if (mVideoQueue[1].mWavFile != "")
                     if (SettingsScript.Settings.mVideo) // для AVI берем звук ролика
@@ -449,6 +435,27 @@ public class VideoQueue : MonoBehaviour {
             return (Video != null && Video.isPlaying);
         else
             return (Time.time - NewsStartTime <= 5f);
+    }
+
+    //Преобразование к локальной кодировке типа ролика
+    public int LocalType(Authority Aut)
+    {
+        int res;
+
+        switch (Aut)
+        {
+            case Authority.Amer:
+                res = V_TYPE_USA;
+                break;
+            case Authority.Soviet:
+                res = V_TYPE_USSR;
+                break;
+            default:
+                res = V_TYPE_GLOB;
+                break;
+        }
+
+        return res;
     }
 }
 

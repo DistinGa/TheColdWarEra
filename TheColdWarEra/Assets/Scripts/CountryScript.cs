@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class CountryScript : MonoBehaviour
 {
@@ -26,6 +26,10 @@ public class CountryScript : MonoBehaviour
     public int KGB;
     public int CIA;
 
+    [Space(10)]
+    private Transform StatePanel;
+    public List<StateSymbol> Symbols = new List<StateSymbol>();
+
     [HideInInspector]
     public int DiscounterUsaMeeting, DiscounterRusMeeting; //Сколько ждать до возможности следующего митинга протеста (0 - можно митинговать)
     [HideInInspector]
@@ -37,6 +41,9 @@ public class CountryScript : MonoBehaviour
     void Start()
     {
         SetAuthority();
+        StatePanel = transform.Find("Capital/Canvas/Panel");
+        AddState(States.SYM_PARAD, Authority.Amer, 2);
+        AddState(States.SYM_WAR, Authority.Amer, 1);
     }
 
     //Установка цвета границы.
@@ -75,7 +82,7 @@ public class CountryScript : MonoBehaviour
 
             //Распределяем "минус" по другим влияниям.
             NInf -= Amount; //Сначала отнимаем от нейтрального влияния
-            if(NInf < 0)    //Если нейтрального влияния не хватило, отнимаем от влияния соперника.
+            if (NInf < 0)    //Если нейтрального влияния не хватило, отнимаем от влияния соперника.
             {
                 SovInf += NInf; //NInf отрицательное
                 NInf = 0;
@@ -106,9 +113,6 @@ public class CountryScript : MonoBehaviour
                     AmInf = 0;
                 }
             }
-
-            //Влияние повысили, устанавливаем дискаунтер, чтобы отключить возможность повторного повышения в пределах отведённого периода.
-            DiscounterRusInfl = GameManagerScript.GM.MAX_INFLU_CLICK;
         }
     }
 
@@ -128,12 +132,6 @@ public class CountryScript : MonoBehaviour
             if (KGB > 5)
                 KGB = 5;
         }
-
-        //устанавливаем дискаунтер, чтобы отключить возможность повторного повышения в пределах отведённого периода.
-        if (Inf == Authority.Amer)
-            DiscounterUsaSpy = GameManagerScript.GM.MAX_SPY_CLICK;
-        if (Inf == Authority.Soviet)
-            DiscounterRusSpy = GameManagerScript.GM.MAX_SPY_CLICK;
     }
 
     //Добавление вооружённых сил.
@@ -214,9 +212,10 @@ public class CountryScript : MonoBehaviour
     }
 
     //Проверка возможности сменить правительство
+    //Aut - на какое правительство хотим поменять
     public bool CanChangeGov(Authority Aut)
     {
-        return (Authority != Aut && Support <= (100 - GameManagerScript.GM.INSTALL_PUPPER_OPPO) && 
+        return (Authority != Aut && Support <= (100 - GameManagerScript.GM.INSTALL_PUPPER_OPPO) &&
             ((Aut == Authority.Amer && AmInf >= GameManagerScript.GM.INSTALL_PUPPER_INFLU) || Aut == Authority.Soviet && SovInf >= GameManagerScript.GM.INSTALL_PUPPER_INFLU));
     }
 
@@ -226,4 +225,119 @@ public class CountryScript : MonoBehaviour
     {
         return (Aut == Authority.Amer && CIA > 0) || (Aut == Authority.Soviet && KGB > 0);
     }
+
+    //Смена правительства
+    public void ChangeGov(Authority NewAut)
+    {
+        Authority = NewAut;
+
+        //меняем местами войска
+        int mil = GovForce;
+        GovForce = OppForce;
+        OppForce = mil;
+
+        Support = 100 - Support;    // оппозиция стала поддержкой
+    }
+
+    //Обработка начала месяца
+    public void NextMonth()
+    {
+        //Уменьшаем дискаунтеры
+        if (DiscounterRusInfl > 0) DiscounterRusInfl--;
+        if (DiscounterRusMeeting > 0) DiscounterRusMeeting--;
+        if (DiscounterRusParade > 0) DiscounterRusParade--;
+        if (DiscounterRusSpy > 0) DiscounterRusSpy--;
+        if (DiscounterUsaInfl > 0) DiscounterUsaInfl--;
+        if (DiscounterUsaMeeting > 0) DiscounterUsaMeeting--;
+        if (DiscounterUsaParade > 0) DiscounterUsaParade--;
+        if (DiscounterUsaSpy > 0) DiscounterUsaSpy--;
+
+        //Обработка значков состояний
+        for(int indx = Symbols.Count-1; indx >=0; indx--)
+        {
+            StateSymbol item = Symbols[indx];
+
+            if (--item.MonthsToShow <= 0)
+            {
+                Destroy(item.Symbol.gameObject);
+                Symbols.Remove(item);
+            }
+        }
+    }
+
+    //Добавление состояния
+    public void AddState(States state, Authority aut, int lifeTime)
+    {
+        bool exist = false;
+
+        foreach (var item in Symbols)
+        {
+            if (state == item.State && aut == item.Authority)
+            {
+                exist = true;
+                break;
+            }
+        }
+
+        if(!exist)
+            Symbols.Add(new StateSymbol(state, aut, lifeTime, this));
+    }
+
+    //Удаление состояния
+    public void DelState(States state, Authority aut)
+    {
+        bool exist = false;
+        StateSymbol ss = null;
+
+        foreach (var item in Symbols)
+        {
+            if (state == item.State && aut == item.Authority)
+            {
+                exist = true;
+                ss = item;
+                break;
+            }
+        }
+
+        if (exist)
+        {
+            Destroy(ss.Symbol.gameObject);
+            Symbols.Remove(ss);
+        }
+    }
+
+    //перечисление состояний страны
+    public enum States
+    {
+        SYM_PEACE, // дипломат-смена мирным путем возможна
+        SYM_REVOL, // автомат -смена военным путем возможна (ввод революционеров)
+        SYM_SPY, // шпион   -пойман
+        SYM_WAR, // идут военные действия
+        SYM_PARAD, // парад
+        SYM_RIOT // митинг
+    }
+
+    // описание значка для состояния страны
+    public class StateSymbol
+    {
+        public States State;    //Состояние
+        public Authority Authority; // за какую сторону
+        public int MonthsToShow; //сколько месяцев показывать (discaunter)
+
+        public RectTransform Symbol; // сам значок
+
+        // конструктор
+        public StateSymbol(States state, Authority authority, int life, CountryScript Country)
+        {
+            State = state;
+            Authority = authority;
+            MonthsToShow = life;
+
+            Symbol = Instantiate(GameManagerScript.GM.StatePrefab);
+            Symbol.SetParent(Country.StatePanel);
+            Symbol.GetComponent<StatePrefab>().Init((int)state, authority);
+        }
+
+    }
 }
+

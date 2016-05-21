@@ -19,6 +19,7 @@ public class GameManagerScript : MonoBehaviour
     [Space(10)]
     public GameObject Marker;    //Маркер указывающий на страну, с которой работаем.
     public GameObject PausePlate;    //Надпись "Pause"
+    public RectTransform StatePrefab;   //префаб значка состояния страны
     [Space(10)]
     public Sprite SignUSA;
     public Sprite SignSU;
@@ -67,10 +68,14 @@ public class GameManagerScript : MonoBehaviour
     [Tooltip("стоимость организации восстания")]
     public int RIOT_COST = 1;
 
+    public void Awake()
+    {
+        GM = this;
+    }
+
     // Use this for initialization
     void Start()
     {
-        GM = this;
         MainCamera = FindObjectOfType<Camera>();
         DownMenu = GameObject.Find("DownMenu").GetComponent<RectTransform>();
         UpMenu = GameObject.Find("UpMenu").GetComponent<RectTransform>();
@@ -282,6 +287,8 @@ public class GameManagerScript : MonoBehaviour
             return; //Не хватило денег
 
         Country.AddInfluence(Player.Authority, 1);
+        //Влияние повысили, устанавливаем дискаунтер, чтобы отключить возможность повторного повышения в пределах отведённого периода.
+        Country.DiscounterRusInfl = GM.MAX_INFLU_CLICK;
 
         SnapToCountry();
     }
@@ -292,6 +299,13 @@ public class GameManagerScript : MonoBehaviour
             return; //Не хватило денег
 
         Country.AddSpy(Player.Authority, 1);
+
+        //устанавливаем дискаунтер, чтобы отключить возможность повторного повышения в пределах отведённого периода.
+        if (Player.Authority == Authority.Amer)
+            Country.DiscounterUsaSpy = GM.MAX_SPY_CLICK;
+        if (Player.Authority == Authority.Soviet)
+            Country.DiscounterRusSpy = GM.MAX_SPY_CLICK;
+
         SnapToCountry();
     }
 
@@ -303,7 +317,7 @@ public class GameManagerScript : MonoBehaviour
         Country.AddMilitary(Player.Authority, 1);
         SnapToCountry();
 
-        VQueue.AddRolex(GetMySideVideoType(), VideoQueue.V_PRIO_NULL, VideoQueue.V_PUPPER_MIL_ADDED, Country, true, mMonthCount);
+        VQueue.AddRolex(GetMySideVideoType(), VideoQueue.V_PRIO_NULL, VideoQueue.V_PUPPER_MIL_ADDED, Country);
     }
 
     public void OrganizeMeeting()
@@ -320,10 +334,53 @@ public class GameManagerScript : MonoBehaviour
 
     }
 
-    //Смена власти
-    //
-    public void ChangeGovernment()
+    void Revolution(CountryScript Country)
     {
+        Authority NewAut = 0;
+
+        switch (Country.Authority)
+        {
+            case Authority.Neutral:
+                //В нейтральной стране побеждает тот, у кого было меньше влияния
+                if (Country.AmInf < Country.SovInf)
+                    NewAut = Authority.Amer;
+                else
+                    NewAut = Authority.Soviet;
+                break;
+            case Authority.Amer:
+                NewAut = Authority.Soviet;
+                break;
+            case Authority.Soviet:
+                NewAut = Authority.Amer;
+                break;
+        }
+
+        ChangeGovernment(Country, NewAut, true);
+    }
+
+    //Смена власти
+    //revolution = true - в результате революции, false - мирным способом
+    public void ChangeGovernment(CountryScript Country, Authority NewAut, bool revolution = false)
+    {
+        if (!revolution && !Country.CanChangeGov(NewAut))
+            return;
+
+        //Почистить ролики
+        VQueue.ClearVideoQueue(Country, VideoQueue.V_PUPPER_REVOLUTION);
+        Country.ChangeGov(NewAut);
+        VQueue.AddRolex(VQueue.LocalType(Country.Authority), VideoQueue.V_PRIO_NULL, revolution ? VideoQueue.V_PUPPER_WAR : VideoQueue.V_PUPPER_PEACE, Country);
+
+    }
+
+    public void CheckGameResult()
+    {
+        //Если в главной стране правительство сменилось, тогда победа нокаутом
+        if (Player.MyCountry.GetComponent<CountryScript>() == Country ||
+            Player.OppCountry.GetComponent<CountryScript>() == Country)
+        {
+            //mGameOver = oppo_ai ? GAMEOVER_LOSE : GAMEOVER_WIN;
+            //mKnockout = (mGameOver == GAMEOVER_WIN);
+        }
     }
 
     //Ежемесячное обновление информации
@@ -337,15 +394,7 @@ public class GameManagerScript : MonoBehaviour
         {
             CountryScript Country = Countries.transform.GetChild(idx).GetComponent<CountryScript>();
 
-            //Уменьшаем дискаунтеры
-            if (Country.DiscounterRusInfl > 0) Country.DiscounterRusInfl--;
-            if (Country.DiscounterRusMeeting > 0) Country.DiscounterRusMeeting--;
-            if (Country.DiscounterRusParade > 0) Country.DiscounterRusParade--;
-            if (Country.DiscounterRusSpy > 0) Country.DiscounterRusSpy--;
-            if (Country.DiscounterUsaInfl > 0) Country.DiscounterUsaInfl--;
-            if (Country.DiscounterUsaMeeting > 0) Country.DiscounterUsaMeeting--;
-            if (Country.DiscounterUsaParade > 0) Country.DiscounterUsaParade--;
-            if (Country.DiscounterUsaSpy > 0) Country.DiscounterUsaSpy--;
+            Country.NextMonth();
 
             //Если влияние соответствует правительству, поддержка увеличивается.
             if ((Country.Authority == Authority.Amer && Country.AmInf > 50) || (Country.Authority == Authority.Soviet && Country.SovInf > 50))
@@ -363,31 +412,41 @@ public class GameManagerScript : MonoBehaviour
                 if (Country.Support < 0) Country.Support = 0;
             }
 
-            ////Боевые действия
-            //if (Country.OppForce > 0)
-            //{
-            //    int r = Random.Range(0, 100);
-            //    if (r < 33)
-            //        continue;   //ничего не произошло
+            //Боевые действия
+            if (Country.OppForce > 0)
+            {
+                int r = Random.Range(0, 100);
+                if (r < 33)
+                    continue;   //ничего не произошло
 
-            //    if (Country.GovForce > 0)
-            //    {
-            //        if (r < 66)
-            //            Country.GovForce--;
-            //        else
-            //            Country.OppForce--;
-            //    }
+                if (Country.GovForce > 0)
+                {
+                    if (r < 66)
+                        Country.GovForce--;
+                    else
+                        Country.OppForce--;
+                }
 
-            //    if (Country.GovForce == 0)  //революция
-            //    {
-            //        Country.GovForce = Country.OppForce;
-            //        Country.OppForce = 0;
+                if (Country.GovForce == 0)  //революция
+                {
+                    SoundManager.SM.PlaySound("thecall");
+                    Revolution(Country);
+                }
+                else
+                {
+                    VQueue.AddRolex(VideoQueue.V_TYPE_GLOB, VideoQueue.V_PRIO_NULL, VideoQueue.V_PUPPER_REVOLUTION, Country);
+                }
+            }
 
-            //        ChangeGovernment();
-            //    }
-
-            //}
+            // разборки шпионов раз в год
+            TestSpyCombat(Country);
         }
+
+        //Обновление информации о стране в нижнем меню
+        SnapToCountry();
+
+        //Проверка на предмет победы/поражения
+        CheckGameResult();
     }
 
     //Ежегодное обновление информации
@@ -398,6 +457,32 @@ public class GameManagerScript : MonoBehaviour
     //Окончание игры и показ окна, говорящего об этом.
     void StopGame()
     {
+    }
+
+    // эмуляция схватки шпионов в стране раз в год.
+    public void TestSpyCombat(CountryScript c)
+    {
+        if (Random.Range(1, 12) != 12) return;
+
+        // случайно раз в год схватки шпионов:
+        int r = Random.Range(1, 100);
+        if (c.KGB == 0 || c.CIA == 0 || r < 34) return;
+
+        // Если шпион погибает, то influence страны, к которой принадлежал шпион, 
+        // понижается на 2% ( обществу не нравится когда в их стране орудуют чужие шпионы ). 
+        if (r < 67)
+        {
+            c.KGB--;
+            c.AddInfluence(Authority.Soviet, -2f);
+            
+        }
+        else
+        {
+            c.CIA--;
+            c.AddInfluence(Authority.Amer, -2f);
+        }
+
+        //c.AddGameSymbol(KlikItem.SYM_SPY, true, usa, 3);
     }
 
     //Обновление информации в верхнем меню

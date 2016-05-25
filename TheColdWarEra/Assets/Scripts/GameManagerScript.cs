@@ -11,8 +11,9 @@ public class GameManagerScript : MonoBehaviour
     private Camera MainCamera;
     private RectTransform DownMenu;
     private RectTransform UpMenu;
+    private RectTransform WarFlagsPanel;
     private CountryScript Country;  //Выбранная в данный момент страна
-    private VideoQueue VQueue;  //Видео-очередь
+    public VideoQueue VQueue;  //Видео-очередь
 
     public GameObject[] Menus;
     public RectTransform StatLists;
@@ -20,6 +21,7 @@ public class GameManagerScript : MonoBehaviour
     public GameObject Marker;    //Маркер указывающий на страну, с которой работаем.
     public GameObject PausePlate;    //Надпись "Pause"
     public RectTransform StatePrefab;   //префаб значка состояния страны
+    public RectTransform FlagButtonPrefab;   //префаб флага в правой панели
     [Space(10)]
     public Sprite SignUSA;
     public Sprite SignSU;
@@ -79,6 +81,7 @@ public class GameManagerScript : MonoBehaviour
         MainCamera = FindObjectOfType<Camera>();
         DownMenu = GameObject.Find("DownMenu").GetComponent<RectTransform>();
         UpMenu = GameObject.Find("UpMenu").GetComponent<RectTransform>();
+        WarFlagsPanel = GameObject.Find("WarFlagsPanel/Panel/Flags").GetComponent<RectTransform>();
         Marker.GetComponent<SpriteRenderer>().sprite = Player.GetComponent<PlayerScript>().SprMarker;
 
         MainCamera.GetComponent<CameraScript>().SetNewPosition(Player.MyCountry.GetComponent<CountryScript>().Capital);
@@ -387,7 +390,7 @@ public class GameManagerScript : MonoBehaviour
     void NextMonth()
     {
         mMonthCount++;
-        if (mMonthCount == 0) return;   //перый месяц не считаем
+        if (mMonthCount == 0) return;   //первый месяц не считаем
 
         GameObject Countries = GameObject.Find("Countries");
         for (int idx = 0; idx < Countries.transform.childCount; idx++)
@@ -416,12 +419,12 @@ public class GameManagerScript : MonoBehaviour
             if (Country.OppForce > 0)
             {
                 int r = Random.Range(0, 100);
-                if (r < 33)
-                    continue;   //ничего не произошло
 
                 if (Country.GovForce > 0)
                 {
-                    if (r < 66)
+                    if (r < 33)
+                        ;   //ничего не произошло
+                    else if (r < 66)
                         Country.GovForce--;
                     else
                         Country.OppForce--;
@@ -440,6 +443,8 @@ public class GameManagerScript : MonoBehaviour
 
             // разборки шпионов раз в год
             TestSpyCombat(Country);
+
+            Country.TestStates();
         }
 
         //Случайные события
@@ -629,6 +634,33 @@ public class GameManagerScript : MonoBehaviour
         return Player.Authority == Authority.Amer ? VideoQueue.V_TYPE_USA : VideoQueue.V_TYPE_USSR;
     }
 
+    //Добавление флага на правую панель, где показываются флаги стран, в которых идёт война
+    public void AddWarFlag(CountryScript Country)
+    {
+        //Если флаг этой страны уже есть в списке, второй раз не добавляем
+        for (int i = 0; i < WarFlagsPanel.childCount; i++)
+        {
+            if (WarFlagsPanel.GetChild(i).GetComponent<FlagButton>().Country == Country)
+                return;
+        }
+
+        RectTransform fb = Instantiate<RectTransform>(FlagButtonPrefab);
+        fb.SetParent(WarFlagsPanel);
+        //Новый флаг должен появиться вверху списка
+        fb.SetAsFirstSibling();
+        //Установка страны
+        fb.GetComponent<FlagButton>().Country = Country;
+    }
+
+    //Удаление флага из правой панели
+    public void RemoveWarFlag(CountryScript Country)
+    {
+        for (int i = 0; i < WarFlagsPanel.childCount; i++)
+        {
+            if (WarFlagsPanel.GetChild(i).GetComponent<FlagButton>().Country == Country)
+                Destroy(WarFlagsPanel.GetChild(i).gameObject);
+        }
+    }
 }
 
 public enum Region

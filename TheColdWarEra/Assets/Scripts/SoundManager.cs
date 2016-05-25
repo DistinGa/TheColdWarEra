@@ -35,7 +35,7 @@ public class SoundManager : MonoBehaviour
         if (curTrack == 0)
         {
             //Если первый вызов или проиграли все треки, перемешиваем их.
-            TossTracks();
+            ShuffleTracks();
         }
         trackAudioSource.PlayOneShot(Tracks[curTrack]);
 
@@ -49,7 +49,7 @@ public class SoundManager : MonoBehaviour
     }
 
     //Случайное перемешивание треков.
-    void TossTracks()
+    void ShuffleTracks()
     {
         AudioClip tempAC;
         int tempIndx;

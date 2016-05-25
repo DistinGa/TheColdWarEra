@@ -328,6 +328,77 @@ public class CountryScript : MonoBehaviour
         }
     }
 
+    //Проверка состояний в стране
+    public void TestStates()
+    {
+        //Проверка возможности мирно сменить власть обеими державами
+        if (CanChangeGov(Authority.Amer))
+            AddState(States.SYM_PEACE, Authority.Amer, 10000);
+        else
+            DelState(States.SYM_PEACE, Authority.Amer);
+
+        if (CanChangeGov(Authority.Soviet))
+            AddState(States.SYM_PEACE, Authority.Soviet, 10000);
+        else
+            DelState(States.SYM_PEACE, Authority.Soviet);
+
+        //Проверка возможности ввода оппозиционных войск
+        Authority Aut = Authority.Neutral;
+        //Сначала убираем значки обеих держав
+        DelState(States.SYM_REVOL, Authority.Amer);
+        DelState(States.SYM_REVOL, Authority.Soviet);
+
+        //Возможность начала революции
+        if (Support <= 100 - GameManagerScript.GM.INSTALL_PUPPER_REVOL)
+        {
+            switch (Authority)
+            {
+                case Authority.Neutral:
+                    if (AmInf < SovInf)
+                        Aut = Authority.Amer;
+                    if (SovInf < AmInf)
+                        Aut = Authority.Soviet;
+                    break;
+                case Authority.Amer:
+                    Aut = Authority.Soviet;
+                    break;
+                case Authority.Soviet:
+                    Aut = Authority.Amer;
+                    break;
+            }
+        }
+
+        if (Aut != Authority.Neutral)
+        {
+            AddState(States.SYM_REVOL, Aut, 10000);
+        }
+
+        //Проверка состояния войны
+        if (GovForce > 0 && OppForce > 0)
+        {
+            AddState(States.SYM_WAR, Authority.Amer, 10000);
+            //Добавление страны в правый список
+            GameManagerScript.GM.AddWarFlag(this);
+        }
+        else
+        {
+            //Война закончилась
+            DelState(States.SYM_WAR, Authority.Amer);
+            //Удаление страны из правого списка
+            GameManagerScript.GM.RemoveWarFlag(this);
+
+            //Удаление роликов о войне
+            GameManagerScript.GM.VQueue.ClearVideoQueue(this, VideoQueue.V_PUPPER_REVOLUTION);
+        }
+
+        //Удаление "просроченных" состояний
+        foreach (var item in Symbols)
+        {
+            if (item.MonthsToShow <= 0)
+                DelState(item.State, item.Authority);
+        }
+    }
+
     //перечисление состояний страны
     public enum States
     {

@@ -118,9 +118,10 @@ public class GameManagerScript : MonoBehaviour
             NextMonth();
 
             // прошел год?
-            if (mMonthCount % 12 == 0)
+            if (mMonthCount % 12 == 0 && mMonthCount > 0)
                 NewYear();
 
+            //Обновление информации в верхнем меню
             ShowHighWinInfo();
             //Обновление информации в нижнем меню
             SnapToCountry();
@@ -422,9 +423,7 @@ public class GameManagerScript : MonoBehaviour
 
                 if (Country.GovForce > 0)
                 {
-                    if (r < 33)
-                        ;   //ничего не произошло
-                    else if (r < 66)
+                    if (r > 33 && r < 66)
                         Country.GovForce--;
                     else
                         Country.OppForce--;
@@ -460,6 +459,12 @@ public class GameManagerScript : MonoBehaviour
     //Ежегодное обновление информации
     void NewYear()
     {
+        GameObject.Find("AmerPlayer").GetComponent<PlayerScript>().AnnualGrowthBudget();
+        GameObject.Find("SovPlayer").GetComponent<PlayerScript>().AnnualGrowthBudget();
+
+        // запомнить историю:
+
+        // + бонус для AI
     }
 
     //Окончание игры и показ окна, говорящего об этом.
@@ -565,7 +570,7 @@ public class GameManagerScript : MonoBehaviour
         UpMenu.Find("SovBudget").GetComponent<Text>().text = GameObject.Find("SovPlayer").GetComponent<PlayerScript>().Budget.ToString("f0");
     }
 
-    public bool PayCost(Authority Aut, float Money)
+    public bool PayCost(Authority Aut, int Money)
     {
         if(Aut == Authority.Neutral)
             return false;

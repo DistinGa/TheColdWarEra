@@ -13,6 +13,8 @@ public class StatsMenuScript : MonoBehaviour
 
     public void OnEnable()
     {
+        SoundManager.SM.PlaySound("sound/stat");
+
         PlayerScript AmericanPlaer = GameObject.FindGameObjectWithTag("American").GetComponent<PlayerScript>();
         PlayerScript SovietPlaer = GameObject.FindGameObjectWithTag("Soviet").GetComponent<PlayerScript>();
 

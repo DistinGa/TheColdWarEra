@@ -5,21 +5,21 @@ public class PlayerScript : MonoBehaviour {
     public double Budget;
     private int _Score;
     public Authority Authority;
-    public Transform MyCountry;
-    public Transform OppCountry;
+    public CountryScript MyCountry;
+    public CountryScript OppCountry;
     public Sprite SprMarker;
+
+    bool[] TechStatus = new bool[41]; //true - технология исследована (технологий 40, в оригинале они нумеровались с единицы, чтобы не путаться и в массиве будем их хранить начиная с первого элемента, поэтому 41 элемент в массиве)
     
     public List<int> History = new List<int>();
 
 	// Use this for initialization
 	void Start () {
-        
+        TechStatus[0] = true;   //Для доступности первой технологии
     }
 	
     public int Score
     {
-        set { _Score = value; }
-
         get {
             GameObject Countries = GameObject.Find("Countries");
             CountryScript Country;
@@ -51,5 +51,16 @@ public class PlayerScript : MonoBehaviour {
 
         //Сохранение истории показателей роста
         History.Add(AddProcent);
+    }
+
+    //
+    public void SetTechStatus(int idx)
+    {
+        TechStatus[idx] = true;
+    }
+
+    public bool GetTechStatus(int idx)
+    {
+        return TechStatus[idx];
     }
 }

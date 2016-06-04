@@ -84,7 +84,7 @@ public class GameManagerScript : MonoBehaviour
         WarFlagsPanel = GameObject.Find("WarFlagsPanel/Panel/Flags").GetComponent<RectTransform>();
         Marker.GetComponent<SpriteRenderer>().sprite = Player.GetComponent<PlayerScript>().SprMarker;
 
-        MainCamera.GetComponent<CameraScript>().SetNewPosition(Player.MyCountry.GetComponent<CountryScript>().Capital);
+        MainCamera.GetComponent<CameraScript>().SetNewPosition(Player.MyCountry.Capital);
         VQueue = FindObjectOfType<VideoQueue>();
 
         //GameObject.Find("VideoLoader").GetComponent<LoadVideoInfo>().LoadInfo();
@@ -150,6 +150,8 @@ public class GameManagerScript : MonoBehaviour
 
     public void ScrollStatMenu(int dt)
     {
+        SoundManager.SM.PlaySound("sound/click2");
+
         Vector3 NewPos = StatLists.localPosition + Vector3.up * dt;
 
         if (NewPos.y < 0)
@@ -379,8 +381,8 @@ public class GameManagerScript : MonoBehaviour
     public void CheckGameResult()
     {
         //Если в главной стране правительство сменилось, тогда победа нокаутом
-        if (Player.MyCountry.GetComponent<CountryScript>() == Country ||
-            Player.OppCountry.GetComponent<CountryScript>() == Country)
+        if (Player.MyCountry == Country ||
+            Player.OppCountry == Country)
         {
             //mGameOver = oppo_ai ? GAMEOVER_LOSE : GAMEOVER_WIN;
             //mKnockout = (mGameOver == GAMEOVER_WIN);
@@ -394,9 +396,10 @@ public class GameManagerScript : MonoBehaviour
         if (mMonthCount == 0) return;   //первый месяц не считаем
 
         GameObject Countries = GameObject.Find("Countries");
+        CountryScript Country;
         for (int idx = 0; idx < Countries.transform.childCount; idx++)
         {
-            CountryScript Country = Countries.transform.GetChild(idx).GetComponent<CountryScript>();
+            Country = Countries.transform.GetChild(idx).GetComponent<CountryScript>();
 
             Country.NextMonth();
 
@@ -596,6 +599,17 @@ public class GameManagerScript : MonoBehaviour
         return true;
     }
 
+    public bool PayCost(PlayerScript Player, int Money)
+    {
+        if (Player.Budget - Money < MIN_BUDGET)
+            return false;
+
+        Player.Budget -= Money;
+        ShowHighWinInfo();
+
+        return true;
+    }
+
     // текущая эпоха (тег видеоролика)
     public int GetCurrentEpoch()
     {
@@ -664,6 +678,42 @@ public class GameManagerScript : MonoBehaviour
         {
             if (WarFlagsPanel.GetChild(i).GetComponent<FlagButton>().Country == Country)
                 Destroy(WarFlagsPanel.GetChild(i).gameObject);
+        }
+    }
+
+    //Определение оппонента
+    public PlayerScript GetOpponentTo(PlayerScript pl)
+    {
+        PlayerScript AmP = transform.Find("AmerPlayer").GetComponent<PlayerScript>();
+        PlayerScript SovP = transform.Find("SovPlayer").GetComponent<PlayerScript>();
+        PlayerScript retValue = null;
+
+        if (pl == AmP)
+            retValue = SovP;
+        if (pl == SovP)
+            retValue = AmP;
+
+        return retValue;
+    }
+
+    // повысить влияние в странах при открытии технологий
+    //govType - в каких странах повышаем влияние (нейтральная -- глобально)
+    //Aut - чьё влияние повышаем
+    //proc - величина повышения
+    public void AddInfluenceInCountries(Authority govType, Authority Aut, int proc)
+    {
+        GameObject Countries = GameObject.Find("Countries");
+        CountryScript c;
+        for (int idx = 0; idx < Countries.transform.childCount; idx++)
+        {
+            c = Countries.transform.GetChild(idx).GetComponent<CountryScript>();
+            if (c.Authority == govType || govType == Authority.Neutral)
+            {
+                c.AddInfluence(Aut, proc);
+                //Если повысилось влияние страны, которая отображается в нижнем меню, обновляем отображение
+                if (c == Country)
+                    SnapToCountry();
+            }
         }
     }
 }

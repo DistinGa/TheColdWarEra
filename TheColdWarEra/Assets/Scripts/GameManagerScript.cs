@@ -326,18 +326,99 @@ public class GameManagerScript : MonoBehaviour
         VQueue.AddRolex(GetMySideVideoType(), VideoQueue.V_PRIO_NULL, VideoQueue.V_PUPPER_MIL_ADDED, Country);
     }
 
-    public void OrganizeMeeting()
+    public void OrganizeRiot()
     {
-        if (!PayCost(Player.Authority, RIOT_COST))
-            return; //Не хватило денег
+        if (!CallMeeting(Country, Player, false))
+            return;
 
+        SoundManager.SM.PlaySound("sound/riot");
+        SnapToCountry();
     }
 
     public void OrganizeParade()
     {
-        if (!PayCost(Player.Authority, PARADE_COST))
-            return; //Не хватило денег
+        if (!CallMeeting(Country, Player, true))
+            return;
 
+        SoundManager.SM.PlaySound("sound/parad");
+        SnapToCountry();
+    }
+
+    //Организация митинга в поддержку правительства или против
+    //с - страна, в которой организуем
+    //p - игрок, который организует
+    //parade: true - парад, false - восстание
+    public bool CallMeeting(CountryScript c, PlayerScript p, bool parade)
+    {
+        if (!PayCost(p, parade? PARADE_COST: RIOT_COST))
+            return false; //Не хватило денег
+
+        if (p.Authority == Authority.Amer)
+        {
+            if (parade)
+            {
+                c.DiscounterUsaParade = MAX_RIOT_MONTHS;
+                c.Support += c.CIA; //увеличиваем поддержку на 1% за каждого шпиона
+                c.AddState(CountryScript.States.SYM_PARAD, Authority.Amer, 3);
+                VQueue.AddRolex(VQueue.LocalType(Authority.Amer), VideoQueue.V_PRIO_NULL, VideoQueue.V_PUPPER_SUPPORT, c);
+            }
+            else
+            {
+                c.DiscounterUsaMeeting = MAX_RIOT_MONTHS;
+                c.Support -= c.CIA; //увеличиваем оппозицию на 1% за каждого шпиона
+                c.AddState(CountryScript.States.SYM_RIOT, Authority.Amer, 3);
+                VQueue.AddRolex(VQueue.LocalType(Authority.Amer), VideoQueue.V_PRIO_NULL, VideoQueue.V_PUPPER_RIOTS, c);
+            }
+        }
+        else if (p.Authority == Authority.Soviet)   //то же самое за советскую сторону
+        {
+            if (parade)
+            {
+                c.DiscounterRusParade = MAX_RIOT_MONTHS;
+                c.Support += c.KGB;
+                c.AddState(CountryScript.States.SYM_PARAD, Authority.Soviet, 3);
+                VQueue.AddRolex(VQueue.LocalType(Authority.Soviet), VideoQueue.V_PRIO_NULL, VideoQueue.V_PUPPER_SUPPORT, c);
+            }
+            else
+            {
+                c.DiscounterRusMeeting = MAX_RIOT_MONTHS;
+                c.Support -= c.KGB;
+                c.AddState(CountryScript.States.SYM_RIOT, Authority.Soviet, 3);
+                VQueue.AddRolex(VQueue.LocalType(Authority.Soviet), VideoQueue.V_PRIO_NULL, VideoQueue.V_PUPPER_RIOTS, c);
+            }
+        }
+
+        if (c.Support < 0)
+            c.Support = 0;
+        if (c.Support > 100)
+            c.Support = 100;
+
+        // проверка разоблачения шпиона, организовавшего акцию
+        if (c.CIA > 0 && c.KGB > 0)
+        {
+            int shot = Random.Range(0, c.CIA + c.KGB);
+
+            if (p.Authority == Authority.Amer)
+            {
+                if (shot > c.CIA)
+                {
+                    c.CIA--;
+                    c.AddInfluence(Authority.Amer, -2f);    //обществу не нравиться когда в их стране орудуют чужие шпионы
+                    c.AddState(CountryScript.States.SYM_SPY, Authority.Amer, 3);
+                }
+            }
+            else //проверка разоблачения шпиона игрока за СССР
+            {
+                if (shot > c.KGB)
+                {
+                    c.KGB--;
+                    c.AddInfluence(Authority.Soviet, -2f);  //обществу не нравиться когда в их стране орудуют чужие шпионы
+                    c.AddState(CountryScript.States.SYM_SPY, Authority.Soviet, 3);
+                }
+            }
+        }
+
+        return true;
     }
 
     void Revolution(CountryScript Country)
@@ -373,9 +454,17 @@ public class GameManagerScript : MonoBehaviour
 
         //Почистить ролики
         VQueue.ClearVideoQueue(Country, VideoQueue.V_PUPPER_REVOLUTION);
+
         Country.ChangeGov(NewAut);
         VQueue.AddRolex(VQueue.LocalType(Country.Authority), VideoQueue.V_PRIO_NULL, revolution ? VideoQueue.V_PUPPER_WAR : VideoQueue.V_PUPPER_PEACE, Country);
 
+    }
+
+    //обработка нажатия кнопки "NewGovButton"
+    public void NewGovernment()
+    {
+        SoundManager.SM.PlaySound("sound/cuop");
+        ChangeGovernment(Country, Player.Authority, false);
     }
 
     public void CheckGameResult()
@@ -464,8 +553,6 @@ public class GameManagerScript : MonoBehaviour
     {
         GameObject.Find("AmerPlayer").GetComponent<PlayerScript>().AnnualGrowthBudget();
         GameObject.Find("SovPlayer").GetComponent<PlayerScript>().AnnualGrowthBudget();
-
-        // запомнить историю:
 
         // + бонус для AI
     }

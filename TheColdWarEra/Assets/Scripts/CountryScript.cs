@@ -33,7 +33,7 @@ public class CountryScript : MonoBehaviour
     [HideInInspector]
     public int DiscounterUsaMeeting, DiscounterRusMeeting; //Сколько ждать до возможности следующего митинга протеста (0 - можно митинговать)
     [HideInInspector]
-    public int DiscounterUsaParade, DiscounterRusParade; //Сколько ждать до возможности следующего парада протеста (0 - можно)
+    public int DiscounterUsaParade, DiscounterRusParade; //Сколько ждать до возможности следующего парада (0 - можно)
     [HideInInspector]
     public int DiscounterUsaSpy, DiscounterRusSpy, DiscounterUsaInfl, DiscounterRusInfl; //Дискаунтер для возможности засылки шпионов или повышения влияния (0 - можно)
 

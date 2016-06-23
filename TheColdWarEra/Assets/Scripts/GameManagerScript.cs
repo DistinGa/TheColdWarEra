@@ -7,6 +7,7 @@ public class GameManagerScript : MonoBehaviour
 {
     public static GameManagerScript GM;
     public PlayerScript Player;
+    public AI AI;
 
     private Camera MainCamera;
     private RectTransform DownMenu;
@@ -293,8 +294,9 @@ public class GameManagerScript : MonoBehaviour
             return; //Не хватило денег
 
         Country.AddInfluence(Player.Authority, 1);
-        //Влияние повысили, устанавливаем дискаунтер, чтобы отключить возможность повторного повышения в пределах отведённого периода.
-        Country.DiscounterRusInfl = GM.MAX_INFLU_CLICK;
+        // если увеличивается оппозиция, видео показать:
+        if (Country.Authority != Player.Authority)
+            VQueue.AddRolex(Player.Authority == Authority.Amer?VideoQueue.V_TYPE_USA: VideoQueue.V_TYPE_USSR, VideoQueue.V_PRIO_NULL, VideoQueue.V_PUPPER_OPPO_INFLU, Country);
 
         SnapToCountry();
     }
@@ -305,13 +307,6 @@ public class GameManagerScript : MonoBehaviour
             return; //Не хватило денег
 
         Country.AddSpy(Player.Authority, 1);
-
-        //устанавливаем дискаунтер, чтобы отключить возможность повторного повышения в пределах отведённого периода.
-        if (Player.Authority == Authority.Amer)
-            Country.DiscounterUsaSpy = GM.MAX_SPY_CLICK;
-        if (Player.Authority == Authority.Soviet)
-            Country.DiscounterRusSpy = GM.MAX_SPY_CLICK;
-
         SnapToCountry();
     }
 
@@ -320,10 +315,10 @@ public class GameManagerScript : MonoBehaviour
         if (!PayCost(Player.Authority, MILITARY_COST))
             return; //Не хватило денег
 
-        Country.AddMilitary(Player.Authority, 1);
+        bool mil = Country.AddMilitary(Player.Authority, 1);
         SnapToCountry();
 
-        VQueue.AddRolex(GetMySideVideoType(), VideoQueue.V_PRIO_NULL, VideoQueue.V_PUPPER_MIL_ADDED, Country);
+        VQueue.AddRolex(GetMySideVideoType(Player.Authority), VideoQueue.V_PRIO_NULL, mil?VideoQueue.V_PUPPER_MIL_ADDED:VideoQueue.V_PUPPER_REV_ADDED, Country);
     }
 
     public void OrganizeRiot()
@@ -403,7 +398,7 @@ public class GameManagerScript : MonoBehaviour
                 if (shot > c.CIA)
                 {
                     c.CIA--;
-                    c.AddInfluence(Authority.Amer, -2f);    //обществу не нравиться когда в их стране орудуют чужие шпионы
+                    c.AddInfluence(Authority.Amer, -2);    //обществу не нравиться когда в их стране орудуют чужие шпионы
                     c.AddState(CountryScript.States.SYM_SPY, Authority.Amer, 3);
                 }
             }
@@ -412,7 +407,7 @@ public class GameManagerScript : MonoBehaviour
                 if (shot > c.KGB)
                 {
                     c.KGB--;
-                    c.AddInfluence(Authority.Soviet, -2f);  //обществу не нравиться когда в их стране орудуют чужие шпионы
+                    c.AddInfluence(Authority.Soviet, -2);  //обществу не нравиться когда в их стране орудуют чужие шпионы
                     c.AddState(CountryScript.States.SYM_SPY, Authority.Soviet, 3);
                 }
             }
@@ -537,6 +532,8 @@ public class GameManagerScript : MonoBehaviour
 
             Country.TestStates();
         }
+        //Ход AI
+
 
         //Случайные события
         TestRandomEvent();
@@ -576,13 +573,13 @@ public class GameManagerScript : MonoBehaviour
         if (r < 67)
         {
             c.KGB--;
-            c.AddInfluence(Authority.Soviet, -2f);
+            c.AddInfluence(Authority.Soviet, -2);
             
         }
         else
         {
             c.CIA--;
-            c.AddInfluence(Authority.Amer, -2f);
+            c.AddInfluence(Authority.Amer, -2);
         }
 
         c.AddState(CountryScript.States.SYM_SPY, Authority.Amer, 3);
@@ -629,7 +626,7 @@ public class GameManagerScript : MonoBehaviour
 
             case 5: // Национализм ( повышается нейтральность на + 30 )
                 if (c.NInf >= 99) return;
-                c.AddInfluence(Authority.Neutral, 30f);
+                c.AddInfluence(Authority.Neutral, 30);
                 VQueue.AddRolex(VideoQueue.V_TYPE_GLOB, VideoQueue.V_PRIO_PRESSING, VideoQueue.V_PUPPER_EVENT_NAZI, c);
                 break;
 
@@ -735,9 +732,9 @@ public class GameManagerScript : MonoBehaviour
     }
 
     // определить локальный тип видеоролика
-    public int GetMySideVideoType()
+    public int GetMySideVideoType(Authority aut)
     {
-        return Player.Authority == Authority.Amer ? VideoQueue.V_TYPE_USA : VideoQueue.V_TYPE_USSR;
+        return aut == Authority.Amer ? VideoQueue.V_TYPE_USA : VideoQueue.V_TYPE_USSR;
     }
 
     //Добавление флага на правую панель, где показываются флаги стран, в которых идёт война

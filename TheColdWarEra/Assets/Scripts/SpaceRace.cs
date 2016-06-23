@@ -21,10 +21,11 @@ public class SpaceRace : MonoBehaviour
     public Sprite RedIconOp;
     public Sprite GreenIconOp;
 
+    public const int TechCount = 41;
     int CurTechIndex;
 
     [SerializeField]
-    Technology[] Techs = new Technology[41]; //элементов в массиве на 1 больше, чем технологий, чтобы была возможность нумеровать их с единицы
+    Technology[] Techs = new Technology[TechCount]; //элементов в массиве на 1 больше, чем технологий, чтобы была возможность нумеровать их с единицы (чтобы использовать исходный код с минимальными изменениями)
 
     public void OnEnable()
     {
@@ -165,6 +166,12 @@ public class SpaceRace : MonoBehaviour
                                          Player.MyCountry);
 
         return true;
+    }
+
+    //Возвращает номер предыдущей технологии
+    public int GetPrevTechNumber(int ind)
+    {
+        return Techs[ind].mPrevTechNumber;
     }
 
     [System.Serializable]

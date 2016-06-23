@@ -16,9 +16,9 @@ public class CountryScript : MonoBehaviour
     public int Score;
     public float Support;
     [Space(10)]
-    public float SovInf;
-    public float AmInf;
-    public float NInf;
+    public int SovInf;
+    public int AmInf;
+    public int NInf;
     [Space(10)]
     public int GovForce;
     public int OppForce;
@@ -42,6 +42,36 @@ public class CountryScript : MonoBehaviour
     {
         SetAuthority();
         StatePanel = transform.Find("Capital/Canvas/Panel");
+    }
+
+    //Возвращает список всех стран или отпределённой принадлежности
+    public static List<CountryScript> Countries()
+    {
+        List<CountryScript> result = new List<CountryScript>();
+
+        GameObject Countries = GameObject.Find("Countries");
+        for (int idx = 0; idx < Countries.transform.childCount; idx++)
+        {
+            result.Add(Countries.transform.GetChild(idx).GetComponent<CountryScript>());
+        }
+
+        return result;
+    }
+
+    public static List<CountryScript> Countries(Authority aut)
+    {
+        List<CountryScript> result = new List<CountryScript>();
+
+        GameObject Countries = GameObject.Find("Countries");
+        CountryScript Country;
+        for (int idx = 0; idx < Countries.transform.childCount; idx++)
+        {
+            Country = Countries.transform.GetChild(idx).GetComponent<CountryScript>();
+            if (Country.Authority == aut)
+                result.Add(Countries.transform.GetChild(idx).GetComponent<CountryScript>());
+        }
+
+        return result;
     }
 
     //Установка цвета границы.
@@ -72,7 +102,7 @@ public class CountryScript : MonoBehaviour
 
     //Добавление влияния.
     //Inf - чьё влияние добавляется.
-    public void AddInfluence(Authority Inf, float Amount)
+    public void AddInfluence(Authority Inf, int Amount)
     {
         if (Amount < 0f)
         {
@@ -83,12 +113,12 @@ public class CountryScript : MonoBehaviour
         switch (Inf)
         {
             case Authority.Neutral:
-                float ActAmount = Mathf.Min(Amount, 100f - NInf);
+                int ActAmount = Mathf.Min(Amount, 100 - NInf);
                 NInf += ActAmount;
 
                 //Распределяем "минус" по другим влияниям.
-                AmInf -= ActAmount / 2f;
-                SovInf -= ActAmount / 2f;
+                AmInf -= ActAmount / 2;
+                SovInf -= (ActAmount - ActAmount / 2);  //чтобы не накапливалось расхождение из-за округления
                 //Если американского влияния было мало, отнимаем остаток от советсткого, а американское обнуляем
                 if (AmInf < 0)
                 {
@@ -105,6 +135,7 @@ public class CountryScript : MonoBehaviour
                 break;
             case Authority.Amer:
                 AmInf += Amount;
+                DiscounterUsaInfl = GameManagerScript.GM.MAX_INFLU_CLICK;
 
                 //Распределяем "минус" по другим влияниям.
                 NInf -= Amount; //Сначала отнимаем от нейтрального влияния
@@ -121,6 +152,7 @@ public class CountryScript : MonoBehaviour
                 break;
             case Authority.Soviet:
                 SovInf += Amount;
+                DiscounterRusInfl = GameManagerScript.GM.MAX_INFLU_CLICK;
 
                 //Распределяем "минус" по другим влияниям.
                 NInf -= Amount; //Сначала отнимаем от нейтрального влияния
@@ -154,25 +186,40 @@ public class CountryScript : MonoBehaviour
             if (KGB > 5)
                 KGB = 5;
         }
+
+        //устанавливаем дискаунтер, чтобы отключить возможность повторного повышения в пределах отведённого периода.
+        if (Inf == Authority.Amer)
+            DiscounterUsaSpy = GameManagerScript.GM.MAX_SPY_CLICK;
+        if (Inf == Authority.Soviet)
+            DiscounterRusSpy = GameManagerScript.GM.MAX_SPY_CLICK;
     }
 
     //Добавление вооружённых сил.
     //Inf - чьи силы добавляются.
-    public void AddMilitary(Authority Inf, int Amount)
+    //возвращает true, если добавили правительственные силы и false - если оппозиционные
+    public bool AddMilitary(Authority Inf, int Amount)
     {
+        bool res = false;
+
         if (Authority == Authority.Neutral)
         {
             if (SovInf > AmInf) //Если советсткое влияние, то советский игрок добавляет нейтральные силы, американский - оппозиционные.
             {
                 if (Inf == Authority.Soviet)
+                {
                     GovForce += Amount;
+                    res = true;
+                }
                 else
                     OppForce += Amount;
             }
-            else //Если режим проамериканский, то американский игрок добавляет нейтральные силы, советский - оппозиционные.
+            else //Если влияние проамериканское, то американский игрок добавляет нейтральные силы, советский - оппозиционные.
             {
                 if (Inf == Authority.Amer)
+                {
                     GovForce += Amount;
+                    res = true;
+                }
                 else
                     OppForce += Amount;
             }
@@ -180,7 +227,10 @@ public class CountryScript : MonoBehaviour
         else    //Если режим страны не нейтральный, то игрок, чей режим установлен, добавляет правительственные силы. Другой игрок добавляет оппозиционные силы.
         {
             if (Inf == Authority)
+            {
                 GovForce += Amount;
+                res = true;
+            }
             else
                 OppForce += Amount;
         }
@@ -190,6 +240,8 @@ public class CountryScript : MonoBehaviour
             GovForce = 10;
         if (OppForce > 10)
             OppForce = 10;
+
+        return res;
     }
 
     public Transform Capital
@@ -397,6 +449,27 @@ public class CountryScript : MonoBehaviour
             if (item.MonthsToShow <= 0)
                 DelState(item.State, item.Authority);
         }
+    }
+
+    //Возвращает влияние заданной стороны
+    public int GetInfluense(Authority aut)
+    {
+        int result = 0;
+
+        switch (aut)
+        {
+            case Authority.Neutral:
+                result = NInf;
+                break;
+            case Authority.Amer:
+                result = AmInf;
+                break;
+            case Authority.Soviet:
+                result = SovInf;
+                break;
+        }
+
+        return result;
     }
 
     //перечисление состояний страны

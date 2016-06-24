@@ -171,7 +171,7 @@ public class AI : MonoBehaviour {
                  (c.Authority == Authority.Neutral) && c.GetInfluense(AIPlayer.Authority) < c.GetInfluense(GM.Player.Authority)) // страна нейтрал, влияние бота ниже и высокая оппозиция
                 ) // можно вводить революционеров в страну противника?
             {
-                AddMilitary(c, MIL_WAR_AI[mAILevel].values[mAIKind]); // п.4
+                InWarSupport(c); // п.4
             }
         }
 
@@ -425,4 +425,17 @@ public class AI : MonoBehaviour {
 
     }
 
+    //военная помощь по п.4
+    //Осуществляется раз в AIWAR_PAUSE месяцев (DV: в отличие от оригинала выполнено на вероятностной основе)
+    public void InWarSupport(CountryScript Country)
+    {
+        if (Random.Range(0, AIWAR_PAUSE) == 0)
+            AddMilitary(Country, MIL_WAR_AI[mAILevel].values[mAIKind]);
+    }
+
+    //Ежегодная прибавка к бюджету для AI
+    public void AddYearBonus()
+    {
+        AIPlayer.Budget += ADD_AI_BUDGET[mAILevel];
+    }
 }

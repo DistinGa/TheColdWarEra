@@ -118,6 +118,9 @@ public class GameManagerScript : MonoBehaviour
 
             NextMonth();
 
+            //Проверка на предмет победы/поражения
+            CheckGameResult();
+
             // прошел год?
             if (mMonthCount % 12 == 0 && mMonthCount > 0)
                 NewYear();
@@ -453,6 +456,9 @@ public class GameManagerScript : MonoBehaviour
         Country.ChangeGov(NewAut);
         VQueue.AddRolex(VQueue.LocalType(Country.Authority), VideoQueue.V_PRIO_NULL, revolution ? VideoQueue.V_PUPPER_WAR : VideoQueue.V_PUPPER_PEACE, Country);
 
+        //Если в главной стране правительство сменилось, тогда победа нокаутом
+        if (Player.MyCountry == Country || Player.OppCountry == Country)
+            StopGame();
     }
 
     //обработка нажатия кнопки "NewGovButton"
@@ -462,15 +468,22 @@ public class GameManagerScript : MonoBehaviour
         ChangeGovernment(Country, Player.Authority, false);
     }
 
-    public void CheckGameResult()
+    //Возвращает tru в случае победы
+    public bool CheckGameResult()
     {
-        //Если в главной стране правительство сменилось, тогда победа нокаутом
-        if (Player.MyCountry == Country ||
-            Player.OppCountry == Country)
-        {
-            //mGameOver = oppo_ai ? GAMEOVER_LOSE : GAMEOVER_WIN;
-            //mKnockout = (mGameOver == GAMEOVER_WIN);
-        }
+        //Проверка победы нокаутом
+        if (Player.MyCountry.Authority != Player.Authority)
+            return false;
+
+        if(Player.OppCountry.Authority == Player.Authority)
+            return true;
+
+        //Если очки равны, проверяем по бюджету
+        if (Player.Score == GetOpponentTo(Player).Score)
+            return (Player.Budget > GetOpponentTo(Player).Budget);
+
+        //проверка выигрыша по счёту
+        return (Player.Score > GetOpponentTo(Player).Score);
     }
 
     //Ежемесячное обновление информации
@@ -508,22 +521,28 @@ public class GameManagerScript : MonoBehaviour
             {
                 int r = Random.Range(0, 100);
 
-                if (Country.GovForce > 0)
+                if (r > 33) //r <= 33 - никто не погиб
                 {
-                    if (r > 33 && r < 66)
-                        Country.GovForce--;
-                    else
-                        Country.OppForce--;
-                }
+                    if (Country.GovForce > 0)
+                    {
+                        if (r > 33 && r < 66)
+                            Country.GovForce--;
+                        else
+                            Country.OppForce--;
+                    }
 
-                if (Country.GovForce == 0)  //революция
-                {
-                    SoundManager.SM.PlaySound("thecall");
-                    Revolution(Country);
-                }
-                else
-                {
-                    VQueue.AddRolex(VideoQueue.V_TYPE_GLOB, VideoQueue.V_PRIO_NULL, VideoQueue.V_PUPPER_REVOLUTION, Country);
+                    if (Country.GovForce == 0)  //революция
+                    {
+                        SoundManager.SM.PlaySound("thecall");
+                        Revolution(Country);
+                    }
+                    else
+                    {
+                        VQueue.AddRolex(VideoQueue.V_TYPE_GLOB, VideoQueue.V_PRIO_NULL, VideoQueue.V_PUPPER_REVOLUTION, Country);
+                        //военная помощь AI
+                        if(AI != null)
+                            AI.InWarSupport(Country);
+                    }
                 }
             }
 
@@ -533,16 +552,10 @@ public class GameManagerScript : MonoBehaviour
             Country.TestStates();
         }
         //Ход AI
-
+        AI.AIturn();
 
         //Случайные события
         TestRandomEvent();
-
-        //Обновление информации о стране в нижнем меню
-        SnapToCountry();
-
-        //Проверка на предмет победы/поражения
-        CheckGameResult();
     }
 
     //Ежегодное обновление информации
@@ -552,11 +565,30 @@ public class GameManagerScript : MonoBehaviour
         GameObject.Find("SovPlayer").GetComponent<PlayerScript>().AnnualGrowthBudget();
 
         // + бонус для AI
+        if(AI != null)
+            AI.AddYearBonus();
     }
 
     //Окончание игры и показ окна, говорящего об этом.
-    void StopGame()
+    //KO - захватили страну противника
+    //preWin - досрочный выигрыш
+    //preLoose - досрочный проигрыш (выход из игры)
+    void StopGame(bool KO = false, bool preWin = false, bool preLoose = false)
     {
+        string SceneName = "";
+
+        if (KO)
+            SceneName = "WinScreen";
+        else if(preWin)
+            SceneName = "WinScreen";
+        else if(preLoose)
+            SceneName = "LostScreen";
+        else if(CheckGameResult())
+            SceneName = "WinScreen";
+        else
+            SceneName = "LostScreen";
+
+        LoadScene(SceneName);
     }
 
     // эмуляция схватки шпионов в стране раз в год.

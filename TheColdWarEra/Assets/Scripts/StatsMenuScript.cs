@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class StatsMenuScript : MonoBehaviour
 {
-    public RectTransform StatsPanel;
+    public RectTransform StatLists;
     public RectTransform ListUSA;
     public RectTransform ListSU;
     [Space(10)]
@@ -208,5 +208,21 @@ public class StatsMenuScript : MonoBehaviour
             cntSU.Reverse();
             FillList(ListSU, cntSU);
         }
+    }
+
+    public void ScrollStatMenu(int dt)
+    {
+        SoundManager.SM.PlaySound("sound/click2");
+
+        Vector3 NewPos = StatLists.localPosition + Vector3.up * dt;
+
+        if (NewPos.y < 0)
+            NewPos -= Vector3.up * NewPos.y;
+
+        float maxY = StatLists.rect.height - ((RectTransform)StatLists.parent).rect.height;
+        if (NewPos.y > maxY)
+            NewPos -= Vector3.up * (NewPos.y - maxY);
+
+        StatLists.localPosition = NewPos;
     }
 }

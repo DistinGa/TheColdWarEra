@@ -340,6 +340,7 @@ public class GameManagerScript : MonoBehaviour
             {
                 c.DiscounterUsaParade = MAX_RIOT_MONTHS;
                 c.Support += c.CIA; //увеличиваем поддержку на 1% за каждого шпиона
+                if (c.Support > 100) c.Support = 100;
                 c.AddState(CountryScript.States.SYM_PARAD, Authority.Amer, 3);
                 VQueue.AddRolex(VQueue.LocalType(Authority.Amer), VideoQueue.V_PRIO_NULL, VideoQueue.V_PUPPER_SUPPORT, c);
             }
@@ -347,6 +348,7 @@ public class GameManagerScript : MonoBehaviour
             {
                 c.DiscounterUsaMeeting = MAX_RIOT_MONTHS;
                 c.Support -= c.CIA; //увеличиваем оппозицию на 1% за каждого шпиона
+                if (c.Support < 0) c.Support = 0;
                 c.AddState(CountryScript.States.SYM_RIOT, Authority.Amer, 3);
                 VQueue.AddRolex(VQueue.LocalType(Authority.Amer), VideoQueue.V_PRIO_NULL, VideoQueue.V_PUPPER_RIOTS, c);
             }
@@ -447,8 +449,12 @@ public class GameManagerScript : MonoBehaviour
     //обработка нажатия кнопки "NewGovButton"
     public void NewGovernment()
     {
-        SoundManager.SM.PlaySound("sound/cuop");
-        ChangeGovernment(Country, Player.Authority, false);
+        if (Country.CanChangeGov(Player.Authority))
+        {
+            SoundManager.SM.PlaySound("sound/cuop");
+            ChangeGovernment(Country, Player.Authority, false);
+            SnapToCountry();
+        }
     }
 
     //Возвращает tru в случае победы

@@ -14,7 +14,8 @@ public class CountryScript : MonoBehaviour
     public Region Region;
     public Authority Authority;
     public int Score;
-    public float Support;
+    [SerializeField]
+    private float support;
     [Space(10)]
     public int SovInf;
     public int AmInf;
@@ -104,12 +105,6 @@ public class CountryScript : MonoBehaviour
     //Inf - чьё влияние добавляется.
     public void AddInfluence(Authority Inf, int Amount)
     {
-        if (Amount < 0f)
-        {
-            Debug.LogError("Попытка отнять влияние! Влияние можно только добавлять.");
-            return;
-        }
-
         switch (Inf)
         {
             case Authority.Neutral:
@@ -249,6 +244,18 @@ public class CountryScript : MonoBehaviour
         get { return transform.FindChild("Capital"); }
     }
 
+    public float Support
+    {
+        get {return support;}
+
+        set
+        {
+            support = value;
+            if (support < 0f) support = 0f;
+            if (support > 100f) support = 100f;
+        }
+    }
+
     //Проверка возможности добавить влияние
     public bool CanAddInf(Authority Aut)
     {
@@ -289,8 +296,7 @@ public class CountryScript : MonoBehaviour
     //Aut - на какое правительство хотим поменять
     public bool CanChangeGov(Authority Aut)
     {
-        return (Authority != Aut && Support <= (100 - GameManagerScript.GM.INSTALL_PUPPER_OPPO) &&
-            ((Aut == Authority.Amer && AmInf >= GameManagerScript.GM.INSTALL_PUPPER_INFLU) || Aut == Authority.Soviet && SovInf >= GameManagerScript.GM.INSTALL_PUPPER_INFLU));
+        return (Authority != Aut && Support <= (100 - GameManagerScript.GM.INSTALL_PUPPER_OPPO) && GetInfluense(Aut) >= GameManagerScript.GM.INSTALL_PUPPER_INFLU);
     }
 
     //Проверка наличия шпионов
@@ -311,6 +317,7 @@ public class CountryScript : MonoBehaviour
         OppForce = mil;
 
         Support = 100 - Support;    // оппозиция стала поддержкой
+        SetAuthority(); //Смена цвета границ
     }
 
     //Обработка начала месяца

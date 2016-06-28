@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class AI : MonoBehaviour {
     public PlayerScript AIPlayer;
+    public SpaceRace SR;
 
     // типы ботов
     const int AI_SCIENTIST = 0;  // учёный
@@ -137,9 +138,7 @@ public class AI : MonoBehaviour {
         if (AIPlayer.Budget >= MIN_SPACE_BUDGET_AI[mAILevel].values[mAIKind])
         {
             // ищем рандомно очередную доступную технологию:
-            SpaceRace SR = FindObjectOfType<SpaceRace>();
-
-            List<int> techIndxs = new List<int>();
+            List <int> techIndxs = new List<int>();
             for (int i = 1; i < SpaceRace.TechCount; i++)
                 if (!AIPlayer.GetTechStatus(i) && AIPlayer.GetTechStatus(SR.GetPrevTechNumber(i)))
                 {
@@ -149,7 +148,7 @@ public class AI : MonoBehaviour {
             if (techIndxs.Count <= 0) goto NEXT;
 
             // запустить технологию:
-            SR.LaunchTech(AIPlayer, Random.Range(0, techIndxs.Count));
+            SR.LaunchTech(AIPlayer, techIndxs[Random.Range(0, techIndxs.Count)]);
         }
 
     NEXT:
@@ -337,7 +336,7 @@ public class AI : MonoBehaviour {
                 else
                     mnum = 12; // раз в год в нейтральных
 
-            if ((GM.CurrentMonth() % mnum) == 0) // каждые N месяцев riot:
+            if ((GM.CurrentMonth() % mnum) == 0 && mTargetCountry.Support > 20) // каждые N месяцев riot, если оппозиция меньше 80:
                 GM.CallMeeting(mTargetCountry, AIPlayer, false);
         }
         else

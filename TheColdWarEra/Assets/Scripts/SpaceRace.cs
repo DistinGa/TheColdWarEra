@@ -162,7 +162,7 @@ public class SpaceRace : MonoBehaviour
 
         // показать видео
         GM.VQueue.AddRolex(VideoQueue.V_TYPE_GLOB, VideoQueue.V_PRIO_NULL,
-                                         VideoQueue.V_PUPPER_TECHNOLOW_START + TechInd,
+                                         VideoQueue.V_PUPPER_TECHNOLOW_START + TechInd - 1,
                                          Player.MyCountry);
 
         return true;

@@ -522,7 +522,7 @@ public class GameManagerScript : MonoBehaviour
 
                     if (Country.GovForce == 0)  //революция
                     {
-                        SoundManager.SM.PlaySound("thecall");
+                        SoundManager.SM.PlaySound("sound/thecall");
                         Revolution(Country);
                     }
                     else
@@ -609,7 +609,7 @@ public class GameManagerScript : MonoBehaviour
     // проверка случайного события раз в год
     void TestRandomEvent()
     {
-        if (Random.Range(1, 12) != 1)
+        if (Random.Range(0, 12) != 1)
             return;
 
         //Выбор страны, в которой произойдёт случайное событие

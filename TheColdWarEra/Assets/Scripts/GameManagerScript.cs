@@ -279,7 +279,7 @@ public class GameManagerScript : MonoBehaviour
         if (!PayCost(Player.Authority, INFLU_COST))
             return; //Не хватило денег
 
-        Country.AddInfluence(Player.Authority, 1);
+        Country.AddInfluence(Player.Authority, 1, false);
         // если увеличивается оппозиция, видео показать:
         if (Country.Authority != Player.Authority)
             VQueue.AddRolex(Player.Authority == Authority.Amer?VideoQueue.V_TYPE_USA: VideoQueue.V_TYPE_USSR, VideoQueue.V_PRIO_NULL, VideoQueue.V_PUPPER_OPPO_INFLU, Country);
@@ -443,7 +443,7 @@ public class GameManagerScript : MonoBehaviour
 
         //Если в главной стране правительство сменилось, тогда победа нокаутом
         if (Player.MyCountry == Country || Player.OppCountry == Country)
-            StopGame();
+            StopGame(true);
     }
 
     //обработка нажатия кнопки "NewGovButton"
@@ -560,7 +560,7 @@ public class GameManagerScript : MonoBehaviour
 
     //Окончание игры и показ окна, говорящего об этом.
     //KO - захватили страну противника
-    //preWin - досрочный выигрыш
+    //preWin - досрочный выигрыш (оппонент вышел из игры)
     //preLoose - досрочный проигрыш (выход из игры)
     void StopGame(bool KO = false, bool preWin = false, bool preLoose = false)
     {
@@ -576,6 +576,12 @@ public class GameManagerScript : MonoBehaviour
             SceneName = "WinScreen";
         else
             SceneName = "LostScreen";
+
+        //проверка выполнения миссий
+        if (AI != null && SceneName == "WinScreen")
+        {
+
+        }
 
         LoadScene(SceneName);
     }

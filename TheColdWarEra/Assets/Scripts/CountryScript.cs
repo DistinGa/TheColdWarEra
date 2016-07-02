@@ -20,6 +20,7 @@ public class CountryScript : MonoBehaviour
     public int SovInf;
     public int AmInf;
     public int NInf;
+    public Authority LastAut;   //чьё влияние было установлено последним
     [Space(10)]
     public int GovForce;
     public int OppForce;
@@ -103,7 +104,9 @@ public class CountryScript : MonoBehaviour
 
     //Добавление влияния.
     //Inf - чьё влияние добавляется.
-    public void AddInfluence(Authority Inf, int Amount)
+    //Auto - true: влияние добавляется в результате случайного события или от космогонки.
+    //      false: явное добавление
+    public void AddInfluence(Authority Inf, int Amount, bool Auto = true)
     {
         switch (Inf)
         {
@@ -162,6 +165,11 @@ public class CountryScript : MonoBehaviour
                     }
                 }
                 break;
+        }
+
+        if (!Auto)
+        {
+            LastAut = Inf;
         }
     }
 
@@ -315,6 +323,12 @@ public class CountryScript : MonoBehaviour
         int mil = GovForce;
         GovForce = OppForce;
         OppForce = mil;
+
+        //Читтинг. Добавляем 3 военных и 1 шпиона. (Чтобы не возникало ситуации, когда после смены власти сразу происходит революция, т.к. нет правительственных сил)
+        if(GovForce < 3)
+            GovForce = 3;
+        if(!HaveSpy(NewAut))
+            AddSpy(NewAut, 1);
 
         Support = 100 - Support;    // оппозиция стала поддержкой
         SetAuthority(); //Смена цвета границ

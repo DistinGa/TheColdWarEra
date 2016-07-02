@@ -404,7 +404,7 @@ public class AI : MonoBehaviour {
         if (!GM.PayCost(AIPlayer.Authority, GM.INFLU_COST))
             return; //Не хватило денег
 
-        Country.AddInfluence(AIPlayer.Authority, 1);
+        Country.AddInfluence(AIPlayer.Authority, 1, false);
         mInfluCount = GM.CurrentMonth();
 
         // если увеличивается оппозиция, видео показать:

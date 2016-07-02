@@ -14,13 +14,30 @@ public class StatsLineScript : MonoBehaviour {
     public Authority ListAuthority;
     public CountryScript Country;
 
+    static Color BlueText = new Color(0, 0.75f, 1);
+    static Color RedText = new Color(1, 0.25f, 0);
+
     public void Init(CountryScript c)
     {
         Country = c;
 
         Image Image = GetComponent<Image>();
 
-        Influence.GetComponent<Text>().text = (ListAuthority == Authority.Amer? c.AmInf: c.SovInf).ToString("f0");
+        Text InfText = Influence.GetComponent<Text>();
+        InfText.text = (ListAuthority == Authority.Amer? c.AmInf: c.SovInf).ToString("f0");
+        switch (c.LastAut)
+        {
+            case Authority.Neutral:
+                InfText.color = Color.white;
+                break;
+            case Authority.Amer:
+                InfText.color = BlueText;
+                break;
+            case Authority.Soviet:
+                InfText.color = RedText;
+                break;
+        }
+
         Opposition.GetComponent<Text>().text = (100f - c.Support).ToString("f0");
         //Очки стран учитываем, только для своих стран
         if(ListAuthority == c.Authority)

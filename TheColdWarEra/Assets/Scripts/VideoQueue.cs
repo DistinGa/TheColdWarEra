@@ -88,7 +88,7 @@ public class VideoQueue : MonoBehaviour {
 
         // звуковое сопровождение по группе ролика: всегда голосом фактически
         //string who = ""; // ролик дополнительно с привязкой к стороне ссср/сша
-        vrr.mIsVoice = true;
+        vrr.mIsVoice = SettingsScript.Settings.mVoiceOn;
 
         if (info < V_PUPPER_EVENT_START) // обычные события
         {
@@ -253,11 +253,11 @@ public class VideoQueue : MonoBehaviour {
             else // запустить следующий из очереди
             {
                 // еще играется ли текущий? 0-й -- всегда тот, который уже играется
-            if (IsRunning()) return;
+                if (IsRunning()) return;
 
 
-            // удалить рол, если он старый:
-            if (mVideoQueue[1].mSetMonth < GameManagerScript.GM.CurrentMonth() - 12 * 2)
+                // удалить рол, если он старый:
+                if (mVideoQueue[1].mSetMonth < GameManagerScript.GM.CurrentMonth() - 12 * 2)
                 {
                     mVideoQueue.RemoveAt(1);
                     goto A;
@@ -265,7 +265,7 @@ public class VideoQueue : MonoBehaviour {
 
                 //
                 string videoFileName = mVideoQueue[1].getFileName();
-                string videoCountry = (mVideoQueue[1].mCountry != null) ?mVideoQueue[1].mCountry.Name: "";
+                string videoCountry = (mVideoQueue[1].mCountry != null) ? mVideoQueue[1].mCountry.Name : "";
                 string videoInfo = mVideoQueue[1].mVideoRolexPattern.mText;
 
                 if (Video != null)
@@ -292,11 +292,15 @@ public class VideoQueue : MonoBehaviour {
                     NewsStartTime = Time.time;
                 }
 
-            // и звук если был
-            if (mVideoQueue[1].mWavFile != "")
+                // и звук если был
+                if (mVideoQueue[1].mWavFile != "")
                     if (SettingsScript.Settings.mVideo) // для AVI берем звук ролика
-                        Audio.PlayOneShot(Resources.Load<AudioClip>(mVideoQueue[1].mWavFile));
-                    else Audio.PlayOneShot(Resources.Load<AudioClip>("sound/newspaper")); // для изображения просто звук
+                    {
+                        if (mVideoQueue[1].mIsVoice)
+                            Audio.PlayOneShot(Resources.Load<AudioClip>(mVideoQueue[1].mWavFile), SettingsScript.Settings.mSoundVol);
+                    }
+                    else
+                        Audio.PlayOneShot(Resources.Load<AudioClip>("sound/newspaper"), SettingsScript.Settings.mSoundVol); // для изображения просто звук
 
                 mCurrentPlayedRolex = mVideoQueue[1];
                 mVideoQueue.RemoveAt(0);

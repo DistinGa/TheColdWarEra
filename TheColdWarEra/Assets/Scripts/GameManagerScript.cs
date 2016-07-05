@@ -78,6 +78,14 @@ public class GameManagerScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        if(SettingsScript.Settings.playerSelected == Authority.Amer)
+            Player = transform.Find("AmerPlayer").GetComponent<PlayerScript>();
+        else
+            Player = transform.Find("SovPlayer").GetComponent<PlayerScript>();
+
+        if(AI != null)
+            Player.Budget = AI.START_BUDGET_PLR[SettingsScript.Settings.AIPower];
+
         MainCamera = FindObjectOfType<Camera>();
         DownMenu = GameObject.Find("DownMenu").GetComponent<RectTransform>();
         UpMenu = GameObject.Find("UpMenu").GetComponent<RectTransform>();
@@ -86,6 +94,7 @@ public class GameManagerScript : MonoBehaviour
 
         MainCamera.GetComponent<CameraScript>().SetNewPosition(Player.MyCountry.Capital);
         VQueue = FindObjectOfType<VideoQueue>();
+
 
         //GameObject.Find("VideoLoader").GetComponent<LoadVideoInfo>().LoadInfo();
     }
@@ -580,7 +589,63 @@ public class GameManagerScript : MonoBehaviour
         //проверка выполнения миссий
         if (AI != null && SceneName == "WinScreen")
         {
+            //Игра за СССР
+            if (Player.Authority == Authority.Soviet)
+            {
+                //Проверка победы в косической гонке
+                if (!SavedSettings.Mission1SU)
+                {
+                    bool WinSR = true;
+                    for (int i = 1; i < SpaceRace.TechCount; i++)
+                    {
+                        if (!Player.GetTechStatus(i))
+                        {
+                            WinSR = false;
+                            break;
+                        }
+                    }
+                    SavedSettings.Mission1SU = WinSR;
+                }
+                //Проверка победы с 50 очками или более
+                if (!SavedSettings.Mission2SU)
+                {
+                    SavedSettings.Mission2SU = (Player.Score >= 50);
+                }
+                //Проверка победы с переворотом в стране оппонента
+                if (!SavedSettings.Mission3SU)
+                {
+                    SavedSettings.Mission3SU = (Player.OppCountry.Authority == Player.Authority);
+                }
+            }
 
+            //Игра за США
+            if (Player.Authority == Authority.Amer)
+            {
+                //Проверка победы в косической гонке
+                if (!SavedSettings.Mission1USA)
+                {
+                    bool WinSR = true;
+                    for (int i = 1; i < SpaceRace.TechCount; i++)
+                    {
+                        if (!Player.GetTechStatus(i))
+                        {
+                            WinSR = false;
+                            break;
+                        }
+                    }
+                    SavedSettings.Mission1USA = WinSR;
+                }
+                //Проверка победы с 50 очками или более
+                if (!SavedSettings.Mission2USA)
+                {
+                    SavedSettings.Mission2USA = (Player.Score >= 50);
+                }
+                //Проверка победы с переворотом в стране оппонента
+                if (!SavedSettings.Mission3USA)
+                {
+                    SavedSettings.Mission3USA = (Player.OppCountry.Authority == Player.Authority);
+                }
+            }
         }
 
         LoadScene(SceneName);

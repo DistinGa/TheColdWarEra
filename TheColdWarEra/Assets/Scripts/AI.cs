@@ -48,7 +48,7 @@ public class AI : MonoBehaviour {
 
     const int AIPOWER_STANDARD = 1; // стандартная сила
 
-    public int mPower; // сила игры AIPOWER_*
+    //public int mPower; // сила игры AIPOWER_*
 
     public int mAILevel; // текущий уровень трудности 0..DIFF_LEVEL-1
 
@@ -73,9 +73,17 @@ public class AI : MonoBehaviour {
                    // AI_DIPLOMAT;
                    // AI_MILITARIST;
                     Random.Range(0, AI_MAX);
+
+        mAILevel = SettingsScript.Settings.AIPower;
         mMinGNP = MIN_BUDGET_AI[mAILevel].values[mAIKind];
 
-        mPower = AIPOWER_STANDARD;
+        //Назначаем сторону AI в зависимости от выбранной стороны игрока
+        if (SettingsScript.Settings.playerSelected == Authority.Amer)
+            AIPlayer = GameObject.Find("SovPlayer").GetComponent<PlayerScript>();
+        else
+            AIPlayer = GameObject.Find("AmerPlayer").GetComponent<PlayerScript>();
+
+        AIPlayer.Budget = START_BUDGET_AI[mAILevel].values[mAIKind];
 
         mMilCount = mDiplomatCount = mSpyCount = 0;
 

@@ -21,6 +21,9 @@ public class SoundManager : MonoBehaviour
 
     public void Start()
     {
+        trackAudioSource.volume = SettingsScript.Settings.mMusicVol;
+        otherAudioSource.volume = SettingsScript.Settings.mSoundVol;
+
         if (SettingsScript.Settings.mMusicOn)
         {
             PlayNexTrack();
@@ -66,14 +69,18 @@ public class SoundManager : MonoBehaviour
 
     public void PlaySound(AudioClip ac)
     {
-        otherAudioSource.PlayOneShot(ac);
+        if(SettingsScript.Settings.mSoundOn)
+            otherAudioSource.PlayOneShot(ac);
     }
 
     public void PlaySound(string acName)
     {
-        AudioClip ac = Resources.Load<AudioClip>(acName);
-        if(ac != null)
-            otherAudioSource.PlayOneShot(Resources.Load<AudioClip>(acName));
+        if (SettingsScript.Settings.mSoundOn)
+        {
+            AudioClip ac = Resources.Load<AudioClip>(acName);
+            if (ac != null)
+                PlaySound(ac);
+        }
     }
 
 

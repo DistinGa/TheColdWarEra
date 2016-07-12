@@ -380,7 +380,8 @@ public class AI : MonoBehaviour {
                     c.OppForce > 0 &&   //в стране война
                     c.GetInfluense(AIPlayer.Authority) > c.GetInfluense(GM.Player.Authority))   //влияние АИ больше
                 {
-                    AddMilitary(c, NEUTRAL_SUPPORT_AI[mAILevel].values[mAIKind]);
+                    if(c.CanAddMil(AIPlayer.Authority))
+                        AddMilitary(c, NEUTRAL_SUPPORT_AI[mAILevel].values[mAIKind]);
                 }
         }
 
@@ -409,8 +410,8 @@ public class AI : MonoBehaviour {
     {
         GameManagerScript GM = GameManagerScript.GM;
 
-        if (!GM.PayCost(AIPlayer.Authority, GM.INFLU_COST))
-            return; //Не хватило денег
+        if (!Country.CanAddInf(AIPlayer.Authority) || !GM.PayCost(AIPlayer.Authority, GM.INFLU_COST))
+            return; //Не хватило денег или нельзя увеличить влияние
 
         Country.AddInfluence(AIPlayer.Authority, 1, false);
         mInfluCount = GM.CurrentMonth();
@@ -436,8 +437,11 @@ public class AI : MonoBehaviour {
     //Осуществляется раз в AIWAR_PAUSE месяцев (DV: в отличие от оригинала выполнено на вероятностной основе)
     public void InWarSupport(CountryScript Country)
     {
-        if (Random.Range(0, AIWAR_PAUSE) == 0)
-            AddMilitary(Country, MIL_WAR_AI[mAILevel].values[mAIKind]);
+        if (Country.CanAddMil(AIPlayer.Authority))
+        {
+            if (Random.Range(0, AIWAR_PAUSE) == 0)
+                AddMilitary(Country, MIL_WAR_AI[mAILevel].values[mAIKind]);
+        }
     }
 
     //Ежегодная прибавка к бюджету для AI

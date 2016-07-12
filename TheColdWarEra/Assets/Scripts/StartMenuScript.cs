@@ -2,7 +2,8 @@
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class StartMenuScript : MonoBehaviour {
+public class StartMenuScript : MonoBehaviour
+{
     public Animator Animator;
     [Space(10)]
     public Toggle VideoNews;
@@ -11,8 +12,10 @@ public class StartMenuScript : MonoBehaviour {
     public Slider MusicVolume;
     public Toggle Sound;
     public Slider SoundVolume;
-    //[Space(10)]
-    //public Toggle;
+    [Space(10)]
+    public Toggle Easy;
+    public Toggle Medium;
+    public Toggle Hard;
 
     public void Start()
     {
@@ -24,9 +27,10 @@ public class StartMenuScript : MonoBehaviour {
         SoundVolume.value = SettingsScript.Settings.mSoundVol;
     }
 
-    public void Exit() {
+    public void Exit()
+    {
         Application.Quit();
-	}
+    }
 
     public void LoadScene(string SceneName)
     {
@@ -57,22 +61,24 @@ public class StartMenuScript : MonoBehaviour {
 
     public void SetAILevel(bool Amer)
     {
-        GameObject.Find("Easy").GetComponent<Toggle>().isOn = true;
-        GameObject.Find("Easy").GetComponent<Toggle>().interactable = true;
+        Easy.interactable = true;
 
         if (Amer)
         {
-            GameObject.Find("Medium").GetComponent<Toggle>().interactable = SavedSettings.Mission1USA;
-            GameObject.Find("Medium").GetComponent<Toggle>().isOn = SavedSettings.Mission1USA;
-            GameObject.Find("Hard").GetComponent<Toggle>().interactable = SavedSettings.Mission2USA;
-            GameObject.Find("Hard").GetComponent<Toggle>().isOn = SavedSettings.Mission2USA;
+            Easy.isOn = !SavedSettings.Mission1USA;
+            Medium.interactable = SavedSettings.Mission1USA;
+            Medium.isOn = (SavedSettings.Mission1USA && !SavedSettings.Mission2USA);
+            Hard.interactable = SavedSettings.Mission2USA;
+            Hard.isOn = SavedSettings.Mission2USA;
         }
         else
         {
-            GameObject.Find("Medium").GetComponent<Toggle>().interactable = SavedSettings.Mission1SU;
-            GameObject.Find("Medium").GetComponent<Toggle>().isOn = SavedSettings.Mission1SU;
-            GameObject.Find("Hard").GetComponent<Toggle>().interactable = SavedSettings.Mission2SU;
-            GameObject.Find("Hard").GetComponent<Toggle>().isOn = SavedSettings.Mission2SU;
+            Easy.isOn = !SavedSettings.Mission1SU;
+            Medium.interactable = SavedSettings.Mission1SU;
+            Medium.isOn = (SavedSettings.Mission1SU && !SavedSettings.Mission2SU);
+            Hard.interactable = SavedSettings.Mission2SU;
+            Hard.isOn = SavedSettings.Mission2SU;
         }
     }
+
 }

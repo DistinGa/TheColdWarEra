@@ -96,13 +96,23 @@ public class SpaceRace : MonoBehaviour
         //Технологии из нижнего ряда добавляют влияние только в союзных странах, технологии из вертикальных веток - во всех странах.
         if (ind < 16)
         {
+            //Нижний ряд
             InfluencePlate.sprite = sprLocInf;
-            txtInf.text = "+" + Techs[ind].mLocalInfl.ToString() + "%";
+            //Если технология не открыта оппонентом, показываем прибавку влияния при первом открытии
+            if(!GM.GetOpponentTo(GM.Player).GetTechStatus(ind))
+                txtInf.text = "+" + Techs[ind].mLocalInfl_1.ToString() + "%";
+            else
+                txtInf.text = "+" + Techs[ind].mLocalInfl.ToString() + "%";
         }
         else
         {
+            //Вертикальные ветки технологий
             InfluencePlate.sprite = sprGlobInf;
-            txtInf.text = "+" + Techs[ind].mGlobalInfl.ToString() + "%";
+            //Если технология не открыта оппонентом, показываем прибавку влияния при первом открытии
+            if(!GM.GetOpponentTo(GM.Player).GetTechStatus(ind))
+                txtInf.text = "+" + Techs[ind].mGlobalInfl_1.ToString() + "%";
+            else
+                txtInf.text = "+" + Techs[ind].mGlobalInfl.ToString() + "%";
         }
     }
 

@@ -17,6 +17,8 @@ public class StartMenuScript : MonoBehaviour
     public Toggle Medium;
     public Toggle Hard;
 
+    private AudioSource AS;
+
     public void Start()
     {
         VideoNews.isOn = SettingsScript.Settings.mVideo;
@@ -25,6 +27,8 @@ public class StartMenuScript : MonoBehaviour
         Sound.isOn = SettingsScript.Settings.mSoundOn;
         MusicVolume.value = SettingsScript.Settings.mMusicVol;
         SoundVolume.value = SettingsScript.Settings.mSoundVol;
+
+        AS = GetComponent<AudioSource>();
     }
 
     public void Exit()
@@ -81,4 +85,13 @@ public class StartMenuScript : MonoBehaviour
         }
     }
 
+    public void OpenManual()
+    {
+        System.Diagnostics.Process.Start(Application.streamingAssetsPath + "/Quick guide.pdf");
+    }
+
+    public void PlaySound(AudioClip ac)
+    {
+        AS.PlayOneShot(ac);
+    }
 }

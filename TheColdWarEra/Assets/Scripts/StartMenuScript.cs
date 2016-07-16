@@ -16,6 +16,13 @@ public class StartMenuScript : MonoBehaviour
     public Toggle Easy;
     public Toggle Medium;
     public Toggle Hard;
+    [Space(10)]
+    public RectTransform UsaEasy;
+    public RectTransform UsaMed;
+    public RectTransform UsaHard;
+    public RectTransform UssrEasy;
+    public RectTransform UssrMed;
+    public RectTransform UssrHard;
 
     private AudioSource AS;
 
@@ -27,6 +34,14 @@ public class StartMenuScript : MonoBehaviour
         Sound.isOn = SettingsScript.Settings.mSoundOn;
         MusicVolume.value = SettingsScript.Settings.mMusicVol;
         SoundVolume.value = SettingsScript.Settings.mSoundVol;
+
+        //экран кампаний
+        UsaEasy.gameObject.SetActive(!SavedSettings.Mission1USA);
+        UsaMed.gameObject.SetActive(!SavedSettings.Mission2USA);
+        UsaHard.gameObject.SetActive(!SavedSettings.Mission3USA);
+        UssrEasy.gameObject.SetActive(!SavedSettings.Mission1SU);
+        UssrMed.gameObject.SetActive(!SavedSettings.Mission2SU);
+        UssrHard.gameObject.SetActive(!SavedSettings.Mission3SU);
 
         AS = GetComponent<AudioSource>();
     }

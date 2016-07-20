@@ -28,6 +28,8 @@ public class StartMenuScript : MonoBehaviour
 
     public void Start()
     {
+        AS = GetComponent<AudioSource>();
+
         VideoNews.isOn = SettingsScript.Settings.mVideo;
         Voice.isOn = SettingsScript.Settings.mVoiceOn;
         Music.isOn = SettingsScript.Settings.mMusicOn;
@@ -43,11 +45,14 @@ public class StartMenuScript : MonoBehaviour
         UssrMed.gameObject.SetActive(!SavedSettings.Mission2SU);
         UssrHard.gameObject.SetActive(!SavedSettings.Mission3SU);
 
-        AS = GetComponent<AudioSource>();
+        AudioSource MusicSource = GameObject.Find("StartScreen").GetComponent<AudioSource>();
+        MusicSource.volume = SettingsScript.Settings.mMusicVol;
+        MusicSource.enabled = SettingsScript.Settings.mMusicOn;
     }
 
     public void Exit()
     {
+        SettingsScript.Settings.SaveSettings();
         Application.Quit();
     }
 
@@ -107,6 +112,7 @@ public class StartMenuScript : MonoBehaviour
 
     public void PlaySound(AudioClip ac)
     {
-        AS.PlayOneShot(ac);
+        if(SettingsScript.Settings.mSoundOn)
+            AS.PlayOneShot(ac, SettingsScript.Settings.mSoundVol);
     }
 }

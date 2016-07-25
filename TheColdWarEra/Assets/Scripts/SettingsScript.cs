@@ -16,14 +16,7 @@ public class SettingsScript : MonoBehaviour
 
     public void Awake()
     {
-        //singletone
-        if (Settings == null)
-            Settings = this;
-        else
-            Destroy(gameObject);
-
-        DontDestroyOnLoad(gameObject);
-
+        Settings = this;
         LoadSettings();
     }
 

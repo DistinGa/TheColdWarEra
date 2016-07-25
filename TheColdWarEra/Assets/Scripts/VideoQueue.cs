@@ -64,6 +64,7 @@ public class VideoQueue : MonoBehaviour {
         mVideoQueue = new List<VideoRealPlayRolex>();
         TimeToTick = Interval;
         VideoPanel = GetComponent<Image>();
+        VideoPanel.material.mainTexture = null;
     }
 
     void Update()

@@ -46,6 +46,7 @@ public class PlayerScript : MonoBehaviour {
 
         double add = 1 + AddProcent / 100.0;
         Budget = ((Budget + _Score) * add);
+        Budget = Mathf.RoundToInt((float)Budget);
 
         SoundManager.SM.PlaySound("sound/moneyin");
 

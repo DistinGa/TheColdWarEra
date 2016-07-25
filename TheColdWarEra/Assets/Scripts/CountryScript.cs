@@ -167,6 +167,9 @@ public class CountryScript : MonoBehaviour
                 break;
         }
 
+        SovInf = Mathf.Clamp(SovInf, 0, 100);
+        AmInf = Mathf.Clamp(AmInf, 0, 100);
+
         if (!Auto)
         {
             LastAut = Inf;
@@ -189,6 +192,8 @@ public class CountryScript : MonoBehaviour
             if (KGB > 5)
                 KGB = 5;
         }
+        KGB = Mathf.Clamp(KGB, 0, 5);
+        CIA = Mathf.Clamp(CIA, 0, 5);
 
         //устанавливаем дискаунтер, чтобы отключить возможность повторного повышения в пределах отведённого периода.
         if (Inf == Authority.Amer)
@@ -239,10 +244,8 @@ public class CountryScript : MonoBehaviour
         }
 
         //Устранение выхода за допустимую границу.
-        if (GovForce > 10)
-            GovForce = 10;
-        if (OppForce > 10)
-            OppForce = 10;
+        GovForce = Mathf.Clamp(GovForce, 0, 10);
+        OppForce = Mathf.Clamp(OppForce, 0, 10);
 
         return res;
     }

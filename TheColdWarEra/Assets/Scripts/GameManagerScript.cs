@@ -448,6 +448,7 @@ public class GameManagerScript : MonoBehaviour
         VQueue.ClearVideoQueue(Country, VideoQueue.V_PUPPER_REVOLUTION);
 
         Country.ChangeGov(NewAut);
+        SoundManager.SM.PlaySound("sound/cuop");
         VQueue.AddRolex(VQueue.LocalType(Country.Authority), VideoQueue.V_PRIO_NULL, revolution ? VideoQueue.V_PUPPER_WAR : VideoQueue.V_PUPPER_PEACE, Country);
 
         //Если в главной стране правительство сменилось, тогда победа нокаутом
@@ -460,7 +461,6 @@ public class GameManagerScript : MonoBehaviour
     {
         if (Country.CanChangeGov(Player.Authority))
         {
-            SoundManager.SM.PlaySound("sound/cuop");
             ChangeGovernment(Country, Player.Authority, false);
             SnapToCountry();
         }
@@ -609,12 +609,12 @@ public class GameManagerScript : MonoBehaviour
                 //Проверка победы с 50 очками или более
                 if (!SavedSettings.Mission2SU)
                 {
-                    SavedSettings.Mission2SU = (Player.Score >= 50);
+                    SavedSettings.Mission2SU = (Player.Score >= 50 && SettingsScript.Settings.AIPower == 1);
                 }
                 //Проверка победы с переворотом в стране оппонента
                 if (!SavedSettings.Mission3SU)
                 {
-                    SavedSettings.Mission3SU = (Player.OppCountry.Authority == Player.Authority);
+                    SavedSettings.Mission3SU = (Player.OppCountry.Authority == Player.Authority && SettingsScript.Settings.AIPower == 2);
                 }
             }
 
@@ -638,12 +638,12 @@ public class GameManagerScript : MonoBehaviour
                 //Проверка победы с 50 очками или более
                 if (!SavedSettings.Mission2USA)
                 {
-                    SavedSettings.Mission2USA = (Player.Score >= 50);
+                    SavedSettings.Mission2USA = (Player.Score >= 50 && SettingsScript.Settings.AIPower == 1);
                 }
                 //Проверка победы с переворотом в стране оппонента
                 if (!SavedSettings.Mission3USA)
                 {
-                    SavedSettings.Mission3USA = (Player.OppCountry.Authority == Player.Authority);
+                    SavedSettings.Mission3USA = (Player.OppCountry.Authority == Player.Authority && SettingsScript.Settings.AIPower == 2);
                 }
             }
         }

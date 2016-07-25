@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class SettingsScript : MonoBehaviour
@@ -16,7 +16,15 @@ public class SettingsScript : MonoBehaviour
 
     public void Awake()
     {
+        //Singletone
+        if (Settings != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Settings = this;
+        DontDestroyOnLoad(gameObject);
         LoadSettings();
     }
 

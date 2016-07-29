@@ -167,8 +167,8 @@ public class CountryScript : MonoBehaviour
                 break;
         }
 
-        SovInf = Mathf.Clamp(SovInf, 0, 100);
-        AmInf = Mathf.Clamp(AmInf, 0, 100);
+        //SovInf = Mathf.Clamp(SovInf, 0, 100);
+        //AmInf = Mathf.Clamp(AmInf, 0, 100);
 
         if (!Auto)
         {

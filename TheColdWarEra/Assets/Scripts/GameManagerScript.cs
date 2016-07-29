@@ -126,8 +126,8 @@ public class GameManagerScript : MonoBehaviour
 
             NextMonth();
 
-            //Проверка на предмет победы/поражения
-            CheckGameResult();
+            ////Проверка на предмет победы/поражения
+            //CheckGameResult();
 
             // прошел год?
             if (mMonthCount % 12 == 0 && mMonthCount > 0)
@@ -453,7 +453,7 @@ public class GameManagerScript : MonoBehaviour
 
         //Если в главной стране правительство сменилось, тогда победа нокаутом
         if (Player.MyCountry == Country || Player.OppCountry == Country)
-            StopGame(true);
+            StopGame();
     }
 
     //обработка нажатия кнопки "NewGovButton"
@@ -568,20 +568,11 @@ public class GameManagerScript : MonoBehaviour
     }
 
     //Окончание игры и показ окна, говорящего об этом.
-    //KO - захватили страну противника
-    //preWin - досрочный выигрыш (оппонент вышел из игры)
-    //preLoose - досрочный проигрыш (выход из игры)
-    void StopGame(bool KO = false, bool preWin = false, bool preLoose = false)
+    void StopGame()
     {
         string SceneName = "";
 
-        if (KO)
-            SceneName = "WinScreen";
-        else if(preWin)
-            SceneName = "WinScreen";
-        else if(preLoose)
-            SceneName = "LostScreen";
-        else if(CheckGameResult())
+        if(CheckGameResult())
             SceneName = "WinScreen";
         else
             SceneName = "LostScreen";

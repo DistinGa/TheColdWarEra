@@ -111,12 +111,17 @@ public class CountryScript : MonoBehaviour
         switch (Inf)
         {
             case Authority.Neutral:
-                int ActAmount = Mathf.Min(Amount, 100 - NInf);
-                NInf += ActAmount;
+                //определяем максимально допустимое количество влияния, которое может быть добавлено/отнято
+                if (Amount > 0)
+                    Amount = Mathf.Min(Amount, 100 - NInf);
+                else
+                    Amount = -Mathf.Min(-Amount, NInf);
+
+                NInf += Amount;
 
                 //Распределяем "минус" по другим влияниям.
-                AmInf -= ActAmount / 2;
-                SovInf -= (ActAmount - ActAmount / 2);  //чтобы не накапливалось расхождение из-за округления
+                AmInf -= Amount / 2;
+                SovInf -= (Amount - Amount / 2);  //чтобы не накапливалось расхождение из-за округления
                 //Если американского влияния было мало, отнимаем остаток от советсткого, а американское обнуляем
                 if (AmInf < 0)
                 {
@@ -132,6 +137,12 @@ public class CountryScript : MonoBehaviour
                 }
                 break;
             case Authority.Amer:
+                //определяем максимально допустимое количество влияния, которое может быть добавлено/отнято
+                if (Amount > 0)
+                    Amount = Mathf.Min(Amount, 100 - AmInf);
+                else
+                    Amount = -Mathf.Min(-Amount, AmInf);
+
                 AmInf += Amount;
                 DiscounterUsaInfl = GameManagerScript.GM.MAX_INFLU_CLICK;
 
@@ -149,6 +160,12 @@ public class CountryScript : MonoBehaviour
                 }
                 break;
             case Authority.Soviet:
+                //определяем максимально допустимое количество влияния, которое может быть добавлено/отнято
+                if (Amount > 0)
+                    Amount = Mathf.Min(Amount, 100 - SovInf);
+                else
+                    Amount = -Mathf.Min(-Amount, SovInf);
+
                 SovInf += Amount;
                 DiscounterRusInfl = GameManagerScript.GM.MAX_INFLU_CLICK;
 

@@ -23,6 +23,12 @@ public class StartMenuScript : MonoBehaviour
     public RectTransform UssrEasy;
     public RectTransform UssrMed;
     public RectTransform UssrHard;
+    [Space(10)]
+    [SerializeField]
+    Text CurSentence;
+    [TextArea(2, 5)]
+    [SerializeField]
+    string[] Sentences;
 
     private AudioSource AS;
 
@@ -48,6 +54,8 @@ public class StartMenuScript : MonoBehaviour
         AudioSource MusicSource = GameObject.Find("StartScreen").GetComponent<AudioSource>();
         MusicSource.volume = SettingsScript.Settings.mMusicVol;
         MusicSource.enabled = SettingsScript.Settings.mMusicOn;
+
+        CurSentence.text = Sentences[Random.Range(0, Sentences.Length)];
     }
 
     public void Exit()

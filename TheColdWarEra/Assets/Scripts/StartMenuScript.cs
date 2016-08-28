@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Steamworks;
 
 public class StartMenuScript : MonoBehaviour
 {
@@ -36,8 +37,21 @@ public class StartMenuScript : MonoBehaviour
     {
         AS = GetComponent<AudioSource>();
 
-        VideoNews.isOn = SettingsScript.Settings.mVideo;
-        Voice.isOn = SettingsScript.Settings.mVoiceOn;
+        if (SteamApps.BIsDlcInstalled((AppId_t)508430))
+        {
+            VideoNews.interactable = true;
+            Voice.interactable = true;
+            VideoNews.isOn = SettingsScript.Settings.mVideo;
+            Voice.isOn = SettingsScript.Settings.mVoiceOn;
+        }
+        else
+        {
+            VideoNews.interactable = false;
+            Voice.interactable = false;
+            VideoNews.isOn = false;
+            Voice.isOn = false;
+        }
+
         Music.isOn = SettingsScript.Settings.mMusicOn;
         Sound.isOn = SettingsScript.Settings.mSoundOn;
         MusicVolume.value = SettingsScript.Settings.mMusicVol;

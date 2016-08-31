@@ -135,4 +135,15 @@ class SteamManager : MonoBehaviour {
 		// Run Steam client callbacks
 		SteamAPI.RunCallbacks();
 	}
+
+    public static void UnLockAchievment(string achName)
+    {
+        if (!Instance.m_bInitialized)
+        {
+            return;
+        }
+
+        SteamUserStats.SetAchievement(achName);
+        SteamUserStats.StoreStats();
+    }
 }

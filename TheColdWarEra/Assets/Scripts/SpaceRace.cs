@@ -165,10 +165,19 @@ public class SpaceRace : MonoBehaviour
         if (TechInd < 16)
             GM.AddInfluenceInCountries(Player.Authority, Player.Authority, InfAmount);  //увеличение в союзных странах
         else
-            GM.AddInfluenceInCountries(Authority.Neutral, Player.Authority, InfAmount); //Во всех странах
+            GM.AddInfluenceInCountries(Authority.Neutral, Player.Authority, InfAmount); //Во всех нейтральных странах
 
         //Отметка открытой технологии
         Player.SetTechStatus(TechInd);
+
+        //Steam achievments
+        if(TechInd == 19)
+            SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_0");
+        if (TechInd == 25)
+            SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_1");
+        if (TechInd == 39)
+            SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_4");
+
 
         // показать видео
         GM.VQueue.AddRolex(VideoQueue.V_TYPE_GLOB, VideoQueue.V_PRIO_NULL,

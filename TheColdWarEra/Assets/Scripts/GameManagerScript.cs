@@ -453,7 +453,22 @@ public class GameManagerScript : MonoBehaviour
 
         //Если в главной стране правительство сменилось, тогда победа нокаутом
         if (Player.MyCountry == Country || Player.OppCountry == Country)
+        {
+            //Steam achievments
+            //Ачивки связанные с переворотом в стране противника (мирным или вооруженным)
+            if (Player.OppCountry.Authority == Player.Authority)
+            {
+                string achName;
+                if (revolution)
+                    achName = "NEW_ACHIEVEMENT_1_5";
+                else
+                    achName = "NEW_ACHIEVEMENT_1_7";
+
+                SteamManager.UnLockAchievment(achName);
+            }
+
             StopGame();
+        }
     }
 
     //обработка нажатия кнопки "NewGovButton"
@@ -572,8 +587,14 @@ public class GameManagerScript : MonoBehaviour
     {
         string SceneName = "";
 
-        if(CheckGameResult())
+        if (CheckGameResult())
+        {
             SceneName = "WinScreen";
+
+            //Steam achievments
+            //Ачивка за первую победу
+            SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_6");
+        }
         else
             SceneName = "LostScreen";
 
@@ -605,7 +626,13 @@ public class GameManagerScript : MonoBehaviour
                 //Проверка победы с переворотом в стране оппонента
                 if (!SavedSettings.Mission3SU)
                 {
-                    SavedSettings.Mission3SU = (Player.OppCountry.Authority == Player.Authority && SettingsScript.Settings.AIPower == 2);
+                    if(Player.OppCountry.Authority == Player.Authority && SettingsScript.Settings.AIPower == 2)
+                        {
+                        SavedSettings.Mission3SU = true;
+                        //Steam achievments
+                        //Ачивка за выполнение вссех миссий за СССР
+                        SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_8");
+                    }
                 }
             }
 
@@ -634,7 +661,13 @@ public class GameManagerScript : MonoBehaviour
                 //Проверка победы с переворотом в стране оппонента
                 if (!SavedSettings.Mission3USA)
                 {
-                    SavedSettings.Mission3USA = (Player.OppCountry.Authority == Player.Authority && SettingsScript.Settings.AIPower == 2);
+                    if (Player.OppCountry.Authority == Player.Authority && SettingsScript.Settings.AIPower == 2)
+                    {
+                        SavedSettings.Mission3USA = true;
+                        //Steam achievments
+                        //Ачивка за выполнение вссех миссий за США
+                        SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_9");
+                    }
                 }
             }
         }

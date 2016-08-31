@@ -352,6 +352,21 @@ public class CountryScript : MonoBehaviour
 
         Support = 100 - Support;    // оппозиция стала поддержкой
         SetAuthority(); //Смена цвета границ
+
+        //Steam achievments
+        GameManagerScript GM = GameManagerScript.GM;
+
+        if (Name == "East Germany" || Name == "West Germany")
+        {
+            if(GM.FindCountryById(12).Authority == GM.Player.Authority && GM.FindCountryById(24).Authority == GM.Player.Authority)
+                SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_2");
+        }
+
+        if (Name == "South Korea" || Name == "North Korea")
+        {
+            if (GM.FindCountryById(53).Authority == GM.Player.Authority && GM.FindCountryById(54).Authority == GM.Player.Authority)
+                SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_3");
+        }
     }
 
     //Обработка начала месяца

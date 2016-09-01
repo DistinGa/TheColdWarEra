@@ -171,13 +171,15 @@ public class SpaceRace : MonoBehaviour
         Player.SetTechStatus(TechInd);
 
         //Steam achievments
-        if(TechInd == 19)
-            SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_0");
-        if (TechInd == 25)
-            SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_1");
-        if (TechInd == 39)
-            SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_4");
-
+        if (GM.Player == Player)
+        {
+            if (TechInd == 19)
+                SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_0");
+            if (TechInd == 25)
+                SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_1");
+            if (TechInd == 39)
+                SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_4");
+        }
 
         // показать видео
         GM.VQueue.AddRolex(VideoQueue.V_TYPE_GLOB, VideoQueue.V_PRIO_NULL,

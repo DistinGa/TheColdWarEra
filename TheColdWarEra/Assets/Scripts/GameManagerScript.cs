@@ -451,21 +451,18 @@ public class GameManagerScript : MonoBehaviour
         SoundManager.SM.PlaySound("sound/cuop");
         VQueue.AddRolex(VQueue.LocalType(Country.Authority), VideoQueue.V_PRIO_NULL, revolution ? VideoQueue.V_PUPPER_WAR : VideoQueue.V_PUPPER_PEACE, Country);
 
+        //Steam achievments
+        //Ачивка за дипломатическую смену власти (в любой стране)
+        if (Country.Authority == Player.Authority && !revolution)
+            SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_7");
+
         //Если в главной стране правительство сменилось, тогда победа нокаутом
         if (Player.MyCountry == Country || Player.OppCountry == Country)
         {
             //Steam achievments
-            //Ачивки связанные с переворотом в стране противника (мирным или вооруженным)
+            //Ачивка связанная с переворотом в стране противника (мирным или вооруженным)
             if (Player.OppCountry.Authority == Player.Authority)
-            {
-                string achName;
-                if (revolution)
-                    achName = "NEW_ACHIEVEMENT_1_5";
-                else
-                    achName = "NEW_ACHIEVEMENT_1_7";
-
-                SteamManager.UnLockAchievment(achName);
-            }
+                SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_5");
 
             StopGame();
         }

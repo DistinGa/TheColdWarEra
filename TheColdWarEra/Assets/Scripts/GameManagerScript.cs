@@ -69,6 +69,8 @@ public class GameManagerScript : MonoBehaviour
     public int PARADE_COST = 1;
     [Tooltip("стоимость организации восстания")]
     public int RIOT_COST = 1;
+    //Дискаунтер для кризиса при опускании бюджета до 200. Кризис не чаще раза в год.
+    int CryzisDiscounter = 0;
 
     public void Awake()
     {
@@ -125,9 +127,6 @@ public class GameManagerScript : MonoBehaviour
             }
 
             NextMonth();
-
-            ////Проверка на предмет победы/поражения
-            //CheckGameResult();
 
             // прошел год?
             if (mMonthCount % 12 == 0 && mMonthCount > 0)
@@ -563,6 +562,17 @@ public class GameManagerScript : MonoBehaviour
         }
         //Ход AI
         AI.AIturn();
+
+        //Финансовый кризис при опускании бюджета до 200
+        CryzisDiscounter -= 1;
+        if (Player.Budget <= 200d && CryzisDiscounter <= 0)
+        {
+            CountryScript c = Player.MyCountry;
+            c.Support -= 50f;
+            CryzisDiscounter = 12;
+            VQueue.AddRolex(VideoQueue.V_TYPE_GLOB, VideoQueue.V_PRIO_PRESSING, VideoQueue.V_PUPPER_EVENT_FINANCE, c);
+        }
+
 
         //Случайные события
         TestRandomEvent();

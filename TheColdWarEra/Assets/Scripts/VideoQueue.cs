@@ -82,6 +82,8 @@ public class VideoQueue : MonoBehaviour {
     // type- глоб/лок V_TYPE_*
     public void AddRolex(int type, int tempo, int info, CountryScript c)
     {
+        return;
+
         GameManagerScript GM = GameManagerScript.GM;
 
         VideoRealPlayRolex vrr = SearchRolex(type, tempo, info, c.Region, GM.GetCurrentEpoch(), c, GM.CurrentMonth());

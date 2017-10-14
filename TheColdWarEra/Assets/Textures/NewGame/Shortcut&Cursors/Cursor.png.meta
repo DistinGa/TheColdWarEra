@@ -1,0 +1,79 @@
+fileFormatVersion: 2
+guid: c10e33878e710e54599e51ccf1deeeca
+timeCreated: 1507403915
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Cursor_0
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 1
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 1
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 512
+  textureSettings:
+    filterMode: -1
+    aniso: 1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 0
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 7
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Cursor_0
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 22
+        width: 159
+        height: 238
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -67.5, y: 119}
+        - {x: -79.5, y: 119}
+        - {x: -79.5, y: 89}
+        - {x: -65.5, y: -95}
+        - {x: -25.5, y: -119}
+        - {x: -3.5, y: -119}
+        - {x: 71.5, y: -83}
+        - {x: 74.5, y: -78}
+        - {x: 79.5, y: -46}
+        - {x: 79.5, y: -19}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -23,6 +23,7 @@ public class PlayerScript : MonoBehaviour {
     public GameObject SpyPlate;
     public Transform pnlStates;
     public GameObject pnlInfo;
+    public GameObject pnlWarFlags;
 
     bool[] TechStatus = new bool[41]; //true - технология исследована (технологий 40, в оригинале они нумеровались с единицы, чтобы не путаться и в массиве будем их хранить начиная с первого элемента, поэтому 41 элемент в массиве)
     
@@ -45,6 +46,7 @@ public class PlayerScript : MonoBehaviour {
         btnChangeGov.SetActive(state);
         btnExit.SetActive(state);
         pnlInfo.SetActive(state);
+        pnlWarFlags.SetActive(state);
     }
 
     public int Score

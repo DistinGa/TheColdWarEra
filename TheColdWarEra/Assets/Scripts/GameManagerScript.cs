@@ -105,7 +105,7 @@ public class GameManagerScript : MonoBehaviour
 
         MainCamera = FindObjectOfType<Camera>();
         DownMenu = GameObject.Find("DownMenu").GetComponent<RectTransform>();
-        WarFlagsPanel = GameObject.Find("WarFlagsPanel/Panel/Flags").GetComponent<RectTransform>();
+        WarFlagsPanel = Player.pnlWarFlags.transform.FindChild("Flags").GetComponent<RectTransform>();
         Marker.GetComponent<SpriteRenderer>().sprite = Player.SprMarker;
 
         MainCamera.GetComponent<CameraScript>().SetNewPosition(Player.MyCountry.Capital);
@@ -897,8 +897,9 @@ public class GameManagerScript : MonoBehaviour
 
         RectTransform fb = Instantiate<RectTransform>(FlagButtonPrefab);
         fb.SetParent(WarFlagsPanel);
-        //Новый флаг должен появиться вверху списка
-        fb.SetAsFirstSibling();
+        fb.localScale = Vector3.one;
+        ////Новый флаг должен появиться вверху списка
+        //fb.SetAsFirstSibling();
         //Установка страны
         fb.GetComponent<FlagButton>().Country = Country;
     }

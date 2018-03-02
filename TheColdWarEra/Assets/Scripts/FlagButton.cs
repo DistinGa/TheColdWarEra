@@ -10,7 +10,8 @@ public class FlagButton : MonoBehaviour
     void Start()
     {
         scCamera = FindObjectOfType<Camera>().GetComponent<CameraScript>();
-        GetComponent<UnityEngine.UI.Image>().sprite = (Country.Authority == Authority.Soviet ? Country.FlagS : Country.FlagNs);
+        //GetComponent<UnityEngine.UI.Image>().sprite = (Country.Authority == Authority.Soviet ? Country.FlagS : Country.FlagNs);
+        GetComponent<UnityEngine.UI.Image>().sprite = Country.FlagS;
     }
 
     public void ClickFlag()

@@ -511,6 +511,7 @@ public class CountryScript : MonoBehaviour
         if (GovForce > 0 && OppForce > 0)
         {
             AddState(States.SYM_WAR, Authority.Amer, 10000);
+            UpdateStates();
             //Добавление страны в правый список
             GameManagerScript.GM.AddWarFlag(this);
         }

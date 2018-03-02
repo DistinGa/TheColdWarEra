@@ -37,14 +37,14 @@ public class StartMenuScript : MonoBehaviour
     {
         AS = GetComponent<AudioSource>();
 
-        if (SteamApps.BIsDlcInstalled((AppId_t)508430))
-        {
-            VideoNews.interactable = true;
-            Voice.interactable = true;
-            VideoNews.isOn = SettingsScript.Settings.mVideo;
-            Voice.isOn = SettingsScript.Settings.mVoiceOn;
-        }
-        else
+        //if (SteamApps.BIsDlcInstalled((AppId_t)508430))
+        //{
+        //    VideoNews.interactable = true;
+        //    Voice.interactable = true;
+        //    VideoNews.isOn = SettingsScript.Settings.mVideo;
+        //    Voice.isOn = SettingsScript.Settings.mVoiceOn;
+        //}
+        //else
         {
             VideoNews.interactable = false;
             Voice.interactable = false;

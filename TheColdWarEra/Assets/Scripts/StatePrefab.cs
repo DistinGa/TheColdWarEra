@@ -8,9 +8,16 @@ public class StatePrefab : MonoBehaviour {
 
     public void Init(int sprIndx, Authority authority)
     {
-        if(authority == Authority.Amer)
-            GetComponent<Image>().sprite = spriteAmer[sprIndx];
-        if(authority == Authority.Soviet)
-            GetComponent<Image>().sprite = spriteSov[sprIndx];
+        GetComponent<Image>().sprite = TakePicture(sprIndx, authority);
+    }
+
+    public Sprite TakePicture(int sprIndx, Authority authority)
+    {
+        if (authority == Authority.Amer)
+            return spriteAmer[sprIndx];
+        if (authority == Authority.Soviet)
+            return spriteSov[sprIndx];
+
+        return null;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class CountryScript : MonoBehaviour
 {
@@ -11,9 +12,12 @@ public class CountryScript : MonoBehaviour
 
     [Space(10)]
     public string Name;
+    public Sprite PicName;
     public Region Region;
     public Authority Authority;
     public int Score;
+    [SerializeField]
+    Sprite[] scorePics = new Sprite[5];
     [SerializeField]
     private float support;
     [Space(10)]
@@ -31,6 +35,8 @@ public class CountryScript : MonoBehaviour
     [Space(10)]
     private Transform StatePanel;
     public List<StateSymbol> Symbols = new List<StateSymbol>();
+    [SerializeField]
+    Sprite countryChar;
 
     [HideInInspector]
     public int DiscounterUsaMeeting, DiscounterRusMeeting; //Сколько ждать до возможности следующего митинга протеста (0 - можно митинговать)
@@ -43,7 +49,7 @@ public class CountryScript : MonoBehaviour
     void Start()
     {
         SetAuthority();
-        StatePanel = transform.Find("Capital/Canvas/Panel");
+        StatePanel = transform.Find("Capital/StateCanvas");
     }
 
     //Возвращает список всех стран или отпределённой принадлежности
@@ -389,10 +395,11 @@ public class CountryScript : MonoBehaviour
 
             if (--item.MonthsToShow <= 0)
             {
-                Destroy(item.Symbol.gameObject);
+                //Destroy(item.Symbol.gameObject);
                 Symbols.Remove(item);
             }
         }
+        UpdateStates();
     }
 
     //Добавление состояния
@@ -410,7 +417,7 @@ public class CountryScript : MonoBehaviour
         }
 
         if(!exist)
-            Symbols.Add(new StateSymbol(state, aut, lifeTime, this));
+            Symbols.Insert(0, new StateSymbol(state, aut, lifeTime, this));
     }
 
     //Удаление состояния
@@ -431,8 +438,27 @@ public class CountryScript : MonoBehaviour
 
         if (exist)
         {
-            Destroy(ss.Symbol.gameObject);
+            //Destroy(ss.Symbol.gameObject);
             Symbols.Remove(ss);
+            UpdateStates();
+        }
+    }
+
+    void UpdateStates()
+    {
+        for (int i = 0; i < StatePanel.childCount; i++)
+        {
+            Image im = StatePanel.GetChild(i).GetComponent<Image>();
+
+            if (Symbols.Count > i)
+            {
+                im.enabled = true;
+                im.sprite = Symbols[i].Symbol;
+            }
+            else
+            {
+                im.enabled = false;
+            }
         }
     }
 
@@ -528,6 +554,41 @@ public class CountryScript : MonoBehaviour
         return result;
     }
 
+    //Возвращает количество военных заданной стороны
+    public int GetForces(Authority aut)
+    {
+        int result = 0;
+
+        if (Authority == Authority.Neutral)
+        {
+            if ((SovInf > AmInf && aut == Authority.Soviet) || (SovInf <= AmInf && aut == Authority.Amer))
+                result = GovForce;
+            else
+                result = OppForce;
+        }
+        else
+        {
+            if (Authority == aut)
+                result = GovForce;
+            else
+                result = OppForce;
+        }
+
+        return result;
+    }
+
+    //Возвращает Score в виде спрайта с количеством существ.
+    public Sprite GetScoreAsSprite()
+    {
+        return scorePics[Score - 1];
+    }
+
+    //Возвращает персонажа для страны.
+    public Sprite GetCountryChar()
+    {
+        return countryChar;
+    }
+
     //перечисление состояний страны
     public enum States
     {
@@ -546,7 +607,7 @@ public class CountryScript : MonoBehaviour
         public Authority Authority; // за какую сторону
         public int MonthsToShow; //сколько месяцев показывать (discaunter)
 
-        public RectTransform Symbol; // сам значок
+        public Sprite Symbol; // сам значок
 
         // конструктор
         public StateSymbol(States state, Authority authority, int life, CountryScript Country)
@@ -555,9 +616,11 @@ public class CountryScript : MonoBehaviour
             Authority = authority;
             MonthsToShow = life;
 
-            Symbol = Instantiate(GameManagerScript.GM.StatePrefab);
-            Symbol.SetParent(Country.StatePanel);
-            Symbol.GetComponent<StatePrefab>().Init((int)state, authority);
+            //Symbol = Instantiate(GameManagerScript.GM.StatePrefab);
+            //Symbol.SetParent(Country.StatePanel);
+            //Symbol.GetComponent<StatePrefab>().Init((int)state, authority);
+
+            Symbol = GameManagerScript.GM.StatePrefab.GetComponent<StatePrefab>().TakePicture((int)state, authority);
         }
 
     }

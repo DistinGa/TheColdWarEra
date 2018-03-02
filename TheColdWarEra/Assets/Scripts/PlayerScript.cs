@@ -9,6 +9,21 @@ public class PlayerScript : MonoBehaviour {
     public CountryScript OppCountry;
     public Sprite SprMarker;
 
+    [Space(10)]
+    public GameObject btnAddInf;
+    public GameObject btnParade;
+    public GameObject btnRiot;
+    public GameObject btnAddMil;
+    public GameObject btnAddSpy;
+    public GameObject btnChangeGov;
+    public GameObject btnExit;
+
+    public GameObject Avatar;
+    public GameObject ArmyPlate;
+    public GameObject SpyPlate;
+    public Transform pnlStates;
+    public GameObject pnlInfo;
+
     bool[] TechStatus = new bool[41]; //true - технология исследована (технологий 40, в оригинале они нумеровались с единицы, чтобы не путаться и в массиве будем их хранить начиная с первого элемента, поэтому 41 элемент в массиве)
     
     public List<int> History = new List<int>();
@@ -17,7 +32,21 @@ public class PlayerScript : MonoBehaviour {
 	void Start () {
         TechStatus[0] = true;   //Для доступности первой технологии
     }
-	
+
+    //Включение элементов управления активного игрока
+    public void ActivateControls(bool state)
+    {
+        btnAddInf.SetActive(state);
+        Avatar.SetActive(state);
+        btnAddMil.SetActive(state);
+        btnAddSpy.SetActive(state);
+        btnParade.SetActive(state);
+        btnRiot.SetActive(state);
+        btnChangeGov.SetActive(state);
+        btnExit.SetActive(state);
+        pnlInfo.SetActive(state);
+    }
+
     public int Score
     {
         get {

@@ -11,7 +11,7 @@ public class GameManagerScript : MonoBehaviour
 
     private Camera MainCamera;
     private RectTransform DownMenu;
-    private RectTransform UpMenu;
+    //private RectTransform UpMenu;
     private RectTransform WarFlagsPanel;
     private CountryScript Country;  //Выбранная в данный момент страна
     public VideoQueue VQueue;  //Видео-очередь
@@ -23,6 +23,7 @@ public class GameManagerScript : MonoBehaviour
     public RectTransform StatePrefab;   //префаб значка состояния страны
     public RectTransform FlagButtonPrefab;   //префаб флага в правой панели
     [Space(10)]
+    public Sprite SignNeutral;
     public Sprite SignUSA;
     public Sprite SignSU;
 
@@ -72,6 +73,9 @@ public class GameManagerScript : MonoBehaviour
     //Дискаунтер для кризиса при опускании бюджета до 200. Кризис не чаще раза в год.
     int CryzisDiscounter = 0;
 
+    //new
+    ClockScript clock;
+
     public void Awake()
     {
         GM = this;
@@ -80,25 +84,37 @@ public class GameManagerScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        if(SettingsScript.Settings.playerSelected == Authority.Amer)
+        if (SettingsScript.Settings.playerSelected == Authority.Amer)
+        {
             Player = transform.Find("AmerPlayer").GetComponent<PlayerScript>();
+            AI.AIPlayer = transform.Find("SovPlayer").GetComponent<PlayerScript>();
+        }
         else
+        {
             Player = transform.Find("SovPlayer").GetComponent<PlayerScript>();
+            AI.AIPlayer = transform.Find("AmerPlayer").GetComponent<PlayerScript>();
+        }
 
-        if(AI != null)
+        Player.ActivateControls(true);
+
+        if (AI != null)
+        {
+            AI.AIPlayer.ActivateControls(false);
             Player.Budget = AI.START_BUDGET_PLR[SettingsScript.Settings.AIPower];
+        }
 
         MainCamera = FindObjectOfType<Camera>();
         DownMenu = GameObject.Find("DownMenu").GetComponent<RectTransform>();
-        UpMenu = GameObject.Find("UpMenu").GetComponent<RectTransform>();
         WarFlagsPanel = GameObject.Find("WarFlagsPanel/Panel/Flags").GetComponent<RectTransform>();
-        Marker.GetComponent<SpriteRenderer>().sprite = Player.GetComponent<PlayerScript>().SprMarker;
+        Marker.GetComponent<SpriteRenderer>().sprite = Player.SprMarker;
 
         MainCamera.GetComponent<CameraScript>().SetNewPosition(Player.MyCountry.Capital);
         VQueue = FindObjectOfType<VideoQueue>();
 
 
+        //UpMenu = GameObject.Find("UpMenu").GetComponent<RectTransform>();
         //GameObject.Find("VideoLoader").GetComponent<LoadVideoInfo>().LoadInfo();
+        clock = FindObjectOfType<ClockScript>();
     }
 
     void Update()
@@ -119,18 +135,18 @@ public class GameManagerScript : MonoBehaviour
         {
             TickCount = Tick;
 
-            //Проверяем на конец игры по времени
-            if (mMonthCount > MAX_MONTHS_NUM)
-            {
-                StopGame();
-                return;
-            }
-
             NextMonth();
 
             // прошел год?
             if (mMonthCount % 12 == 0 && mMonthCount > 0)
                 NewYear();
+
+            //Проверяем на конец игры по времени
+            if (mMonthCount >= MAX_MONTHS_NUM)
+            {
+                StopGame();
+                return;
+            }
 
             //Обновление информации в верхнем меню
             ShowHighWinInfo();
@@ -182,103 +198,89 @@ public class GameManagerScript : MonoBehaviour
     private void SnapToCountry()
     {
         //Заполнение значений в нижнем меню
-        DownMenu.Find("Flag").GetComponent<Image>().sprite = Country.Authority == Authority.Soviet ? Country.FlagS : Country.FlagNs;
-        DownMenu.Find("Score").GetComponent<Text>().text = Country.Score + " score";
-        DownMenu.Find("Sign").GetComponent<Image>().enabled = (Country.Authority != Authority.Neutral);
-        string CountryState = "";
+        Transform trCNS =  DownMenu.Find("CountryNameScore");
         switch (Country.Authority)
         {
             case Authority.Neutral:
-                CountryState = "NEUTRAL";
+                trCNS.FindChild("Panel").GetComponent<Image>().sprite = SignNeutral;
                 break;
             case Authority.Amer:
-                CountryState = "AMERICAN";
-                DownMenu.Find("Sign").GetComponent<Image>().sprite = SignUSA;
+                trCNS.FindChild("Panel").GetComponent<Image>().sprite = SignUSA;
                 break;
             case Authority.Soviet:
-                CountryState = "SOVIET";
-                DownMenu.Find("Sign").GetComponent<Image>().sprite = SignSU;
+                trCNS.FindChild("Panel").GetComponent<Image>().sprite = SignSU;
                 break;
         }
-        DownMenu.Find("CountryState").GetComponent<Text>().text = Country.Name + ": GOVERNMENT - PRO " + CountryState;
-        DownMenu.Find("Support").GetComponent<Text>().text = Country.Support.ToString("g3");
-        DownMenu.Find("Riots").GetComponent<Text>().text = (100 - Country.Support).ToString("g3");
-        DownMenu.Find("Budget").GetComponent<Text>().text = Player.Budget.ToString("f0");
-        DownMenu.Find("InfAmer").GetComponent<Text>().text = Country.AmInf.ToString("f0");
-        DownMenu.Find("InfNeutral").GetComponent<Text>().text = Country.NInf.ToString("f0");
-        DownMenu.Find("InfSoviet").GetComponent<Text>().text = Country.SovInf.ToString("f0");
+        trCNS.FindChild("Panel/Name").GetComponent<Image>().sprite = Country.PicName;
+        trCNS.FindChild("Score").GetComponent<Image>().sprite = Country.GetScoreAsSprite();
 
-        DownMenu.Find("SpyLeft").GetComponent<Image>().fillAmount = Country.CIA * 0.2f;
-        DownMenu.Find("SpyRight").GetComponent<Image>().fillAmount = Country.KGB * 0.2f;
+        FindObjectOfType<uiSupport>().Support = Country.Support;
+
+        DownMenu.Find("Influence/LightInf").GetComponent<Image>().sprite = Resources.Load<Sprite>("Infl/Light/" + Country.AmInf.ToString("f0"));
+        DownMenu.Find("Influence/DarkInf").GetComponent<Image>().sprite = Resources.Load<Sprite>("Infl/Dark/" + Country.SovInf.ToString("f0"));
+
+        //DownMenu.Find("SpyLeft").GetComponent<Image>().fillAmount = Country.CIA * 0.2f;
+        //DownMenu.Find("SpyRight").GetComponent<Image>().fillAmount = Country.KGB * 0.2f;
 
         ShowMilitary();
 
         //Доступность кнопок
         //Влияние
-        DownMenu.Find("AddInfButton").GetComponent<Button>().interactable = Country.CanAddInf(Player.Authority);
+        Player.btnAddInf.GetComponent<Button>().interactable = Country.CanAddInf(Player.Authority);
         //Войска
-        DownMenu.Find("AddMilButton").GetComponent<Button>().interactable = Country.CanAddMil(Player.Authority);
+        Player.btnAddMil.GetComponent<Button>().interactable = Country.CanAddMil(Player.Authority);
         //Шпионы
-        DownMenu.Find("AddSpyButton").GetComponent<Button>().interactable = Country.CanAddSpy(Player.Authority);
+        Player.btnAddSpy.GetComponent<Button>().interactable = Country.CanAddSpy(Player.Authority);
         //Организация парада
-        DownMenu.Find("SupParadeButton").GetComponent<Button>().interactable = Country.CanOrgParade(Player.Authority);
+        Player.btnParade.GetComponent<Button>().interactable = Country.CanOrgParade(Player.Authority);
         //Организация восстания
-        DownMenu.Find("SupRiotButton").GetComponent<Button>().interactable = Country.CanOrgMeeting(Player.Authority);
+        Player.btnRiot.GetComponent<Button>().interactable = Country.CanOrgMeeting(Player.Authority);
         //Смена правительства
-        DownMenu.Find("NewGovButton").GetComponent<Button>().interactable = Country.CanChangeGov(Player.Authority);
+        Player.btnChangeGov.GetComponent<Button>().interactable = Country.CanChangeGov(Player.Authority);
     }
 
     public void ShowMilitary()
     {
-        DownMenu.Find("MilitaryLeft").GetComponent<Image>().fillAmount = 0;
-        DownMenu.Find("MilitaryLeft_n").GetComponent<Image>().fillAmount = 0;
-        DownMenu.Find("MilitaryRight_n").GetComponent<Image>().fillAmount = 0;
-        DownMenu.Find("MilitaryRight").GetComponent<Image>().fillAmount = 0;
+        UnitsDisplay PlayerArmy = Player.ArmyPlate.GetComponent<UnitsDisplay>();
+        UnitsDisplay PlayerSpies = Player.SpyPlate.GetComponent<UnitsDisplay>();
+        UnitsDisplay OppArmy = AI.AIPlayer.ArmyPlate.GetComponent<UnitsDisplay>();
+        UnitsDisplay OppSpies = AI.AIPlayer.SpyPlate.GetComponent<UnitsDisplay>();
 
-        switch (Country.Authority)
+        if (Country.Authority == Authority.Neutral)
         {
-            case Authority.Neutral:
-                if (Country.SovInf > Country.AmInf)
-                {
-                    DownMenu.Find("MilitaryRight_n").GetComponent<Image>().fillAmount = Country.GovForce * 0.1f;
-                    //Силы оппозиции видны если есть шпионы либо если оппозиция - своя (в данном случае - американская).
-                    if (Player.Authority == Authority.Amer || Country.KGB > 0)
-                        DownMenu.Find("MilitaryLeft").GetComponent<Image>().fillAmount = Country.OppForce * 0.1f;
-                }
-                else
-                {
-                    DownMenu.Find("MilitaryLeft_n").GetComponent<Image>().fillAmount = Country.GovForce * 0.1f;
-                    //Силы оппозиции видны если есть шпионы либо если оппозиция - своя (в данном случае - советсткая).
-                    if (Player.Authority == Authority.Soviet || Country.CIA > 0)
-                        DownMenu.Find("MilitaryRight").GetComponent<Image>().fillAmount = Country.OppForce * 0.1f;
-                }
-                break;
-            case Authority.Amer:
-                DownMenu.Find("MilitaryLeft").GetComponent<Image>().fillAmount = Country.GovForce * 0.1f;
-                if (Player.Authority == Authority.Amer)
-                {
-                    //Если нет шпионов, то силы противника не видны
-                    if (Country.CIA > 0)
-                        DownMenu.Find("MilitaryRight").GetComponent<Image>().fillAmount = Country.OppForce * 0.1f;
-                }
-                else
-                {
-                    DownMenu.Find("MilitaryRight").GetComponent<Image>().fillAmount = Country.OppForce * 0.1f;
-                }
-                break;
-            case Authority.Soviet:
-                DownMenu.Find("MilitaryRight").GetComponent<Image>().fillAmount = Country.GovForce * 0.1f;
-                if (Player.Authority == Authority.Soviet)
-                {
-                    //Если нет шпионов, то силы противника не видны
-                    if (Country.KGB > 0)
-                        DownMenu.Find("MilitaryLeft").GetComponent<Image>().fillAmount = Country.OppForce * 0.1f;
-                }
-                else
-                {
-                    DownMenu.Find("MilitaryLeft").GetComponent<Image>().fillAmount = Country.OppForce * 0.1f;
-                }
-                break;
+            if (Player.Authority == Authority.Soviet)
+                PlayerArmy.SetAmount(Country.GetForces(Player.Authority), Country.SovInf > Country.AmInf);
+            else
+                PlayerArmy.SetAmount(Country.GetForces(Player.Authority), Country.SovInf <= Country.AmInf);
+
+            //Армию противника видно, если в стране есть свои шпионы или если это нейтральная армия
+            if ((Player.Authority == Authority.Soviet && Country.SovInf > Country.AmInf) || (Player.Authority == Authority.Amer && Country.SovInf <= Country.AmInf))
+                OppArmy.SetAmount(Country.GetForces(GetOpponentTo(Player).Authority), true);
+            else if (Country.HaveSpy(Player.Authority))
+                OppArmy.SetAmount(Country.GetForces(GetOpponentTo(Player).Authority));
+            else
+                OppArmy.SetAmount(0);
+        }
+        else
+        {
+            PlayerArmy.SetAmount(Country.GetForces(Player.Authority));
+            //Армию противника видно, если в стране есть свои шпионы
+            if (Country.HaveSpy(Player.Authority))
+                OppArmy.SetAmount(Country.GetForces(GetOpponentTo(Player).Authority));
+            else
+                OppArmy.SetAmount(0);
+        }
+
+        //Шпионы
+        if (Player.Authority == Authority.Soviet)
+        {
+            PlayerSpies.SetAmount(Country.KGB);
+            OppSpies.SetAmount(Country.CIA);
+        }
+        else
+        {
+            PlayerSpies.SetAmount(Country.CIA);
+            OppSpies.SetAmount(Country.KGB);
         }
     }
 
@@ -768,16 +770,29 @@ public class GameManagerScript : MonoBehaviour
     //Обновление информации в верхнем меню
     void ShowHighWinInfo()
     {
-        string[] months = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
-        int m = mMonthCount % 12;
-        int y = mMonthCount / 12;
-        string CurrentDate = months[m] + " " + (1950 + y);
+        //string[] months = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+        //int m = mMonthCount % 12;
+        //int y = mMonthCount / 12;
+        //string CurrentDate = months[m] + " " + (1950 + y);
 
-        UpMenu.Find("Date").GetComponent<Text>().text = CurrentDate;
-        UpMenu.Find("USScore").GetComponent<Text>().text = GameObject.Find("AmerPlayer").GetComponent<PlayerScript>().Score.ToString("f0");
-        UpMenu.Find("USBudget").GetComponent<Text>().text = GameObject.Find("AmerPlayer").GetComponent<PlayerScript>().Budget.ToString("f0");
-        UpMenu.Find("SovScore").GetComponent<Text>().text = GameObject.Find("SovPlayer").GetComponent<PlayerScript>().Score.ToString("f0");
-        UpMenu.Find("SovBudget").GetComponent<Text>().text = GameObject.Find("SovPlayer").GetComponent<PlayerScript>().Budget.ToString("f0");
+        Player.pnlStates.Find("Score").GetComponent<Text>().text = Player.Score.ToString("f0");
+        Player.pnlStates.Find("Budget").GetComponent<Text>().text = Player.Budget.ToString("f0");
+        AI.AIPlayer.pnlStates.Find("Score").GetComponent<Text>().text = Player.Score.ToString("f0");
+        AI.AIPlayer.pnlStates.Find("Budget").GetComponent<Text>().text = Player.Budget.ToString("f0");
+
+        clock.ShowDate(CurrentMonth());
+        //UpMenu.Find("Date").GetComponent<Text>().text = CurrentDate;
+        //PlayerScript AmerPlayer = GameObject.Find("AmerPlayer").GetComponent<PlayerScript>();
+        //PlayerScript SovPlayer = GameObject.Find("SovPlayer").GetComponent<PlayerScript>();
+
+        //UpMenu.Find("StatesRight/Score").GetComponent<Text>().text = SovPlayer.Score.ToString("f0");
+        //UpMenu.Find("StatesRight/Budget").GetComponent<Text>().text = SovPlayer.Budget.ToString("f0");
+        //UpMenu.Find("StatesLeft/Score").GetComponent<Text>().text = AmerPlayer.Score.ToString("f0");
+        //UpMenu.Find("StatesLeft/Budget").GetComponent<Text>().text = AmerPlayer.Budget.ToString("f0");
+        //UpMenu.Find("USScore").GetComponent<Text>().text = GameObject.Find("AmerPlayer").GetComponent<PlayerScript>().Score.ToString("f0");
+        //UpMenu.Find("USBudget").GetComponent<Text>().text = GameObject.Find("AmerPlayer").GetComponent<PlayerScript>().Budget.ToString("f0");
+        //UpMenu.Find("SovScore").GetComponent<Text>().text = GameObject.Find("SovPlayer").GetComponent<PlayerScript>().Score.ToString("f0");
+        //UpMenu.Find("SovBudget").GetComponent<Text>().text = GameObject.Find("SovPlayer").GetComponent<PlayerScript>().Budget.ToString("f0");
     }
 
     public bool PayCost(Authority Aut, int Money)
@@ -848,10 +863,20 @@ public class GameManagerScript : MonoBehaviour
     }
 
     //Установка текста новости и страны в нижнем меню.
-    public void SetInfo(string InfoText, string CountryName = "")
+    public void SetInfo(string InfoText, CountryScript Country = null)
     {
-        DownMenu.Find("Info").GetComponent<Text>().text = InfoText;
-        DownMenu.Find("InfoCountry").GetComponent<Text>().text = CountryName;
+        Player.pnlInfo.GetComponentInChildren<Text>().text = InfoText;
+        Image tmpImage = Player.pnlInfo.transform.FindChild("CountryChar").GetComponent<Image>();
+        if (Country != null)
+        {
+            tmpImage.sprite = Country.GetCountryChar();
+            tmpImage.enabled = true;
+        }
+        else
+        {
+            tmpImage.sprite = null;
+            tmpImage.enabled = false;
+        }
     }
 
     // определить локальный тип видеоролика

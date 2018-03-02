@@ -12,7 +12,7 @@ public class SettingsScript : MonoBehaviour
     public float mMusicVol { get; set; }
     public float mSoundVol { get; set; }
     public int AIPower { get; set; }
-    public Authority playerSelected { get; set; }
+    public Authority playerSelected;// { get; set; }
 
     public void Awake()
     {

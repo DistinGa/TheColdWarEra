@@ -82,8 +82,6 @@ public class VideoQueue : MonoBehaviour {
     // type- глоб/лок V_TYPE_*
     public void AddRolex(int type, int tempo, int info, CountryScript c)
     {
-        return;
-
         GameManagerScript GM = GameManagerScript.GM;
 
         VideoRealPlayRolex vrr = SearchRolex(type, tempo, info, c.Region, GM.GetCurrentEpoch(), c, GM.CurrentMonth());
@@ -277,7 +275,7 @@ public class VideoQueue : MonoBehaviour {
                     Audio.Stop();
                 }
 
-                GameManagerScript.GM.SetInfo(videoInfo, videoCountry);  //Вывод текста новости
+                GameManagerScript.GM.SetInfo(videoInfo, mVideoQueue[1].mCountry);  //Вывод текста новости
 
                 //Начало трансляции новости
                 if (SettingsScript.Settings.mVideo)

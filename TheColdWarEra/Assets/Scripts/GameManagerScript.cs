@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿#define myDEBUG
+
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -459,7 +461,7 @@ public class GameManagerScript : MonoBehaviour
 
         //Steam achievments
         //Ачивка за дипломатическую смену власти (в любой стране)
-#if !DEBUG
+#if !myDEBUG
         if (Country.Authority == Player.Authority && !revolution)
             SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_7");
 #endif
@@ -468,7 +470,7 @@ public class GameManagerScript : MonoBehaviour
         {
             //Steam achievments
             //Ачивка связанная с переворотом в стране противника (мирным или вооруженным)
-#if !DEBUG
+#if !myDEBUG
             if (Player.OppCountry.Authority == Player.Authority)
                 SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_5");
 #endif
@@ -610,7 +612,7 @@ public class GameManagerScript : MonoBehaviour
 
             //Steam achievments
             //Ачивка за первую победу
-#if !DEBUG
+#if !myDEBUG
             SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_6");
 #endif
         }
@@ -650,7 +652,7 @@ public class GameManagerScript : MonoBehaviour
                         SavedSettings.Mission3SU = true;
                         //Steam achievments
                         //Ачивка за выполнение вссех миссий за СССР
-#if !DEBUG
+#if !myDEBUG
                         SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_8");
 #endif
                     }
@@ -687,7 +689,7 @@ public class GameManagerScript : MonoBehaviour
                         SavedSettings.Mission3USA = true;
                         //Steam achievments
                         //Ачивка за выполнение вссех миссий за США
-#if !DEBUG
+#if !myDEBUG
                         SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_9");
 #endif
                     }

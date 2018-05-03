@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿#define myDEBUG
+
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -231,7 +233,7 @@ public class SpaceRace : MonoBehaviour
         //Отметка открытой технологии
         Player.SetTechStatus(TechInd);
 
-#if !DEBUG
+#if !myDEBUG
         //Steam achievments
         if (GM.Player == Player)
         {

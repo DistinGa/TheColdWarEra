@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿#define myDEBUG
+
+using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
@@ -360,7 +362,7 @@ public class CountryScript : MonoBehaviour
         SetAuthority(); //Смена цвета границ
 
         //Steam achievments
-#if !DEBUG
+#if !myDEBUG
         GameManagerScript GM = GameManagerScript.GM;
 
         if (Name == "East Germany" || Name == "West Germany")

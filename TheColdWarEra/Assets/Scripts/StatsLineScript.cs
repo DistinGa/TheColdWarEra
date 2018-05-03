@@ -2,65 +2,100 @@
 using UnityEngine.UI;
 
 public class StatsLineScript : MonoBehaviour {
-    public RectTransform Influence;
-    public RectTransform Opposition;
-    public RectTransform Score;
-    public RectTransform Button;
+    public Image imgInf;
+    public RectTransform InfShadow;
+    public Transform ZeroPos;
+    public GameObject InfGlow;
+    public Sprite Inf0;
+    public Sprite Inf100;
+    public Sprite InfCommon;
 
-    public Sprite Blue;
-    public Sprite Red;
-    public Sprite Grey;
+    [Space(10)]
+    public Image Opposition;
+    public GameObject OppGlow;
+    public Image Eyes;
+    public Sprite RedEyes, GreenEyes;
+
+    public Image Score;
+
+    [Space(10)]
+    public Image CountryFrame;
+    public Image CountryName;
+    public Sprite DarkFrame;
+    public Sprite LightFrame;
 
     public Authority ListAuthority;
-    public CountryScript Country;
 
-    static Color BlueText = new Color(0, 0.75f, 1);
-    static Color RedText = new Color(1, 0.25f, 0);
+    CountryScript Country;
 
-    public void Init(CountryScript c)
+    public void Init(CountryScript c, Sprite ScoreSprite)
     {
         Country = c;
 
-        Image Image = GetComponent<Image>();
+        //Влияние
+        int inf = c.GetInfluense(ListAuthority);
+        InfGlow.SetActive(inf >= GameManagerScript.GM.INSTALL_PUPPER_INFLU);
 
-        Text InfText = Influence.GetComponent<Text>();
-        InfText.text = (ListAuthority == Authority.Amer? c.AmInf: c.SovInf).ToString("f0");
-        switch (c.LastAut)
+        if (inf == 0)
         {
-            case Authority.Neutral:
-                InfText.color = Color.white;
-                break;
-            case Authority.Amer:
-                InfText.color = BlueText;
-                break;
-            case Authority.Soviet:
-                InfText.color = RedText;
-                break;
+            imgInf.sprite = Inf0;
+            InfShadow.gameObject.SetActive(false);
+        }
+        else if (inf == 100)
+        {
+            imgInf.sprite = Inf100;
+            InfShadow.gameObject.SetActive(false);
+        }
+        else
+        {
+            imgInf.sprite = InfCommon;
+            InfShadow.gameObject.SetActive(true);
+            InfShadow.position = Vector3.Lerp(imgInf.transform.position, ZeroPos.position, inf * 0.01f);
         }
 
-        Opposition.GetComponent<Text>().text = (100f - c.Support).ToString("f0");
-        //Очки стран учитываем, только для своих стран
-        if(ListAuthority == c.Authority)
-            Score.GetComponent<Text>().text = (c.Score).ToString("f0");
+        //Оппозиция
+        Opposition.fillAmount = (c.Support * 0.01f);
+        OppGlow.SetActive(c.Support <= (100 - GameManagerScript.GM.INSTALL_PUPPER_OPPO));
+        if (c.Support == float.Epsilon)
+        {
+            Eyes.sprite = RedEyes;
+            Eyes.enabled = true;
+        }
+        else if (c.Support - 100f == float.Epsilon)
+        {
+            Eyes.sprite = GreenEyes;
+            Eyes.enabled = true;
+        }
         else
-            Score.GetComponent<Text>().text = "";
+            Eyes.enabled = false;
 
-        Button.GetComponent<Text>().text = c.Name;
+        //Очки стран учитываем, только для своих стран
+        if (ListAuthority == c.Authority)
+        {
+            Score.sprite = ScoreSprite;
+            Score.enabled = true;
+        }
+        else
+        {
+            Score.enabled = false;
+        }
 
+        //Название
+        CountryName.sprite = c.GetStatsNameSprite();
         switch (c.Authority)
         {
             case Authority.Neutral:
-                Image.sprite = Grey;
+                CountryFrame.enabled = false;
                 break;
             case Authority.Amer:
-                Image.sprite = Blue;
+                CountryFrame.sprite = LightFrame;
+                CountryFrame.enabled = true;
                 break;
             case Authority.Soviet:
-                Image.sprite = Red;
+                CountryFrame.sprite = DarkFrame;
+                CountryFrame.enabled = true;
                 break;
         }
-
-        //gameObject.SetActive(true);
     }
 
     //Позиционирование на страну, выбранную в списке

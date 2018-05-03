@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class PlayerScript : MonoBehaviour {
     public double Budget;
+    public double LastBudget;
     private int _Score;
     public Authority Authority;
     public CountryScript MyCountry;
@@ -69,6 +70,7 @@ public class PlayerScript : MonoBehaviour {
 
     public void AnnualGrowthBudget()
     {
+        LastBudget = Budget;
         int AddProcent = Random.Range(5, 10 + 1); // с 5% до 10%
 
         // если у игрока больше 700 ( бюджет ) то 

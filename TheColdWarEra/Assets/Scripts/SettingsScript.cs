@@ -6,8 +6,6 @@ public class SettingsScript : MonoBehaviour
 {
     public static SettingsScript Settings;
     public bool mVideo { get; set; } // tru-используем avi-видео, fals-используем картинки
-    public bool mMusicOn { get; set; }   //вкл/выкл фоновой музыки
-    public bool mSoundOn { get; set; }   //вкл/выкл остальных звуков
     public bool mVoiceOn { get; set; }   //вкл/выкл голосовых сообщений
     public float mMusicVol { get; set; }
     public float mSoundVol { get; set; }
@@ -42,11 +40,19 @@ public class SettingsScript : MonoBehaviour
     public void LoadSettings()
     {
         mVideo = SavedSettings.VideoNews;
-        mMusicOn = SavedSettings.MusicEnable;
-        mSoundOn = SavedSettings.SoundEnable;
         mVoiceOn = SavedSettings.Voice;
 
         mMusicVol = SavedSettings.SoundVolume;
         mSoundVol = SavedSettings.MusicVolume;
+    }
+
+    public bool mMusicOn
+    {
+        get { return mMusicVol > float.Epsilon; }
+    }
+
+    public bool mSoundOn
+    {
+        get { return mSoundVol > float.Epsilon; }
     }
 }

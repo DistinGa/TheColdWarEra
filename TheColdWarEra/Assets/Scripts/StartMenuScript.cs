@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using Steamworks;
+using System.Collections;
 
 public class StartMenuScript : MonoBehaviour
 {
@@ -26,10 +26,23 @@ public class StartMenuScript : MonoBehaviour
     public RectTransform UssrHard;
     [Space(10)]
     [SerializeField]
+    Image EasyPlate;
+    [SerializeField]
+    Image MediumPlate, HardPlate, clockFill;
+    [SerializeField]
+    Sprite RedGlowEasy, RedGlowMedium, RedGlowHard, YellowGlowEasy, YellowGlowMedium, YellowGlowHard;
+
+    [Space(10)]
+    [SerializeField]
+    Button btnPlay;
+    [SerializeField]
+    Image WizardGlow, DemonGlow;
+    [SerializeField]
     Text CurSentence;
     [TextArea(2, 5)]
     [SerializeField]
     string[] Sentences;
+    float musVolume, sndVolume;
 
     private AudioSource AS;
 
@@ -52,24 +65,42 @@ public class StartMenuScript : MonoBehaviour
             Voice.isOn = false;
         }
 
-        Music.isOn = SettingsScript.Settings.mMusicOn;
-        Sound.isOn = SettingsScript.Settings.mSoundOn;
-        MusicVolume.value = SettingsScript.Settings.mMusicVol;
-        SoundVolume.value = SettingsScript.Settings.mSoundVol;
+        musVolume = SettingsScript.Settings.mMusicVol;
+        sndVolume = SettingsScript.Settings.mSoundVol;
+        MusicVolume.value = musVolume;
+        SoundVolume.value = sndVolume;
 
         //экран кампаний
-        UsaEasy.gameObject.SetActive(!SavedSettings.Mission1USA);
-        UsaMed.gameObject.SetActive(!SavedSettings.Mission2USA);
-        UsaHard.gameObject.SetActive(!SavedSettings.Mission3USA);
-        UssrEasy.gameObject.SetActive(!SavedSettings.Mission1SU);
-        UssrMed.gameObject.SetActive(!SavedSettings.Mission2SU);
-        UssrHard.gameObject.SetActive(!SavedSettings.Mission3SU);
+        UsaEasy.gameObject.SetActive(SavedSettings.Mission1USA);
+        UsaMed.gameObject.SetActive(SavedSettings.Mission2USA);
+        UsaHard.gameObject.SetActive(SavedSettings.Mission3USA);
+        UssrEasy.gameObject.SetActive(SavedSettings.Mission1SU);
+        UssrMed.gameObject.SetActive(SavedSettings.Mission2SU);
+        UssrHard.gameObject.SetActive(SavedSettings.Mission3SU);
 
         AudioSource MusicSource = GameObject.Find("StartScreen").GetComponent<AudioSource>();
         MusicSource.volume = SettingsScript.Settings.mMusicVol;
-        MusicSource.enabled = SettingsScript.Settings.mMusicOn;
+        //MusicSource.enabled = SettingsScript.Settings.mMusicOn;
 
-        CurSentence.text = Sentences[Random.Range(0, Sentences.Length)];
+        //CurSentence.text = Sentences[Random.Range(0, Sentences.Length)];
+    }
+
+    public void SetOptions(bool done)
+    {
+        if (done)
+        {
+            musVolume = SettingsScript.Settings.mMusicVol;
+            sndVolume = SettingsScript.Settings.mSoundVol;
+        }
+        else
+        {
+            //отмена
+            SettingsScript.Settings.mMusicVol = musVolume;
+            MusicVolume.value = musVolume;
+            SettingsScript.Settings.mSoundVol = sndVolume;
+            SoundVolume.value = sndVolume;
+            GameObject.Find("Canvas/StartScreen").GetComponent<AudioSource>().volume = musVolume;
+        }
     }
 
     public void Exit()
@@ -86,13 +117,42 @@ public class StartMenuScript : MonoBehaviour
     public void InvokeStart()
     {
         SettingsScript.Settings.SaveSettings();
-        Animator.Play(0);
-        Invoke(("StartGame"), 5f);
+        if (SettingsScript.Settings.playerSelected == Authority.Amer)
+        {
+            WizardGlow.enabled = true;
+            DemonGlow.enabled = false;
+        }
+        else
+        {
+            WizardGlow.enabled = false;
+            DemonGlow.enabled = true;
+        }
+
+        //Animator.Play(0);
+        //Invoke(("StartGame"), 5f);
+        StartCoroutine(StartGameAsync());
     }
 
     public void StartGame()
     {
         LoadScene("GameScene");
+    }
+
+    IEnumerator StartGameAsync()
+    {
+        yield return null;
+        var async = SceneManager.LoadSceneAsync("GameScene");
+        async.allowSceneActivation = false;
+        while (async.progress < 0.9f)
+        {
+            clockFill.fillAmount = 1 - async.progress;
+            yield return new WaitForEndOfFrame();
+        }
+
+        async.allowSceneActivation = true;
+        //SceneManager.SetActiveScene(SceneManager.GetSceneByName("GameScene"));
+        //Resources.UnloadUnusedAssets();
+        yield return null;
     }
 
     public void SelectPlayer(bool Amer)
@@ -136,5 +196,24 @@ public class StartMenuScript : MonoBehaviour
     {
         if(SettingsScript.Settings.mSoundOn)
             AS.PlayOneShot(ac, SettingsScript.Settings.mSoundVol);
+    }
+
+    public void SetGlow(bool val)
+    {
+        if (!val)
+            return;
+
+        if(SettingsScript.Settings.playerSelected == Authority.Amer)
+        {
+            EasyPlate.sprite = YellowGlowEasy;
+            MediumPlate.sprite = YellowGlowMedium;
+            HardPlate.sprite = YellowGlowHard;
+        }
+        else
+        {
+            EasyPlate.sprite = RedGlowEasy;
+            MediumPlate.sprite = RedGlowMedium;
+            HardPlate.sprite = RedGlowHard;
+        }
     }
 }

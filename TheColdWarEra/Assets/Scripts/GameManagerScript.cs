@@ -29,7 +29,7 @@ public class GameManagerScript : MonoBehaviour
 
     int mMonthCount = -1;     // счетчик месяцев с нуля (-1 потому что в первом кадре значение уже увеличивается)
     float TickCount;
-    bool IsPoused;  //игра на паузе
+    public bool IsPoused;  //игра на паузе
 
     [Space(10)]
     [Tooltip("время (сек) между итерациями")]
@@ -177,6 +177,11 @@ public class GameManagerScript : MonoBehaviour
 
     public void LoadScene(string SceneName)
     {
+        if (SettingsScript.Settings.playerSelected == Authority.Amer)
+            SceneName += "Wiz";
+        else
+            SceneName += "Dem";
+
         SceneManager.LoadScene(SceneName);
     }
 
@@ -454,16 +459,19 @@ public class GameManagerScript : MonoBehaviour
 
         //Steam achievments
         //Ачивка за дипломатическую смену власти (в любой стране)
+#if !DEBUG
         if (Country.Authority == Player.Authority && !revolution)
             SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_7");
-
+#endif
         //Если в главной стране правительство сменилось, тогда победа нокаутом
         if (Player.MyCountry == Country || Player.OppCountry == Country)
         {
             //Steam achievments
             //Ачивка связанная с переворотом в стране противника (мирным или вооруженным)
+#if !DEBUG
             if (Player.OppCountry.Authority == Player.Authority)
                 SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_5");
+#endif
 
             StopGame();
         }
@@ -602,7 +610,9 @@ public class GameManagerScript : MonoBehaviour
 
             //Steam achievments
             //Ачивка за первую победу
+#if !DEBUG
             SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_6");
+#endif
         }
         else
             SceneName = "LostScreen";
@@ -640,7 +650,9 @@ public class GameManagerScript : MonoBehaviour
                         SavedSettings.Mission3SU = true;
                         //Steam achievments
                         //Ачивка за выполнение вссех миссий за СССР
+#if !DEBUG
                         SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_8");
+#endif
                     }
                 }
             }
@@ -675,7 +687,9 @@ public class GameManagerScript : MonoBehaviour
                         SavedSettings.Mission3USA = true;
                         //Steam achievments
                         //Ачивка за выполнение вссех миссий за США
+#if !DEBUG
                         SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_9");
+#endif
                     }
                 }
             }
@@ -777,8 +791,8 @@ public class GameManagerScript : MonoBehaviour
 
         Player.pnlStates.Find("Score").GetComponent<Text>().text = Player.Score.ToString("f0");
         Player.pnlStates.Find("Budget").GetComponent<Text>().text = Player.Budget.ToString("f0");
-        AI.AIPlayer.pnlStates.Find("Score").GetComponent<Text>().text = Player.Score.ToString("f0");
-        AI.AIPlayer.pnlStates.Find("Budget").GetComponent<Text>().text = Player.Budget.ToString("f0");
+        AI.AIPlayer.pnlStates.Find("Score").GetComponent<Text>().text = AI.AIPlayer.Score.ToString("f0");
+        AI.AIPlayer.pnlStates.Find("Budget").GetComponent<Text>().text = AI.AIPlayer.Budget.ToString("f0");
 
         clock.ShowDate(CurrentMonth());
         //UpMenu.Find("Date").GetComponent<Text>().text = CurrentDate;

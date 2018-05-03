@@ -4,7 +4,9 @@ using UnityEngine.EventSystems;
 
 public class CameraScript : MonoBehaviour
 {
-    const float UnitsPerPixel = 0.01f;
+    public const float UnitsPerPixel = 0.01f;
+
+    static CameraScript Instance;
     float fieldWidth, fieldHeight;      //размеры карты
     float cameraWidth, cameraHeight;    //половинные размеры камеры
 
@@ -14,9 +16,15 @@ public class CameraScript : MonoBehaviour
     bool _overMenu; //признак того, что курсор находится над меню
 
     public GameObject BackGround;
-    // Use this for initialization
+
+    public static CameraScript Camera
+    {
+        get { return Instance; }
+    }
+
     void Awake()
     {
+        Instance = this;
         //Настройка камеры под разрешение монитора
         Camera Camera = GetComponent<Camera>();
         Camera.orthographicSize = Screen.height * 0.5f * UnitsPerPixel;

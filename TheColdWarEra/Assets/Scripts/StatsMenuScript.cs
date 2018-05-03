@@ -4,10 +4,13 @@ using UnityEngine.UI;
 
 public class StatsMenuScript : MonoBehaviour
 {
-    public RectTransform StatLists;
+    public RectTransform StatListsUS;
+    public RectTransform StatListsSov;
     public RectTransform ListUSA;
     public RectTransform ListSU;
     [Space(10)]
+    public Sprite[] ScoreSprites;
+    public Sprite[] GreenArrows, RedArrows;
     public RectTransform ChartPanel;
     public RectTransform LinePrefab;
     public RectTransform YearTick;
@@ -19,12 +22,82 @@ public class StatsMenuScript : MonoBehaviour
     {
         SoundManager.SM.PlaySound("sound/stat");
 
-        PlayerScript AmericanPlaer = GameObject.FindGameObjectWithTag("American").GetComponent<PlayerScript>();
-        PlayerScript SovietPlaer = GameObject.FindGameObjectWithTag("Soviet").GetComponent<PlayerScript>();
+        PlayerScript AmericanPlayer = GameObject.FindGameObjectWithTag("American").GetComponent<PlayerScript>();
+        PlayerScript SovietPlayer = GameObject.FindGameObjectWithTag("Soviet").GetComponent<PlayerScript>();
 
-        transform.Find("USGNP").GetComponent<Text>().text = "GNP " + AmericanPlaer.Budget + "+" + AmericanPlaer.Score + " scores";
-        transform.Find("SUGNP").GetComponent<Text>().text = "GNP " + SovietPlaer.Budget + "+" + SovietPlaer.Score + " scores";
+        //US
+        transform.Find("USGNP/txtBudget").GetComponent<Text>().text = AmericanPlayer.Budget.ToString();
+        transform.Find("USGNP/txtScore").GetComponent<Text>().text = AmericanPlayer.Score.ToString();
+        transform.Find("USGNP/txtSum").GetComponent<Text>().text = (AmericanPlayer.Budget + AmericanPlayer.Score).ToString();
+        int delta = 0;
 
+        if (AmericanPlayer.LastBudget > 0)
+            delta = (int)((AmericanPlayer.Budget + AmericanPlayer.Score - AmericanPlayer.LastBudget) / AmericanPlayer.LastBudget * 100);
+        else
+            delta = (int)(AmericanPlayer.Budget + AmericanPlayer.Score);
+
+        Image arrows = null;
+        if (delta > 0)
+        {
+            arrows = transform.Find("USGNP/UpArrows").GetComponent<Image>();
+            arrows.gameObject.SetActive(true);
+            transform.Find("USGNP/DownArrows").gameObject.SetActive(false);
+        }
+        if (delta < 0)
+        {
+            arrows = transform.Find("USGNP/DownArrows").GetComponent<Image>();
+            arrows.gameObject.SetActive(true);
+            transform.Find("USGNP/UpArrows").gameObject.SetActive(false);
+        }
+        if (delta == 0)
+        {
+            transform.Find("USGNP/UpArrows").gameObject.SetActive(false);
+            transform.Find("USGNP/DownArrows").gameObject.SetActive(false);
+        }
+
+        if (Mathf.Abs(delta) > 0)
+            arrows.sprite = (delta > 0 ? GreenArrows : RedArrows)[0];
+        if (Mathf.Abs(delta) > 5)
+            arrows.sprite = (delta > 0 ? GreenArrows : RedArrows)[1];
+        if (Mathf.Abs(delta) > 10)
+            arrows.sprite = (delta > 0 ? GreenArrows : RedArrows)[2];
+
+        //Sov
+        transform.Find("SUGNP/txtBudget").GetComponent<Text>().text = SovietPlayer.Budget.ToString();
+        transform.Find("SUGNP/txtScore").GetComponent<Text>().text = SovietPlayer.Score.ToString();
+        transform.Find("SUGNP/txtSum").GetComponent<Text>().text = (SovietPlayer.Budget + SovietPlayer.Score).ToString();
+
+        if(SovietPlayer.LastBudget > 0)
+            delta = (int)((SovietPlayer.Budget + SovietPlayer.Score - SovietPlayer.LastBudget) / SovietPlayer.LastBudget * 100);
+        else
+            delta = (int)(SovietPlayer.Budget + SovietPlayer.Score);
+
+        if (delta > 0)
+        {
+            arrows = transform.Find("SUGNP/UpArrows").GetComponent<Image>();
+            arrows.gameObject.SetActive(true);
+            transform.Find("SUGNP/DownArrows").gameObject.SetActive(false);
+        }
+        if (delta < 0)
+        {
+            arrows = transform.Find("SUGNP/DownArrows").GetComponent<Image>();
+            arrows.gameObject.SetActive(true);
+            transform.Find("SUGNP/UpArrows").gameObject.SetActive(false);
+        }
+        if (delta == 0)
+        {
+            transform.Find("SUGNP/UpArrows").gameObject.SetActive(false);
+            transform.Find("SUGNP/DownArrows").gameObject.SetActive(false);
+        }
+
+        if (Mathf.Abs(delta) > 0)
+            arrows.sprite = (delta > 0 ? GreenArrows : RedArrows)[0];
+        if (Mathf.Abs(delta) > 5)
+            arrows.sprite = (delta > 0 ? GreenArrows : RedArrows)[1];
+        if (Mathf.Abs(delta) > 10)
+            arrows.sprite = (delta > 0 ? GreenArrows : RedArrows)[2];
+
+        //Заполнение списков
         cntUSA.Clear();
         cntSU.Clear();
 
@@ -42,8 +115,8 @@ public class StatsMenuScript : MonoBehaviour
         SortByScore("left");
         SortByScore("right");
 
-        //Заполнение графика
-        DrawChart();
+        ////Заполнение графика
+        //DrawChart();
     }
 
     void DrawChart()
@@ -146,7 +219,7 @@ public class StatsMenuScript : MonoBehaviour
 
             Transform p = ListOnScreen.GetChild(n);
             p.gameObject.SetActive(true);
-            p.GetComponent<StatsLineScript>().Init(c);
+            p.GetComponent<StatsLineScript>().Init(c, ScoreSprites[c.Score - 1]);
 
             n++;
         }
@@ -210,7 +283,17 @@ public class StatsMenuScript : MonoBehaviour
         }
     }
 
-    public void ScrollStatMenu(int dt)
+    public void ScrollStatMenuLeft(int dt)
+    {
+        ScrollStatMenu(StatListsUS, dt);
+    }
+
+    public void ScrollStatMenuRight(int dt)
+    {
+         ScrollStatMenu(StatListsSov, dt);
+    }
+
+    void ScrollStatMenu(RectTransform StatLists, int dt)
     {
         SoundManager.SM.PlaySound("sound/click2");
 

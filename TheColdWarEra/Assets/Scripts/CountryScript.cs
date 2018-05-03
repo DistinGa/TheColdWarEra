@@ -36,7 +36,7 @@ public class CountryScript : MonoBehaviour
     private Transform StatePanel;
     public List<StateSymbol> Symbols = new List<StateSymbol>();
     [SerializeField]
-    Sprite countryChar;
+    Sprite countryChar, statsName;
 
     [HideInInspector]
     public int DiscounterUsaMeeting, DiscounterRusMeeting; //Сколько ждать до возможности следующего митинга протеста (0 - можно митинговать)
@@ -360,6 +360,7 @@ public class CountryScript : MonoBehaviour
         SetAuthority(); //Смена цвета границ
 
         //Steam achievments
+#if !DEBUG
         GameManagerScript GM = GameManagerScript.GM;
 
         if (Name == "East Germany" || Name == "West Germany")
@@ -373,6 +374,7 @@ public class CountryScript : MonoBehaviour
             if (GM.FindCountryById(53).Authority == GM.Player.Authority && GM.FindCountryById(54).Authority == GM.Player.Authority)
                 SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_3");
         }
+#endif
     }
 
     //Обработка начала месяца
@@ -588,6 +590,11 @@ public class CountryScript : MonoBehaviour
     public Sprite GetCountryChar()
     {
         return countryChar;
+    }
+
+    public Sprite GetStatsNameSprite()
+    {
+        return statsName;
     }
 
     //перечисление состояний страны

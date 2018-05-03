@@ -4,34 +4,89 @@ using System.Collections;
 
 public class SpaceRace : MonoBehaviour
 {
+    const string Builded = "Background", notAvailable = "Background_notbuild", available = "Background_next";
+    public static SpaceRace Instance;
+
     public Image Image;
     public Text Description;
     public Text txtInf;
     public Text Price;
     public Image InfluencePlate;
-    public Button LaunchButton;
+    [Space(10)]
+    public Transform Heads;
+    public Sprite HeadLight, HeadDark;
+    public GameObject LightScreen, DarkScreen;
+    [Space(10)]
 
     public Sprite sprLocInf;    //Плашка с надписью "increase alliance influence"
     public Sprite sprGlobInf;   //Плашка с надписью "increase global influence"
 
-    public Sprite BlueIcon;
-    public Sprite RedIcon;
-    public Sprite GreenIcon;
-    public Sprite BlueIconOp;
-    public Sprite RedIconOp;
-    public Sprite GreenIconOp;
+    //public Sprite BlueIcon;
+    //public Sprite RedIcon;
+    //public Sprite GreenIcon;
+    //public Sprite BlueIconOp;
+    //public Sprite RedIconOp;
+    //public Sprite GreenIconOp;
 
     public const int TechCount = 41;
+
     int CurTechIndex;
+    bool initPouseState;
+    Button LaunchButton;
+    Transform curToggles = null;
 
     [SerializeField]
     Technology[] Techs = new Technology[TechCount]; //элементов в массиве на 1 больше, чем технологий, чтобы была возможность нумеровать их с единицы (чтобы использовать исходный код с минимальными изменениями)
 
+    public Transform CurToggles
+    {
+        get
+        {
+            if (curToggles == null)
+                Start();
+
+            return curToggles;
+        }
+    }
+
+    void Awake()
+    {
+        Instance = this;
+    }
+
+    void Start()
+    {
+        if (SettingsScript.Settings.playerSelected == Authority.Amer)
+        {
+            LightScreen.SetActive(true);
+            DarkScreen.SetActive(false);
+            LaunchButton = LightScreen.transform.Find("LaunchButtonPlate/btnLaunch").GetComponent<Button>();
+        }
+        else
+        {
+            LightScreen.SetActive(false);
+            DarkScreen.SetActive(true);
+            LaunchButton = DarkScreen.transform.Find("LaunchButtonPlate/btnLaunch").GetComponent<Button>();
+        }
+
+        curToggles = GetComponentInChildren<ToggleGroup>().transform;
+        curToggles.Find("Toggle1").GetComponent<Toggle>().isOn = true;
+    }
+
     public void OnEnable()
     {
+        initPouseState = GameManagerScript.GM.IsPoused;
+        GameManagerScript.GM.IsPoused = true;
+        CameraScript.Camera.setOverMenu = true;
+
         PaintTechButtons();
-        transform.Find("Toggles/Toggle1").GetComponent<Toggle>().isOn = true;
-        ShowTechInfo(1);
+        //transform.Find("Toggles/Toggle1").GetComponent<Toggle>().isOn = true;
+    }
+
+    public void OnDisable()
+    {
+        GameManagerScript.GM.IsPoused = initPouseState;
+        CameraScript.Camera.setOverMenu = false;
     }
 
     //Установка соответствующих спрайтов на кнопки технологий
@@ -42,29 +97,35 @@ public class SpaceRace : MonoBehaviour
 
         for (int i = 1; i < 41; i++)
         {
-            BackImage = transform.Find("Toggles/Toggle" + i.ToString() + "/Background").GetComponent<Image>();
+            if (GM.GetOpponentTo(GM.Player).GetTechStatus(i))
+                Heads.GetChild(i-1).GetComponent<Image>().sprite = SettingsScript.Settings.playerSelected == Authority.Amer? HeadLight: HeadDark;  //технология открыта оппонентом
+
+            BackImage = CurToggles.Find("Toggle" + i.ToString()).GetComponent<Toggle>().targetGraphic.GetComponent<Image>();
             if (GM.Player.GetTechStatus(i))
             {//технология открыта
-                if (GM.GetOpponentTo(GM.Player).GetTechStatus(i))
-                    BackImage.sprite = BlueIconOp;  //технология открыта оппонентом
-                else
-                    BackImage.sprite = BlueIcon;
+                //BackImage.sprite = transform.Find("Toggles/Toggle" + i.ToString() + Builded).GetComponent<Image>().sprite;
+                BackImage.sprite = BackImage.transform.Find(Builded).GetComponent<Image>().sprite;
+
+                //if (GM.GetOpponentTo(GM.Player).GetTechStatus(i))
+                //    BackImage.sprite = BlueIconOp;  //технология открыта оппонентом
             }
             else
             {
                 if (GM.Player.GetTechStatus(Techs[i].mPrevTechNumber))
                 {//технология доступна
-                    if (GM.GetOpponentTo(GM.Player).GetTechStatus(i))
-                        BackImage.sprite = GreenIconOp;  //технология открыта оппонентом
-                    else
-                        BackImage.sprite = GreenIcon;
+                    //BackImage.sprite = transform.Find("Toggles/Toggle" + i.ToString() + available).GetComponent<Image>().sprite;
+                    BackImage.sprite = BackImage.transform.Find(available).GetComponent<Image>().sprite;
+
+                    //if (GM.GetOpponentTo(GM.Player).GetTechStatus(i))
+                    //    BackImage.sprite = GreenIconOp;  //технология открыта оппонентом
                 }
                 else
                 {//технология недоступна
-                    if (GM.GetOpponentTo(GM.Player).GetTechStatus(i))
-                        BackImage.sprite = RedIconOp;  //технология открыта оппонентом
-                    else
-                        BackImage.sprite = RedIcon;
+                    //BackImage.sprite = transform.Find("Toggles/Toggle" + i.ToString() + notAvailable).GetComponent<Image>().sprite;
+                    BackImage.sprite = BackImage.transform.Find(notAvailable).GetComponent<Image>().sprite;
+
+                    //if (GM.GetOpponentTo(GM.Player).GetTechStatus(i))
+                    //    BackImage.sprite = RedIconOp;  //технология открыта оппонентом
                 }
             }
         }
@@ -170,6 +231,7 @@ public class SpaceRace : MonoBehaviour
         //Отметка открытой технологии
         Player.SetTechStatus(TechInd);
 
+#if !DEBUG
         //Steam achievments
         if (GM.Player == Player)
         {
@@ -180,6 +242,7 @@ public class SpaceRace : MonoBehaviour
             if (TechInd == 39)
                 SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_4");
         }
+#endif
 
         // показать видео
         GM.VQueue.AddRolex(VideoQueue.V_TYPE_GLOB, VideoQueue.V_PRIO_NULL,

@@ -77,6 +77,7 @@ public class GameManagerScript : MonoBehaviour
 
     //new
     ClockScript clock;
+    bool prevPauseState;
 
     public void Awake()
     {
@@ -964,6 +965,17 @@ public class GameManagerScript : MonoBehaviour
                     SnapToCountry();
             }
         }
+    }
+
+    public void ExitMenu(bool st)
+    {
+        if (st)
+        {
+            prevPauseState = IsPoused;
+            IsPoused = true;
+        }
+        else
+            IsPoused = prevPauseState;
     }
 }
 

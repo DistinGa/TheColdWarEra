@@ -1,3 +1,5 @@
+#define myDEBUG
+
 using UnityEngine;
 using System.Collections;
 using Steamworks;
@@ -26,6 +28,10 @@ class SteamManager : MonoBehaviour {
 	}
 
 	private void Awake() {
+#if myDEBUG
+        gameObject.SetActive(false);
+        return;
+#endif
 		// Only one instance of SteamManager at a time!
 		if (s_instance != null) {
 			Destroy(gameObject);

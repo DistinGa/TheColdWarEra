@@ -43,6 +43,7 @@ public class StartMenuScript : MonoBehaviour
     [SerializeField]
     string[] Sentences;
     float musVolume, sndVolume;
+    bool animIsEnded;
 
     private AudioSource AS;
 
@@ -128,14 +129,16 @@ public class StartMenuScript : MonoBehaviour
             DemonGlow.enabled = true;
         }
 
+        animIsEnded = false;
         //Animator.Play(0);
-        //Invoke(("StartGame"), 5f);
+        Invoke(("StartGame"), 5f);
         StartCoroutine(StartGameAsync());
     }
 
     public void StartGame()
     {
-        LoadScene("GameScene");
+        animIsEnded = true;
+        //LoadScene("GameScene");
     }
 
     IEnumerator StartGameAsync()
@@ -143,9 +146,9 @@ public class StartMenuScript : MonoBehaviour
         yield return null;
         var async = SceneManager.LoadSceneAsync("GameScene");
         async.allowSceneActivation = false;
-        while (async.progress < 0.9f)
+        while (async.progress < 0.9f || !animIsEnded)
         {
-            clockFill.fillAmount = 1 - async.progress;
+            //clockFill.fillAmount = 1 - async.progress;
             yield return new WaitForEndOfFrame();
         }
 

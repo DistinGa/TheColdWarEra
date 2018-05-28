@@ -882,15 +882,18 @@ public class GameManagerScript : MonoBehaviour
     //Установка текста новости и страны в нижнем меню.
     public void SetInfo(string InfoText, CountryScript Country = null)
     {
-        Player.pnlInfo.GetComponentInChildren<Text>().text = InfoText;
+        Player.pnlInfo.transform.FindChild("Text").GetComponent<Text>().text = InfoText;
         Image tmpImage = Player.pnlInfo.transform.FindChild("CountryChar").GetComponent<Image>();
+        Text tmpCntrName = Player.pnlInfo.transform.FindChild("CountryName").GetComponent<Text>();
         if (Country != null)
         {
+            tmpCntrName.text = Country.Name;
             tmpImage.sprite = Country.GetCountryChar();
             tmpImage.enabled = true;
         }
         else
         {
+            tmpCntrName.text = "";
             tmpImage.sprite = null;
             tmpImage.enabled = false;
         }

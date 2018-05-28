@@ -9,11 +9,10 @@ public class SpaceRace : MonoBehaviour
     const string Builded = "Background", notAvailable = "Background_notbuild", available = "Background_next";
     public static SpaceRace Instance;
 
-    public Image Image;
+    public Text txtName;
     public Text Description;
     public Text txtInf;
     public Text Price;
-    public Image InfluencePlate;
     [Space(10)]
     public Transform Heads;
     public Sprite HeadLight, HeadDark;
@@ -145,37 +144,42 @@ public class SpaceRace : MonoBehaviour
 
         if (GM.Player.Authority == Authority.Amer)
         {
+            txtName.text = Techs[ind].mUsaTechName;
             Description.text = Techs[ind].mUsaDescr;
-            Image.sprite = Techs[ind].mUsaSprite;
         }
         else
         {
+            txtName.text = Techs[ind].mRusTechName;
             Description.text = Techs[ind].mRusDescr;
-            Image.sprite = Techs[ind].mRusSprite;
         }
 
-        Price.text = "$" + Techs[ind].mCost.ToString();
+        Price.text = "Cost: " + Techs[ind].mCost.ToString() + " gold";
 
+        string strInf;
         //Технологии из нижнего ряда добавляют влияние только в союзных странах, технологии из вертикальных веток - во всех странах.
         if (ind < 16)
         {
             //Нижний ряд
-            InfluencePlate.sprite = sprLocInf;
+            if (SettingsScript.Settings.playerSelected == Authority.Amer)
+                strInf = "Good locations influence +";
+            else
+                strInf = "Evil locations influence +";
             //Если технология не открыта оппонентом, показываем прибавку влияния при первом открытии
             if(!GM.GetOpponentTo(GM.Player).GetTechStatus(ind))
-                txtInf.text = "+" + Techs[ind].mLocalInfl_1.ToString() + "%";
+                txtInf.text = strInf + Techs[ind].mLocalInfl_1.ToString();
             else
-                txtInf.text = "+" + Techs[ind].mLocalInfl.ToString() + "%";
+                txtInf.text = strInf + Techs[ind].mLocalInfl.ToString();
         }
         else
         {
             //Вертикальные ветки технологий
-            InfluencePlate.sprite = sprGlobInf;
+            strInf = "All locations influence +";
+
             //Если технология не открыта оппонентом, показываем прибавку влияния при первом открытии
-            if(!GM.GetOpponentTo(GM.Player).GetTechStatus(ind))
-                txtInf.text = "+" + Techs[ind].mGlobalInfl_1.ToString() + "%";
+            if (!GM.GetOpponentTo(GM.Player).GetTechStatus(ind))
+                txtInf.text = strInf + Techs[ind].mGlobalInfl_1.ToString();
             else
-                txtInf.text = "+" + Techs[ind].mGlobalInfl.ToString() + "%";
+                txtInf.text = strInf + Techs[ind].mGlobalInfl.ToString();
         }
     }
 
@@ -265,6 +269,7 @@ public class SpaceRace : MonoBehaviour
     {
         public int mPrevTechNumber = 0; // предыдущая технология
         public Sprite mUsaSprite = null, mRusSprite = null;
+        public string mUsaTechName, mRusTechName; // текстовое описание
         [TextArea(2, 5)]
         public string mUsaDescr, mRusDescr; // текстовое описание
         public int mCost; // стоимость технологии

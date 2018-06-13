@@ -1,4 +1,4 @@
-﻿#define myDEBUG
+﻿//#define myDEBUG
 
 using UnityEngine;
 using System.Collections.Generic;
@@ -365,15 +365,15 @@ public class CountryScript : MonoBehaviour
 #if !myDEBUG
         GameManagerScript GM = GameManagerScript.GM;
 
-        if (Name == "East Germany" || Name == "West Germany")
+        if (Name == "Land of Chill" || Name == "The Great Desert")
         {
-            if(GM.FindCountryById(12).Authority == GM.Player.Authority && GM.FindCountryById(24).Authority == GM.Player.Authority)
+            if(GM.FindCountryById(3).Authority == GM.Player.Authority && GM.FindCountryById(44).Authority == GM.Player.Authority)
                 SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_2");
         }
 
-        if (Name == "South Korea" || Name == "North Korea")
+        if (Name == "Warm Sea" || Name == "Frozen Sea")
         {
-            if (GM.FindCountryById(53).Authority == GM.Player.Authority && GM.FindCountryById(54).Authority == GM.Player.Authority)
+            if (GM.FindCountryById(1).Authority == GM.Player.Authority && GM.FindCountryById(2).Authority == GM.Player.Authority)
                 SteamManager.UnLockAchievment("NEW_ACHIEVEMENT_1_3");
         }
 #endif

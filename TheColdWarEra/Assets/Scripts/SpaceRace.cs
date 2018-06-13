@@ -1,4 +1,4 @@
-﻿#define myDEBUG
+﻿//#define myDEBUG
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -96,10 +96,13 @@ public class SpaceRace : MonoBehaviour
         Image BackImage;
         GameManagerScript GM = GameManagerScript.GM;
 
+        Image tmpHead;
         for (int i = 1; i < 41; i++)
         {
+            tmpHead = Heads.GetChild(i - 1).GetComponent<Image>();
+            tmpHead.enabled = GM.GetOpponentTo(GM.Player).GetTechStatus(i);
             if (GM.GetOpponentTo(GM.Player).GetTechStatus(i))
-                Heads.GetChild(i-1).GetComponent<Image>().sprite = SettingsScript.Settings.playerSelected == Authority.Amer? HeadLight: HeadDark;  //технология открыта оппонентом
+                tmpHead.sprite = SettingsScript.Settings.playerSelected == Authority.Amer ? HeadDark : HeadLight;  //технология открыта оппонентом
 
             BackImage = CurToggles.Find("Toggle" + i.ToString()).GetComponent<Toggle>().targetGraphic.GetComponent<Image>();
             if (GM.Player.GetTechStatus(i))

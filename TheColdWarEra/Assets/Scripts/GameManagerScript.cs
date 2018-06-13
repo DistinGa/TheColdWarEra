@@ -1,4 +1,4 @@
-﻿#define myDEBUG
+﻿//#define myDEBUG
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -91,11 +91,13 @@ public class GameManagerScript : MonoBehaviour
         {
             Player = transform.Find("AmerPlayer").GetComponent<PlayerScript>();
             AI.AIPlayer = transform.Find("SovPlayer").GetComponent<PlayerScript>();
+            GameObject.Find("Canvas").GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.5f);
         }
         else
         {
             Player = transform.Find("SovPlayer").GetComponent<PlayerScript>();
             AI.AIPlayer = transform.Find("AmerPlayer").GetComponent<PlayerScript>();
+            GameObject.Find("Canvas").GetComponent<Image>().color = new Color(0f, 0f, 0f, 0.5f);
         }
 
         Player.ActivateControls(true);
@@ -262,7 +264,7 @@ public class GameManagerScript : MonoBehaviour
                 PlayerArmy.SetAmount(Country.GetForces(Player.Authority), Country.SovInf <= Country.AmInf);
 
             //Армию противника видно, если в стране есть свои шпионы или если это нейтральная армия
-            if ((Player.Authority == Authority.Soviet && Country.SovInf > Country.AmInf) || (Player.Authority == Authority.Amer && Country.SovInf <= Country.AmInf))
+            if ((Player.Authority == Authority.Amer && Country.SovInf > Country.AmInf) || (Player.Authority == Authority.Soviet && Country.SovInf <= Country.AmInf))
                 OppArmy.SetAmount(Country.GetForces(GetOpponentTo(Player).Authority), true);
             else if (Country.HaveSpy(Player.Authority))
                 OppArmy.SetAmount(Country.GetForces(GetOpponentTo(Player).Authority));

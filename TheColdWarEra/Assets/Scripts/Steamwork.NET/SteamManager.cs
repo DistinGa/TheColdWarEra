@@ -1,4 +1,4 @@
-#define myDEBUG
+//#define myDEBUG
 
 using UnityEngine;
 using System.Collections;

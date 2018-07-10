@@ -15,8 +15,8 @@ public class SoundManager : MonoBehaviour
         //singletone
         if (SM == null)
             SM = this;
-        else
-            Destroy(gameObject);
+        //else
+        //    Destroy(gameObject);
     }
 
     public void Start()

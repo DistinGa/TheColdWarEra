@@ -124,7 +124,7 @@ public class GameManagerScript : MonoBehaviour
     void Update()
     {
         //Пауза
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             IsPoused = !IsPoused;
             PausePlate.SetActive(IsPoused);

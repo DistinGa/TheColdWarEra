@@ -59,6 +59,7 @@ public class VideoQueue : MonoBehaviour {
     public List<VideoRolexPattern> mVideos; // список всех видеошаблонов с тегами
     public List<VideoRealPlayRolex> mVideoQueue; // очередь, в хвосте новые, ближайший -- 0-й
 
+
     void Start()
     {
         mVideoQueue = new List<VideoRealPlayRolex>();
@@ -216,8 +217,8 @@ public class VideoQueue : MonoBehaviour {
     // проверяем, играется ли. если нет, показываем фоновый ролик 
     public void TickTest()
     {
-        try
-        {
+        //try
+        //{
             if (mHaltVideo) // немедленно прервать (фоновый) ролик
             {
                 mHaltVideo = false;
@@ -229,10 +230,9 @@ public class VideoQueue : MonoBehaviour {
             }
 
 
-        A: if (mVideoQueue.Count <= 1
-                                      // || GameEngine.rnd.Next(2)==0 // для отладки
-                                      )
-            { // в очереди пусто или единственный ролик уже играется -- поставить следом фоновый ролик
+        //A: if (mVideoQueue.Count <= 1) // в очереди пусто или единственный ролик уже играется -- поставить следом фоновый ролик
+        A: if (GameManagerScript.GM.CurrentMonth() == 0 && mVideoQueue.Count == 0)  //Фоновую новость ставим только в начале игры
+            {
                 List<int> fini = new List<int>(); // массив индексов фон-роликов
                 int i;
                 for (i = 0; i < mVideos.Count; i++)
@@ -248,10 +248,12 @@ public class VideoQueue : MonoBehaviour {
 
                 VideoRealPlayRolex vrr = new VideoRealPlayRolex(mVideos[fini[i]], null);
                 PutRolexToQueue(vrr); // фоновый...
+
+                GameManagerScript.GM.Player.pnlInfo.GetComponentInChildren<NewsHistory>().InsertNews(mVideoQueue[0]);
+                //goto A; //Чтобы сразу закинуть второй фоновый ролик. (Алгоритм работает при наличии минимум двух роликов в очереди. При этом первый пропускается.)
             }
 
-
-            else // запустить следующий из очереди
+            else if (mVideoQueue.Count > 1)// запустить следующий из очереди
             {
                 // еще играется ли текущий? 0-й -- всегда тот, который уже играется
                 if (IsRunning()) return;
@@ -275,7 +277,8 @@ public class VideoQueue : MonoBehaviour {
                     Audio.Stop();
                 }
 
-                GameManagerScript.GM.SetInfo(videoInfo, mVideoQueue[1].mCountry);  //Вывод текста новости
+                //GameManagerScript.GM.SetInfo(videoInfo, mVideoQueue[1].mCountry);  //Вывод текста новости
+                GameManagerScript.GM.Player.pnlInfo.GetComponentInChildren<NewsHistory>().InsertNews(mVideoQueue[1]);
 
                 //Начало трансляции новости
                 if (SettingsScript.Settings.mVideo)
@@ -307,11 +310,11 @@ public class VideoQueue : MonoBehaviour {
                 mVideoQueue.RemoveAt(0);
             }
 
-        }
-        catch (Exception e)
-        {
-            Debug.Log(e.Message);
-        }
+        //}
+        //catch (Exception e)
+        //{
+        //    Debug.Log(e.Message);
+        //}
     }
 
     // поместить ролик в очередь с учетом приоритета

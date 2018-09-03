@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 public class CameraScript : MonoBehaviour
 {
-    public const float UnitsPerPixel = 0.01f;
+    public static float UnitsPerPixel = 0.01f;
 
     static CameraScript Instance;
     float fieldWidth, fieldHeight;      //размеры карты
@@ -27,16 +27,21 @@ public class CameraScript : MonoBehaviour
         Instance = this;
         //Настройка камеры под разрешение монитора
         Camera Camera = GetComponent<Camera>();
-        Camera.orthographicSize = Screen.height * 0.5f * UnitsPerPixel;
+        //Camera.orthographicSize = Screen.height * 0.5f * UnitsPerPixel;
+        //cameraHeight = Camera.orthographicSize;
+        //cameraWidth = Screen.width * 0.5f * UnitsPerPixel;
+        //Camera.aspect = cameraWidth / cameraHeight;
+
+        //Постоянный размер камеры
         cameraHeight = Camera.orthographicSize;
-        cameraWidth = Screen.width * 0.5f * UnitsPerPixel;
-        Camera.aspect = cameraWidth / cameraHeight;
+        cameraWidth = cameraHeight * Camera.aspect;
+        UnitsPerPixel = 2f * cameraHeight / Screen.height;
 
         Sprite Spr = BackGround.GetComponent<SpriteRenderer>().sprite;
 
         //Ширину и длину поля считаем в юнитах
-        fieldWidth = Spr.rect.width * UnitsPerPixel;
-        fieldHeight = Spr.rect.height * UnitsPerPixel;
+        fieldWidth = Spr.rect.width * 0.01f;// * UnitsPerPixel;
+        fieldHeight = Spr.rect.height * 0.01f;// * UnitsPerPixel;
     }
 
     void LateUpdate()

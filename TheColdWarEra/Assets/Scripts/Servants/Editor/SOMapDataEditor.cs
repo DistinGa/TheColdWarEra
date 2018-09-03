@@ -11,8 +11,10 @@ public class TestOnInspector : Editor
             Export();
         if (GUILayout.Button(new GUIContent("Import", "Из файла в игру")))
             Import();
-        if (GUILayout.Button(new GUIContent("Ser", "Serialize")))
+        if (GUILayout.Button(new GUIContent("В текст", "В текст")))
             Serialize();
+        if (GUILayout.Button(new GUIContent("Из текста", "Из текста")))
+            DeSerialize();
 
         DrawDefaultInspector();
     }
@@ -74,7 +76,14 @@ public class TestOnInspector : Editor
     void Serialize()
     {
         SOMApData md = (Selection.activeObject as SOMApData);
+        md.TextData = "";
         string str = EditorJsonUtility.ToJson(md);
         md.TextData = str;
+    }
+
+    void DeSerialize()
+    {
+        SOMApData md = (Selection.activeObject as SOMApData);
+        EditorJsonUtility.FromJsonOverwrite(md.TextData, md);
     }
 }

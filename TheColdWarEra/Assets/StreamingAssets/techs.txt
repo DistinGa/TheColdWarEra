@@ -1,7 +1,7 @@
 1
-West part of living quarter consists mostly of cheap and time-worn residential and civil buildings populated by poor inhabitants and beggars.
-*
 West part of slums consists mostly of low and time-worn residential and civil buildings populated by thieves, robbers and other petty criminals.
+*
+West part of living quarter consists mostly of cheap and time-worn residential and civil buildings populated by poor inhabitants and beggars.
 *
 20
 1 0 2 0
@@ -15,7 +15,7 @@ East part of living quarters consists mainly of costly and modern residential an
 1 0 2 0
 1 0 2 0
 3
-Central part of living quarters consists basically of industrial and government buildings, providing citizens with workplaces and recreation activities.
+Central part of slums consists basically of industrial and government buildings, providing citizens with workplaces and recreation activities.
 *
 Central part of living quarters consists basically of civil and government buildings, providing citizens with workplaces and recreation activities.
 *
@@ -55,7 +55,7 @@ West part of castle grounds consists mostly of tents, where tournament competito
 1 0 2 0
 1 0 2 0
 8
-West part of arena grounds consists mainly of storages, where all weapons, armor and equipment, used in arena’s death fights, are stored.
+East part of arena grounds consists mainly of storages, where all weapons, armor and equipment, used in arena’s death fights, are stored.
 *
 East part of castle grounds consists mainly of storages, where all weapons, armor and equipment, used in tournament fights, are stored.
 *
@@ -65,7 +65,7 @@ East part of castle grounds consists mainly of storages, where all weapons, armo
 9
 Central part of arena grounds consists basically of residential buildings, where death fights organizers lives.
 *
-Central part of castle grounds consists basically of residential buildings, where tournament's organizers lives.
+Central part of castle grounds consists basically of residential buildings, where tournament’s organizers lives.
 *
 25
 1 0 2 0
@@ -97,23 +97,23 @@ Central part of academy grounds consists basically of vast buildings and structu
 13
 West part of temple district consists mostly of stone barracks, inhabited by slaves. 
 *
-West part of temple district consists mostly of small residential buildings, where acolytes, servants and priest's apprentices live.
+West part of temple district consists mostly of small residential buildings, where acolytes, servants and priest’s apprentices live.
 *
 30
 1 0 2 0
 1 0 2 0
 14
-East part of temple district consists mainly of storages, where food and water supplies and equipment for rituals are stored.
+East part of temple district consists mainly of storages, where food, water supplies and equipment for rituals are stored.
 *
-East part of temple district consists mainly of storages, where food and water supplies and equipment for rituals are stored.
+East part of temple district consists mainly of storages, where food, water supplies and equipment for rituals are stored.
 *
 30
 1 0 2 0
 1 0 2 0
 15
-Central part of temple district consists basically of residences, where wizard and priests of darkness live.
-*
 Central part of temple district consists basically of residences, where priests and wizards of light live.
+*
+Central part of temple district consists basically of residences, where wizard and priests of darkness live.
 *
 30
 1 0 2 0
@@ -121,7 +121,7 @@ Central part of temple district consists basically of residences, where priests 
 16
 This is a place where every traveler can buy food and have a drink. Tavern is often filled with drunkards, courtesans and thiefs. Colfeen No Eye, a greedy and veral half-orc, who got his nickname after he cut out his eye in the heat of drunk debauch, run over this place.
 *
-This is a place where every person in need can get free food and water. It's a haven for beggars and destitute. Elza the Kind is a wise and generous old elf woman, who saved many lost travelers and homeless from certain death, run over this place.
+This is a place where every person in need can get free food and water. It’s a haven for beggars and destitute. Elza the Kind - a wise and generous old elf woman, who saved many lost travelers and homeless from certain death, run over this place.
 *
 40
 0 1 0 3
@@ -137,13 +137,13 @@ All kind of travelers are welcomed here and met personally by Oligaph, a cheerfu
 18
 All the city uncleanness gathered here, where it further rots and decomposes. This place is full of rats and rotten corpses of different small animals. Greck, a filthy and disgusting goblin, watch over this place by oneself. He was appointed to this position mostly because of his extremely small size, which helps him to get into hard-to-reach parts of sewers. 
 *
-Here all the city uncleanness recycled into clean water with the help of technology and magic. Rubburd the Thin, a human wizard of middle age, control this clean process and his workers help him to maintain city sewers in proper condition. 
+All the city uncleanness recycled here into clean water with the help of technology and magic. Rubburd the Thin, a human wizard of middle age, control this clean process and his workers help him to maintain city sewers in proper condition. 
 *
 50
 0 2 0 4
 0 2 0 4
 19
-Here all the corpses are burned. Outside the crematory there is a pile of dead bodies, waiting to be burned. A dark elf by the name Krigath Thel, known for his insenslessness and cold-heartetness, caused mostly by his isolated way of life, run over this place with the help of his servants - metal golems. 
+All corpses are burned here. Outside the crematory there is a pile of dead bodies, waiting to be burned. A dark elf by the name Krigath Thel, known for his insenslessness and cold-heartetness, caused mostly by his isolated way of life, run over this place with the help of his servants - metal golems. 
 *
 Here all the funeral ceremonies are held. Relatives of the deceased come here to visit graves and show their respect to the dead. Folthin, the old human priest, is the head of this place and he tries to set up every ceremony by himself, despite of having many younger scholars, who are eager to help him.
 *
@@ -151,15 +151,15 @@ Here all the funeral ceremonies are held. Relatives of the deceased come here to
 0 2 0 5
 0 2 0 5
 20
-It's a citadel of chaos and anarchy. It's mostly used as a prison and a place for tortures and interrogations. Incubbus called Kraviol and his sworn of demons, which serves him, run over this place. Kraviol likes to torture his prisoners personally, even when there is no need, sometimes to death, just to get pleasure from sufferings of others.
+It’s a citadel of chaos and anarchy. It’s mostly used as a prison and a place for tortures and interrogations. Incubbus called Kraviol and his sworn of demons, which serves him, run over this place. Kraviol likes to torture his prisoners personally, even when there is no need, sometimes to death, just to get pleasure from sufferings of others.
 *
-It's a citadel of right and justice. It's used as a law court and all, who need help or troubled, can come here. Paladin Rufen and his knights govern this place. Rufen always shows his compassion to those, requesting for help, even if it threatens his own life.
+It’s a citadel of right and justice. It’s used as a law court and all, who need help or troubled, can come here. Paladin Rufen and his knights govern this place. Rufen always shows his compassion to those, requesting for help, even if it threatens his own life.
 *
 60
 0 2 0 5
 0 2 0 5
 21
-Olagor, the demon blacksmith, forge his deadliest weapons here with the help of slaves, which works here for night and day, having no sleep and rest, until they die and being replaced by other slaves. Olagor is best known for his unbelievable physical strength and for ability to bend weapons with his own hands.
+Olagor, the demon blacksmith forge his deadliest weapons here with the help of slaves, which works here for night and day, having no sleep and rest, until they die and being replaced by other slaves. Olagor is best known for his unbelievable physical strength and for ability to bend weapons with his own hands.
 *
 All the finest armor and jewelry are made here by Farful the 3-rd, the headmaster of the blacksmith’s gnome clan, and by his apprentices, which eagerly helps him and teaches in process.
 *
@@ -193,7 +193,7 @@ Blebut the junkman sells different magical artifacts here, which he have been co
 25
 Gurdak, the wealthiest demon of East Lubetia, responds for all trades made at square and for marketability of slaves. Gurdak known for his unbelievable greediness and fatness, so that his size and weight are equal to size and weight of a common one-story living house. Customers can find here slaves of all races, genders and physical attributes, but generally men slaves are sold as manual workers and women as concubines.
 *
-Farmers and traders from all over Lubetia sells their goods and animals here. Customer can find almost everything here: from simple food and farm animals, up to exotic delicacies and rare creatures. Malika, a cat race tradeswoman and the richest person in West Lubetia, have the biggest shop and appointed by trader's guild to regulate all bargains made at fair and to watch over the other traders.
+Farmers and traders from all over Lubetia sells their goods and animals here. Customer can find almost everything here: from simple food and farm animals, up to exotic delicacies and rare creatures. Malika, a cat race tradeswoman and the richest person in West Lubetia, have the biggest shop and appointed by trader’s guild to regulate all bargains made at fair and to watch over the other traders.
 *
 70
 0 2 0 5
@@ -225,7 +225,7 @@ Tournaments are held here. Warriors from all over Lubetia can participate in tou
 29
 Those, who lost in death fight, but managed to stay alive, are being tortured and then executed in public, to show other gladiators what happens after loss and give them motivation to win. Giant ogre by the name Wek executes those, sentenced to death, using his incredibly big and sharp axe, and ruthlessly kills those, who tries to escape or interrupt the process of execution. Remaining dead bodies and severed heads serves as food for Wek and his lesser brothers.
 *
-Square serves as a venue for winners award ceremony and celebration of their victory - participants of tournament are also welcome. Falenga the priestess is responsible for setting up award ceremony and for giving blessings to winners. The highest award is to get the title or Crusader of Light and the blessing, which gives the ability to spread the power and word of light all over Lubetia.
+Square serves as a venue for winners award ceremony and celebration of their victory – participants of tournament are also welcome. Falenga the priestess is responsible for setting up award ceremony and for giving blessings to winners. The highest award is to get the title or Crusader of Light and the blessing, which gives the ability to spread the power and word of light all over Lubetia.
 *
 70
 0 2 0 4
@@ -239,17 +239,17 @@ Coliseum serves for horse races and other competitions, that uses creatures and 
 0 2 0 4
 0 2 0 4
 31
-All stolen goods and gold can't stay without the attention of thief's guild and every thief or criminal in East Lubetia have to share their earnings with thief's guild, if he or she don't want to get into troubles. Lubir the Gray, tricky and clever halfling, is the guild master and he responsible for training new recruits and teaching them the art of theft, which includes: pickpocketing, sneaking, deceiving and setting traps.
+All stolen goods and gold can’t stay without the attention of thief’s guild and every thief or criminal in East Lubetia have to share their earnings with thief’s guild, if he or she don’t want to get into troubles. Lubir the Gray, tricky and clever halfling, is the guild master and he responsible for training new recruits and teaching them the art of theft, which includes: pickpocketing, sneaking, deceiving and setting traps.
 *
-All trades and deals in West Lubetia are made with the involvement of merchant's guild and every person, who want to have trade permission or study the basics of trade, need help of the merchant's guild. Carax, a reasonable and intelligent reptilian, is a guild master and she regulates all organizational issues and responds for intake of new students.
+All trades and deals in West Lubetia are made with the involvement of merchant’s guild and every person, who want to have trade permission or study the basics of trade, need help of the merchant’s guild. Carax, a reasonable and intelligent reptilian, is a guild master and she regulates all organizational issues and responds for intake of new students.
 *
 60
 0 1 0 2
 0 1 0 2
 32
-Every murder and assassination in Lubetia is tracked and accounted by assassin's guild. Old dark elf by the Creol Crain teaches recruits and shows them the secrets of assassination and different methods of killing without being detected. Thin and sickly looking appearance of Creol mislead many of those, not acquainted with him, when they saw Crain's extremely fast and dexterous movements, when it came down to a fight.
+Every murder and assassination in Lubetia is tracked and accounted by assassin’s guild. Old dark elf by the Creol Crain teaches recruits and shows them the secrets of assassination and different methods of killing without being detected. Thin and sickly looking appearance of Creol mislead many of those, not acquainted with him, when they saw Crain’s extremely fast and dexterous movements, when it came down to a fight.
 *
-Fighter's guild is responsible for training new recruits and giving them knowledge of wielding different weapons and combat techniques. Members of the guild are always ready to help: be it responding to a simple civilian's request or participating in war actions. Guild master Cornelius the Brave, courageous and honest warrior, responds for task assignment to guild members and for training recruits.
+Fighter’s guild is responsible for training new recruits and giving them knowledge of wielding different weapons and combat techniques. Members of the guild are always ready to help: be it responding to a simple civilian’s request or participating in war actions. Guild master Cornelius the Brave, courageous and honest warrior, responds for task assignment to guild members and for training recruits.
 *
 70
 0 1 0 3
@@ -263,9 +263,9 @@ Astronomers study and observe the sun from observatory with the help of gigantic
 0 2 0 4
 0 2 0 4
 34
-Necromancer's rituals are held here to use raised dead as slaves and warriors. A horrifically thin, sick looking dark demon by the name Klept, carry out all the rituals, using the power of dark magic. Many former students, who disobeyed or somehow angered Klept, are now serve him as zombies or skeletons.
+Necromancer’s rituals are held here to use raised dead as slaves and warriors. A horrifically thin, sick looking dark demon by the name Klept, carry out all the rituals, using the power of dark magic. Many former students, who disobeyed or somehow angered Klept, are now serve him as zombies or skeletons.
 *
-Different healing rituals are held in this school and those, who are eager to study them, are welcomed in healer's school. Many injured and near to death beings were healed and saved by Lutusia Holkora, who are the main healer and the master of light magic. Lutusia uses the power of light to restore wounds and mutilations and gives this knowledge to her students.
+Different healing rituals are held in this school and those, who are eager to study them, are welcomed in healer’s school. Many injured and near to death beings were healed and saved by Lutusia Holkora, who are the main healer and the master of light magic. Lutusia uses the power of light to restore wounds and mutilations and gives this knowledge to her students.
 *
 90
 0 2 0 4
@@ -287,15 +287,15 @@ Those who follows the path of light brings their belongings, food and dress here
 0 1 0 3
 0 1 0 3
 37
-Parishioners came here and tell their filthiest thoughts and hope that they will be fulfilled. Demon called Kreff, who has no body and exists in a form of dark, barely visible substance, dwells into this alcove and envelops it with his tentacles. Kreff is fed by evil thoughts and wishes of parishioners and he fulfills those of these thoughts, that he finds most delightful.  
+Parishioners came here and tell their filthiest thoughts and hope that they will be fulfilled.Demon called Kreff, who has no body and exists in a form of dark, barely visible substance, dwells into this alcove and envelops it with his tentacles. Kreff is fed by evil thoughts and wishes of parishioners and he fulfills those of these thoughts, that he finds most delightful.  
 *
-This alcove used for physical and spiritual purification by the power of light and confession. Parishioners tells about their evil deeds and thoughts to priest by the name Ferkon, who listens them, gives his advices and lays on blessing of light in the end of confession. Ferkon is a person of pure mind and soul, and he helps not only with advices, but sometimes solves parishioner's problems by taking necessary actions.
+This alcove used for physical and spiritual purification by the power of light and confession. Parishioners tells about their evil deeds and thoughts to priest by the name Ferkon, who listens them, gives his advices and lays on blessing of light in the end of confession. Ferkon is a person of pure mind and soul, and he helps not only with advices, but sometimes solves parishioner’s problems by taking necessary actions.
 *
 80
 0 2 0 4
 0 2 0 4
 38
-Temple of lust is a place where most obscene person's desire can come to reality at the cost of his or nearest relative life. Fascinating and charming succubus Elladia are in charge here and she and her women slaves are responsible for fulfilling the most obscene desires. Ellidia likes to kill persons, who ordered a love ritual, by having infected him with a painful disease, which slowly kills from inside in duration of several months.
+Temple of lust is a place where most obscene person’s desire can come to reality at the cost of his or nearest relative life. Fascinating and charming succubus Elladia are in charge here and she and her women slaves are responsible for fulfilling the most obscene desires. Ellidia likes to kill persons, who ordered a love ritual, by having infected him with a painful disease, which slowly kills from inside in duration of several months.
 *
 Temple of love is a place where two persons in love with each other can connect their life paths. Priestess Ludia, a young, beautiful and piety elf woman, set up wedding rituals in this temple and guide couples to a new life with advice and love blessing. Many families in Lubetia are thankful to Ludia for creating and keeping their family happiness. 
 *

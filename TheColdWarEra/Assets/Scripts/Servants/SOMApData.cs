@@ -3,8 +3,9 @@
 [CreateAssetMenu(fileName = "MapData", menuName = "Create MapData object", order = 0)]
 public class SOMApData : ScriptableObject
 {
-    public MapData[] md = new MapData[59];
+    [TextArea(10, 10)]
     public string TextData;
+    public MapData[] md = new MapData[59];
 }
 
 [System.Serializable]
